@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
@@ -17,6 +18,16 @@ import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+    /*@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler(
+                        "/images/**"
+                )
+                .addResourceLocations(
+                        "classpath:/images/"
+                );
+    }*/
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
@@ -29,7 +40,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns(
-                        "/css/**", "/*.ico", "/error"
+                        "/css/**", "/images/**", "/*.ico", "/error"
                 );
 
         registry.addInterceptor(new LoginCheckInterceptor())
@@ -37,7 +48,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/",
                         "/members/add", "/login", "/logout",
-                        "/css/**", "/*.ico", "/error"
+                        "/css/**", "/*.ico", "/error", "/images/**"
                 );
     }
 
