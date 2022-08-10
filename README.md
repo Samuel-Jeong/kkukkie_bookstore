@@ -2,7 +2,7 @@
 ~~~
 WebServer for jmagni
 ~~~
-![magni-gold](https://user-images.githubusercontent.com/37236920/183850959-219c63c7-2c92-414b-b1ac-4c90206a8970.png)
+![magni1 php](https://user-images.githubusercontent.com/37236920/183880471-0f2faa93-0b97-464a-980d-882ef7b418a4.jpeg)
   
   
 ## Tech
