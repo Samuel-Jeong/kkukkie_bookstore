@@ -29,8 +29,8 @@ public class MemberController {
      * http://localhost:8080/members?teamName=teamB&ageGoe=31&ageLoe=35&username=member31&page=0&size=3
      */
     @GetMapping("/")
-    public Page<MemberTeamDto> searchMemberByPaging(MemberSearchCondition memberSearchCondition, Pageable pageable) {
-        return memberRepository.searchByPaging(memberSearchCondition, pageable);
+    public Page<MemberTeamDto> searchMemberPaging(MemberSearchCondition memberSearchCondition, Pageable pageable) {
+        return memberRepository.searchPaging(memberSearchCondition, pageable);
     }
 
     @GetMapping("/add")

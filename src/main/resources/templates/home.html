@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
+          href="./css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -14,13 +14,13 @@
 
     <div class="row">
         <div class="col">
-            <button class="w-100 btn btn-secondary btn-lg" type="button"
+            <button class="w-100 btn btn-secondary btn-sm" type="button"
                     th:onclick="|location.href='@{/members/add}'|">
                 회원 가입
             </button>
         </div>
         <div class="col">
-            <button class="w-100 btn btn-dark btn-lg" onclick="location.href='items.html'"
+            <button class="w-100 btn btn-dark btn-sm" onclick="location.href='items.html'"
                     th:onclick="|location.href='@{/login}'|" type="button">
                 로그인
             </button>

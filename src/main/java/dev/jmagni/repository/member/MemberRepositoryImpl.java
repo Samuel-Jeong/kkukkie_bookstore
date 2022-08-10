@@ -56,7 +56,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
      * 멤버 리스트와 전체 개수를 분리해서 조회
      */
     @Override
-    public Page<MemberTeamDto> searchByPaging(MemberSearchCondition memberSearchCondition, Pageable pageable) {
+    public Page<MemberTeamDto> searchPaging(MemberSearchCondition memberSearchCondition, Pageable pageable) {
         List<MemberTeamDto> memberTeamDtos = getMemberTeamDtosByPaging(memberSearchCondition, pageable)
                 .fetch();
 

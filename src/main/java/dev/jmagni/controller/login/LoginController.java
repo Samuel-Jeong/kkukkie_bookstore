@@ -2,9 +2,8 @@ package dev.jmagni.controller.login;
 
 import dev.jmagni.model.login.LoginService;
 import dev.jmagni.model.member.Member;
-import dev.jmagni.web.session.SessionConst;
 import dev.jmagni.web.form.login.LoginForm;
-import dev.jmagni.web.session.SessionManager;
+import dev.jmagni.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

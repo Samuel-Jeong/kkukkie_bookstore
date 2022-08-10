@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-@Profile("test")
+@Profile("local")
 @Component
 @RequiredArgsConstructor
 public class InitMember {
@@ -34,16 +34,14 @@ public class InitMember {
 
         @Transactional
         public void init() {
-            Team teamA = new Team("teamA");
-            Team teamB = new Team("teamB");
-            entityManager.persist(teamA);
-            entityManager.persist(teamB);
+            Team adminTeam = new Team("AdminTeam");
+            entityManager.persist(adminTeam);
 
-            for (int i = 0; i < 100; i++) {
-                Team selectedTeam = (i % 2 == 0) ? teamA : teamB;
-                Member member = new Member("member" + i, i, selectedTeam);
-                entityManager.persist(member);
-            }
+            Member admin = new Member("admin", 999, adminTeam);
+            admin.setLoginId("admin");
+            admin.setPassword("admin.123");
+            admin.setAdmin(true);
+            entityManager.persist(admin);
 
             entityManager.flush();
             entityManager.clear();

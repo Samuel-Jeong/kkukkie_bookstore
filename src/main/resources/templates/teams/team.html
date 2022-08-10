@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.team}">상세</h2>
+    </div>
+
+    <!-- 추가 -->
+    <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
+
+    <div>
+        <label for="teamId" th:text="#{label.team.id}">팀 ID</label>
+        <input type="text" id="teamId" name="teamId" class="form-control" value="id" th:value="${team.id}" readonly>
+    </div>
+
+    <div>
+        <label for="teamName" th:text="#{label.team.id}">팀 ID</label>
+        <input type="text" id="teamName" name="teamName" class="form-control" value="name" th:value="${team.name}" readonly>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-sm"
+                    onclick="location.href='editTeamForm.html'"
+                    th:onclick="|location.href='@{/teams/{teamId}/edit(teamId=${team.id})}'|"
+                    type="button" th:text="#{page.updateTeam}">팀 수정</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-sm"
+                    onclick="location.href='teams.html'"
+                    th:onclick="|location.href='@{/teams}'|"
+                    type="button" th:text="#{button.cancel}">목록으로</button>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+</body>
+</html>

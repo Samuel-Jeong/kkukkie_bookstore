@@ -22,6 +22,8 @@ public class Member {
     private String username;
     private int age;
 
+    private boolean isAdmin = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     @ToString.Exclude
@@ -29,6 +31,14 @@ public class Member {
 
     public Member(String username) {
         this(username, 0);
+    }
+
+    public Member(String loginId, String password, String username) {
+        this.loginId = loginId;
+        this.password = password;
+        this.username = username;
+        this.age = 0;
+        this.team = null;
     }
 
     public Member(String username, int age) {
