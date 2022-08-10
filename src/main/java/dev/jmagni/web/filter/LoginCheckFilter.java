@@ -1,6 +1,6 @@
 package dev.jmagni.web.filter;
 
-import dev.jmagni.web.argumentresolver.SessionConst;
+import dev.jmagni.web.session.SessionConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.PatternMatchUtils;
 

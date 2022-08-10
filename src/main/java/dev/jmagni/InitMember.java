@@ -1,7 +1,7 @@
 package dev.jmagni;
 
-import dev.jmagni.model.group.Group;
 import dev.jmagni.model.member.Member;
+import dev.jmagni.model.team.Team;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-@Profile("local")
+@Profile("test")
 @Component
 @RequiredArgsConstructor
 public class InitMember {
@@ -34,14 +34,14 @@ public class InitMember {
 
         @Transactional
         public void init() {
-            Group groupA = new Group("groupA");
-            Group groupB = new Group("groupB");
-            entityManager.persist(groupA);
-            entityManager.persist(groupB);
+            Team teamA = new Team("teamA");
+            Team teamB = new Team("teamB");
+            entityManager.persist(teamA);
+            entityManager.persist(teamB);
 
             for (int i = 0; i < 100; i++) {
-                Group selectedGroup = (i % 2 == 0) ? groupA : groupB;
-                Member member = new Member("member" + i, i, selectedGroup);
+                Team selectedTeam = (i % 2 == 0) ? teamA : teamB;
+                Member member = new Member("member" + i, i, selectedTeam);
                 entityManager.persist(member);
             }
 

@@ -1,6 +1,6 @@
 package dev.jmagni.web.interceptor;
 
-import dev.jmagni.web.argumentresolver.SessionConst;
+import dev.jmagni.web.session.SessionConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 

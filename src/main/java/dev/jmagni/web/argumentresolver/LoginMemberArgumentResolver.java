@@ -1,6 +1,7 @@
 package dev.jmagni.web.argumentresolver;
 
 import dev.jmagni.model.member.Member;
+import dev.jmagni.web.session.SessionConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;

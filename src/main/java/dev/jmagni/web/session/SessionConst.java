@@ -1,4 +1,4 @@
-package dev.jmagni.web.argumentresolver;
+package dev.jmagni.web.session;
 
 public class SessionConst {
 

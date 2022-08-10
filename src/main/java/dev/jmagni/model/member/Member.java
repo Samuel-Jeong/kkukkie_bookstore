@@ -1,6 +1,6 @@
 package dev.jmagni.model.member;
 
-import dev.jmagni.model.group.Group;
+import dev.jmagni.model.team.Team;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,9 +23,9 @@ public class Member {
     private int age;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "team_id")
     @ToString.Exclude
-    private Group group;
+    private Team team;
 
     public Member(String username) {
         this(username, 0);
@@ -35,18 +35,18 @@ public class Member {
         this(username, age, null);
     }
 
-    public Member(String username, int age, Group group) {
+    public Member(String username, int age, Team team) {
         this.username = username;
         this.age = age;
 
-        if (group != null) {
-            changeGroup(group);
+        if (team != null) {
+            changeGroup(team);
         }
     }
 
-    private void changeGroup(Group group) {
-        this.group = group;
-        group.addMember(this);
+    private void changeGroup(Team team) {
+        this.team = team;
+        team.addMember(this);
     }
 
     @Override

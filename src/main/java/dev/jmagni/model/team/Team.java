@@ -1,4 +1,4 @@
-package dev.jmagni.model.group;
+package dev.jmagni.model.team;
 
 import dev.jmagni.model.member.Member;
 import lombok.*;
@@ -12,23 +12,23 @@ import java.util.concurrent.locks.ReentrantLock;
 @Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Group {
+public class Team {
 
     @Id
     @GeneratedValue
-    @Column(name = "group_id")
+    @Column(name = "team_id")
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "team")
     @ToString.Exclude
     private List<Member> members = new ArrayList<>();
 
     @Transient
     private final ReentrantLock memberLock = new ReentrantLock();
 
-    public Group(String name) {
+    public Team(String name) {
         this.name = name;
     }
 
@@ -49,7 +49,7 @@ public class Group {
 
     @Override
     public String toString() {
-        return "Group{" +
+        return "Team{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

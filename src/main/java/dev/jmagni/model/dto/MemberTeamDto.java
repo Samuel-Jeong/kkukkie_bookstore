@@ -4,22 +4,22 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 
 @Data
-public class MemberGroupDto {
+public class MemberTeamDto {
 
     private Long memberId;
     private String username;
     private int age;
 
-    private Long groupId;
-    private String groupName;
+    private Long teamId;
+    private String teamName;
 
     @QueryProjection
-    public MemberGroupDto(Long memberId, String username, int age, Long groupId, String groupName) {
+    public MemberTeamDto(Long memberId, String username, int age, Long teamId, String teamName) {
         this.memberId = memberId;
         this.username = username;
         this.age = age;
-        this.groupId = groupId;
-        this.groupName = groupName;
+        this.teamId = teamId;
+        this.teamName = teamName;
     }
 
 }

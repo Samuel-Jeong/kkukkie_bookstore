@@ -1,25 +1,21 @@
 package dev.jmagni.repository.member;
 
 
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import dev.jmagni.model.condition.MemberSearchCondition;
-import dev.jmagni.model.dto.MemberGroupDto;
-import dev.jmagni.model.dto.QMemberGroupDto;
-import dev.jmagni.model.member.Member;
+import dev.jmagni.model.dto.MemberTeamDto;
+import dev.jmagni.model.dto.QMemberTeamDto;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
-import static dev.jmagni.model.group.QGroup.group;
 import static dev.jmagni.model.member.QMember.member;
+import static dev.jmagni.model.team.QTeam.team;
 import static org.springframework.util.StringUtils.hasText;
 
 /**
@@ -36,16 +32,16 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
     }
 
     @Override
-    public List<MemberGroupDto> search(MemberSearchCondition memberSearchCondition) {
-        return getMemberGroupDtos(memberSearchCondition);
+    public List<MemberTeamDto> search(MemberSearchCondition memberSearchCondition) {
+        return getMemberTeamDtos(memberSearchCondition);
     }
 
     private BooleanExpression isUsernameEqual(String username) {
         return hasText(username) ? member.username.eq(username) : null;
     }
 
-    private BooleanExpression isGroupnameEqual(String groupName) {
-        return hasText(groupName) ? group.name.eq(groupName) : null;
+    private BooleanExpression isTeamnameEqual(String teamName) {
+        return hasText(teamName) ? team.name.eq(teamName) : null;
     }
 
     private BooleanExpression isAgeGoeExist(Integer agGoe) {
@@ -60,8 +56,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
      * 멤버 리스트와 전체 개수를 분리해서 조회
      */
     @Override
-    public Page<MemberGroupDto> searchByPaging(MemberSearchCondition memberSearchCondition, Pageable pageable) {
-        List<MemberGroupDto> memberGroupDtos = getMemberGroupDtosByPaging(memberSearchCondition, pageable)
+    public Page<MemberTeamDto> searchByPaging(MemberSearchCondition memberSearchCondition, Pageable pageable) {
+        List<MemberTeamDto> memberTeamDtos = getMemberTeamDtosByPaging(memberSearchCondition, pageable)
                 .fetch();
 
         //long total = getTotal(memberSearchCondition);
@@ -75,14 +71,14 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
          */
         return PageableExecutionUtils
                 .getPage(
-                        memberGroupDtos,
+                        memberTeamDtos,
                         pageable,
                         () -> getMemberDtoQuery(memberSearchCondition).fetchCount()
                 );
-        //return new PageImpl<>(memberGroupDtos, pageable, total);
+        //return new PageImpl<>(memberTeamDtos, pageable, total);
     }
 
-    private List<MemberGroupDto> getMemberGroupDtos(MemberSearchCondition memberSearchCondition) {
+    private List<MemberTeamDto> getMemberTeamDtos(MemberSearchCondition memberSearchCondition) {
         return getMemberDtoQuery(memberSearchCondition)
                 .fetch();
     }
@@ -91,39 +87,39 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
         return jpaQueryFactory
                 .select(member)
                 .from(member)
-                .leftJoin(member.group, group)
+                .leftJoin(member.team, team)
                 .where(
                         isUsernameEqual(memberSearchCondition.getUsername()),
-                        isGroupnameEqual(memberSearchCondition.getGroupName()),
+                        isTeamnameEqual(memberSearchCondition.getTeamName()),
                         isAgeGoeExist(memberSearchCondition.getAgeGoe()),
                         isAgeLoeExist(memberSearchCondition.getAgeLoe())
                 )
                 .fetchCount();
     }
 
-    private JPAQuery<MemberGroupDto> getMemberGroupDtosByPaging(MemberSearchCondition memberSearchCondition, Pageable pageable) {
+    private JPAQuery<MemberTeamDto> getMemberTeamDtosByPaging(MemberSearchCondition memberSearchCondition, Pageable pageable) {
         return getMemberDtoQuery(memberSearchCondition)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
     }
 
 
-    private JPAQuery<MemberGroupDto> getMemberDtoQuery(MemberSearchCondition memberSearchCondition) {
+    private JPAQuery<MemberTeamDto> getMemberDtoQuery(MemberSearchCondition memberSearchCondition) {
         return jpaQueryFactory
                 .select(
-                        new QMemberGroupDto(
+                        new QMemberTeamDto(
                                 member.id.as("memberId"),
                                 member.username,
                                 member.age,
-                                group.id.as("groupId"),
-                                group.name.as("groupName")
+                                team.id.as("teamId"),
+                                team.name.as("teamName")
                         )
                 )
                 .from(member)
-                .leftJoin(member.group, group)
+                .leftJoin(member.team, team)
                 .where(
                         isUsernameEqual(memberSearchCondition.getUsername()),
-                        isGroupnameEqual(memberSearchCondition.getGroupName()),
+                        isTeamnameEqual(memberSearchCondition.getTeamName()),
                         isAgeGoeExist(memberSearchCondition.getAgeGoe()),
                         isAgeLoeExist(memberSearchCondition.getAgeLoe())
                 );
