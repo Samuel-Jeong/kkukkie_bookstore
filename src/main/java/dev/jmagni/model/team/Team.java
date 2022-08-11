@@ -1,9 +1,11 @@
 package dev.jmagni.model.team;
 
+import dev.jmagni.model.base.BaseTimeEntity;
 import dev.jmagni.model.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
@@ -12,7 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Team {
+public class Team extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -30,6 +32,18 @@ public class Team {
 
     public Team(String name) {
         this.name = name;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        setCreateDateTime(now);
+        setLastModifiedDateTime(now);
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        setLastModifiedDateTime(LocalDateTime.now());
     }
 
     public void addMember(Member member) {

@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <link th:href="@{css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .container {
             max-width: 560px;
@@ -17,10 +17,6 @@
 <body>
 
 <div class="container">
-
-    <div class="py-5 text-center">
-        <h2>회원 가입</h2>
-    </div>
 
     <h4 class="mb-3">회원 정보 입력</h4>
 
@@ -48,7 +44,12 @@
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{username}"></div>
         </div>
-
+        <div>
+            <label for="name">나이</label>
+            <input type="text" id="age" th:field="*{age}" class="form-control"
+                   th:errorclass="field-error">
+            <div class="field-error" th:errors="*{age}"></div>
+        </div>
 
         <hr class="my-4">
 
@@ -57,8 +58,8 @@
                 <button class="w-100 btn btn-primary btn-sm" type="submit">회원 가입</button>
             </div>
             <div class="col">
-                <button class="w-100 btn btn-secondary btn-sm" onclick="location.href='items.html'"
-                        th:onclick="|location.href='@{/}'|"
+                <button class="w-100 btn btn-secondary btn-sm"
+                        th:onclick="|location.href='@{/members}'|"
                         type="button">취소</button>
             </div>
         </div>

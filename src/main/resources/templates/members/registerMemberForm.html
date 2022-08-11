@@ -19,10 +19,12 @@
 <div class="container">
 
     <div class="py-5 text-center">
-        <h2>로그인</h2>
+        <h2>회원 가입</h2>
     </div>
 
-    <form action="../items/item.html" th:action th:object="${loginForm}" method="post">
+    <h4 class="mb-3">회원 정보 입력</h4>
+
+    <form action="" th:action th:object="${member}" method="post">
 
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
@@ -40,15 +42,27 @@
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{password}"></div>
         </div>
+        <div>
+            <label for="name">이름</label>
+            <input type="text" id="name" th:field="*{username}" class="form-control"
+                   th:errorclass="field-error">
+            <div class="field-error" th:errors="*{username}"></div>
+        </div>
+        <div>
+            <label for="name">나이</label>
+            <input type="text" id="age" th:field="*{age}" class="form-control"
+                   th:errorclass="field-error">
+            <div class="field-error" th:errors="*{age}"></div>
+        </div>
 
         <hr class="my-4">
 
         <div class="row">
             <div class="col">
-                <button class="w-100 btn btn-primary btn-sm" type="submit">로그인</button>
+                <button class="w-100 btn btn-primary btn-sm" type="submit">회원 가입</button>
             </div>
             <div class="col">
-                <button class="w-100 btn btn-secondary btn-sm" onclick="location.href='items.html'"
+                <button class="w-100 btn btn-secondary btn-sm"
                         th:onclick="|location.href='@{/}'|"
                         type="button">취소</button>
             </div>

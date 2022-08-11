@@ -32,12 +32,19 @@ public class TeamController {
         if (name == null || name.isEmpty()) {
             bindingResult.reject("NameError", new Object[]{name}, null);
         }
+
+        // 팀 이름으로 중복 체크
+        Team team = teamRepository.findByName(form.getName()).stream().findFirst().orElse(null);
+        if (team != null) {
+            bindingResult.reject("TeamAlreadyExist", new Object[]{team.getId()}, null);
+        }
+
         if (bindingResult.hasErrors()) {
             log.warn("errors={}", bindingResult);
             return "teams/addTeamForm";
         }
 
-        Team team = new Team(name);
+        team = new Team(name);
         Team savedTeam = teamRepository.save(team);
         redirectAttributes.addAttribute("teamId", savedTeam.getId());
         redirectAttributes.addAttribute("status", true);

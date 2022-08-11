@@ -21,7 +21,16 @@ public class HomeController {
         //세션이 유지되면 로그인으로 이동
         model.addAttribute("member", member);
 
-        return member.isAdmin()? "loginAdminHome" : "loginNormalHome";
+        switch (member.getRole()) {
+            case ADMIN:
+                return "loginAdminHome";
+            case SUB_ADMIN:
+                return "loginNormalHome";
+            case NORMAL:
+                return "loginNormalHome";
+            default:
+                return "redirect:/";
+        }
     }
 
 }

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.member}">상세</h2>
+    </div>
+
+    <!-- 추가 -->
+    <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
+
+    <div>
+        <label for="memberId" th:text="#{label.member.id}">멤버 ID</label>
+        <input type="text" id="memberId" name="memberId" class="form-control" value="id" th:value="${member.id}" readonly>
+    </div>
+
+    <div>
+        <label for="memberName" th:text="#{label.member.name}">멤버 이름</label>
+        <input type="text" id="memberName" name="memberName" class="form-control" value="username" th:value="${member.username}" readonly>
+    </div>
+
+    <div>
+        <label for="memberAge" th:text="#{label.member.age}">멤버 나이</label>
+        <input type="text" id="memberAge" name="memberAge" class="form-control" value="age" th:value="${member.age}" readonly>
+    </div>
+
+    <div>
+        <label for="memberLoginID" th:text="#{label.member.loginId}">멤버 로그인 ID</label>
+        <input type="text" id="memberLoginID" name="memberLoginID" class="form-control" value="loginId" th:value="${member.loginId}" readonly>
+    </div>
+
+    <div>
+        <label for="memberPassword" th:text="#{label.member.password}">멤버 암호</label>
+        <input type="text" id="memberPassword" name="memberPassword" class="form-control" value="password" th:value="****" readonly>
+    </div>
+
+    <div>
+        <label for="memberRole" th:text="#{label.member.role}">멤버 권한</label>
+        <input type="text" id="memberRole" name="memberRole" class="form-control" value="role" th:value="${member.role}" readonly>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-sm"
+                    onclick="location.href='editMemberForm.html'"
+                    th:onclick="|location.href='@{/members/{memberId}/edit(memberId=${member.id})}'|"
+                    type="button" th:text="#{page.updateMember}">멤버 수정</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-sm"
+                    onclick="location.href='members.html'"
+                    th:onclick="|location.href='@{/members}'|"
+                    type="button" th:text="#{button.cancel}">목록으로</button>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+</body>
+</html>

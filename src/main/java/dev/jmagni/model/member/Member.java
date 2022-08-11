@@ -1,15 +1,18 @@
 package dev.jmagni.model.member;
 
+import dev.jmagni.model.base.BaseEntity;
+import dev.jmagni.model.role.MemberRole;
 import dev.jmagni.model.team.Team;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -22,7 +25,7 @@ public class Member {
     private String username;
     private int age;
 
-    private boolean isAdmin = false;
+    private MemberRole role = MemberRole.NORMAL;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
@@ -52,6 +55,22 @@ public class Member {
         if (team != null) {
             changeGroup(team);
         }
+    }
+
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        setCreateDateTime(now);
+        setLastModifiedDateTime(now);
+
+        setCreatedBy(username);
+        setLastModifiedBy(username);
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        setLastModifiedDateTime(LocalDateTime.now());
+        setLastModifiedBy(username);
     }
 
     private void changeGroup(Team team) {

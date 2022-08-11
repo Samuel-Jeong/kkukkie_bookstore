@@ -1,6 +1,7 @@
 package dev.jmagni;
 
 import dev.jmagni.model.member.Member;
+import dev.jmagni.model.role.MemberRole;
 import dev.jmagni.model.team.Team;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -40,7 +41,7 @@ public class InitMember {
             Member admin = new Member("admin", 999, adminTeam);
             admin.setLoginId("admin");
             admin.setPassword("admin.123");
-            admin.setAdmin(true);
+            admin.setRole(MemberRole.ADMIN);
             entityManager.persist(admin);
 
             entityManager.flush();

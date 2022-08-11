@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
-    <link th:href="@{css/bootstrap.min.css}"
-          href="./css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -24,6 +24,12 @@
             <button class="w-100 btn btn-secondary btn-sm" type="button"
                     th:onclick="|location.href='@{/teams}'|">
                 팀 관리
+            </button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-sm" type="button"
+                    th:onclick="|location.href='@{/members}'|">
+                멤버 관리
             </button>
         </div>
         <div class="col">
