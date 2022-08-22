@@ -8,15 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class MemberSaveForm {
-
-    @NotEmpty
-    @NotBlank
-    private String username;
-
-    @NotNull
-    @Range(min = 1, max = 1000)
-    private Integer age;
+public class MemberRegisterForm {
 
     @NotEmpty
     @NotNull
@@ -27,5 +19,14 @@ public class MemberSaveForm {
     @NotNull
     @NotBlank
     private String password;
+
+    @NotEmpty
+    @NotNull
+    @NotBlank
+    private String username;
+
+    @NotNull
+    @Range(min = 1, max = 1000)
+    private Integer age;
 
 }

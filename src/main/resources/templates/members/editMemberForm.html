@@ -39,26 +39,28 @@
             <div class="field-error" th:errors="*{username}">멤버명 오류</div>
         </div>
         <div>
-            <label for="memberAge" th:text="#{label.member.name}">멤버명</label>
+            <label for="memberAge" th:text="#{label.member.age}">멤버 나이</label>
             <input type="text" id="memberAge" th:field="*{age}"
                    th:errorclass="field-error" class="form-control" placeholder="멤버 나이를 입력하세요">
             <div class="field-error" th:errors="*{age}">멤버 나이 오류</div>
         </div>
         <div>
-            <label for="memberLoginId" th:text="#{label.member.id}">멤버 로그인 ID</label>
+            <label for="memberLoginId" th:text="#{label.member.loginId}">멤버 로그인 ID</label>
             <input type="text" id="memberLoginId" th:field="*{loginId}" class="form-control" readonly>
         </div>
         <div>
-            <label for="memberPassword" th:text="#{label.member.name}">멤버 암호</label>
+            <label for="memberPassword" th:text="#{label.member.password}">멤버 암호</label>
             <input type="text" id="memberPassword" th:field="*{password}"
                    th:errorclass="field-error" class="form-control" placeholder="멤버 암호를 입력하세요">
             <div class="field-error" th:errors="*{password}">멤버 암호 오류</div>
         </div>
         <div>
-            <label for="memberRole" th:text="#{label.member.name}">멤버 권한</label>
-            <input type="text" id="memberRole" th:field="*{role}"
-                   th:errorclass="field-error" class="form-control" placeholder="멤버 권한을 입력하세요">
-            <div class="field-error" th:errors="*{role}">멤버 권한 오류</div>
+            <label th:text="#{label.member.role}">멤버 역할</label>
+            <select th:field="*{role}" class="form-select">
+                <option value="">멤버 역할 선택</option>
+                <option th:each="memberRole : ${memberRoles}" th:value="${memberRole}"
+                th:text="${memberRole.name()}">NONE</option>
+            </select>
         </div>
 
         <hr class="my-4">

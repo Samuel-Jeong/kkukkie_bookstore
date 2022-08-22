@@ -44,6 +44,14 @@ public class Member extends BaseEntity {
         this.team = null;
     }
 
+    public Member(String loginId, String password, String username, int age) {
+        this.loginId = loginId;
+        this.password = password;
+        this.username = username;
+        this.age = age;
+        this.team = null;
+    }
+
     public Member(String username, int age) {
         this(username, age, null);
     }

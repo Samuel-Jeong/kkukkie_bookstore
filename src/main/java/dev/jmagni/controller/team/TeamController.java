@@ -93,6 +93,7 @@ public class TeamController {
 
         if (team != null) {
             team.setName(name);
+
             teamRepository.save(team);
         }
 
