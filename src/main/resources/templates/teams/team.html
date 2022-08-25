@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container" style="max-width: 600px">
 
     <div class="py-5 text-center">
         <h2 th:text="#{page.team}">상세</h2>
@@ -27,8 +27,33 @@
     </div>
 
     <div>
-        <label for="teamName" th:text="#{label.team.id}">팀 이름</label>
+        <label for="teamName" th:text="#{label.team.name}">팀 이름</label>
         <input type="text" id="teamName" name="teamName" class="form-control" value="name" th:value="${team.name}" readonly>
+    </div>
+
+    <hr class="my-4">
+
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <!--<th th:text="#{label.member.id}">ID</th>-->
+                <th th:text="#{label.member.loginId}">로그인 ID</th>
+                <th th:text="#{label.member.name}">이름</th>
+                <th th:text="#{label.member.age}">나이</th>
+                <th th:text="#{label.member.role}">권한</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${members}">
+                <!--<td><a href="../members/member.html" th:href="@{/members/{memberId}(memberId=${member.id})}" th:text="${member.id}">멤버 ID</a></td>-->
+                <td th:text="${member.loginId}">멤버 로그인 ID</td>
+                <td th:text="${member.username}">멤버 이름</td>
+                <td th:text="${member.age}">멤버 나이</td>
+                <td th:text="${member.role}">멤버 권한</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
     <hr class="my-4">
@@ -39,6 +64,11 @@
                     onclick="location.href='editTeamForm.html'"
                     th:onclick="|location.href='@{/teams/{teamId}/edit(teamId=${team.id})}'|"
                     type="button" th:text="#{page.updateTeam}">팀 수정</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-sm"
+                    th:onclick="|location.href='@{/teams/{teamId}/delete(teamId=${team.id})}'|"
+                    type="button" th:text="#{page.deleteTeam}">팀 삭제</button>
         </div>
         <div class="col">
             <button class="w-100 btn btn-secondary btn-sm"

@@ -1,6 +1,7 @@
 package dev.jmagni.controller.member;
 
 import dev.jmagni.model.role.MemberRole;
+import dev.jmagni.model.team.Team;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
@@ -10,9 +11,6 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class MemberUpdateForm {
-
-    @NotNull
-    private Long id;
 
     @NotEmpty
     @NotBlank
@@ -32,7 +30,12 @@ public class MemberUpdateForm {
     @NotBlank
     private String password;
 
+    @NotEmpty
     @NotNull
-    private MemberRole role;
+    @NotBlank
+    private String role;
+
+    @NotNull
+    private Team team;
 
 }

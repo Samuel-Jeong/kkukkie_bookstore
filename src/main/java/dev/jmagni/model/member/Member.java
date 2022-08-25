@@ -25,9 +25,9 @@ public class Member extends BaseEntity {
     private String username;
     private int age;
 
-    private MemberRole role = MemberRole.NORMAL;
+    private String role = MemberRole.NORMAL;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "team_id")
     @ToString.Exclude
     private Team team;
@@ -44,12 +44,12 @@ public class Member extends BaseEntity {
         this.team = null;
     }
 
-    public Member(String loginId, String password, String username, int age) {
+    public Member(String loginId, String password, String username, int age, Team team) {
         this.loginId = loginId;
         this.password = password;
         this.username = username;
         this.age = age;
-        this.team = null;
+        this.team = team;
     }
 
     public Member(String username, int age) {
@@ -94,6 +94,7 @@ public class Member extends BaseEntity {
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
                 ", age=" + age +
+                ", role=" + role +
                 '}';
     }
 }

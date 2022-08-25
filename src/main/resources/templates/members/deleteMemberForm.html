@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" style="max-width: 600px">
+
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.deleteMember}">멤버 삭제</h2>
+    </div>
+
+    <form action="member.html" th:action th:object="${member}" method="post">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+        </div>
+
+        <hr class="my-2">
+        <div>
+            <label for="loginId" th:text="#{label.member.loginId}">멤버 로그인 ID</label>
+            <input type="text" id="loginId" th:field="*{loginId}" class="form-control" readonly>
+        </div>
+        <hr class="my-2">
+        <div>
+            <label for="username" th:text="#{label.member.loginId}">멤버 이름/label>
+            <input type="text" id="username" th:field="*{username}" class="form-control" readonly>
+        </div>
+        <hr class="my-2">
+        <div>
+            <label for="age" th:text="#{label.member.loginId}">멤버 나이</label>
+            <input type="text" id="age" th:field="*{age}" class="form-control" readonly>
+        </div>
+        <hr class="my-2">
+        <div>
+            <label for="role" th:text="#{label.member.loginId}">멤버 역할</label>
+            <input type="text" id="role" th:field="*{role}" class="form-control" readonly>
+        </div>
+        <hr class="my-2">
+        <div>
+            <label for="teamName" th:text="#{label.member.team}">팀</label>
+            <input type="text" id="teamName" th:field="*{team.name}" class="form-control" readonly>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-sm" type="submit">삭제</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-sm"
+                        th:onclick="|location.href='@{/members}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+
+    </form>
+
+</div> <!-- /container -->
+</body>
+</html>

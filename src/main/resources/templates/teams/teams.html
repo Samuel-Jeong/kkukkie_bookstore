@@ -8,10 +8,30 @@
 <body>
 
 <div class="container" style="max-width: 600px">
+
     <div class="py-5 text-center">
         <h2 th:text="#{page.teams}">목록</h2>
     </div>
 
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <!--<th th:text="#{label.team.id}">ID</th>-->
+                <th th:text="#{label.team.name}">이름</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="team : ${teams}">
+                <!--<td><a href="team.html" th:href="@{/teams/{teamId}(teamId=${team.id})}" th:text="${team.id}">팀ID</a></td>-->
+                <td><a href="team.html" th:href="@{/teams/{teamId}(teamId=${team.id})}" th:text="${team.name}">팀명</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="my-4">
     <div class="row">
         <div class="col">
             <button class="w-100 btn btn-primary btn-sm"
@@ -25,24 +45,6 @@
                     th:onclick="|location.href='@{/}'|"
                     type="button" th:text="#{button.cancel}">취소</button>
         </div>
-    </div>
-
-    <hr class="my-4">
-    <div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th th:text="#{label.team.id}">ID</th>
-                <th th:text="#{label.team.name}">이름</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="team : ${teams}">
-                <td><a href="team.html" th:href="@{/teams/{teamId}(teamId=${team.id})}" th:text="${team.id}">팀ID</a></td>
-                <td th:text="${team.name}">팀명</td>
-            </tr>
-            </tbody>
-        </table>
     </div>
 
 </div> <!-- /container -->

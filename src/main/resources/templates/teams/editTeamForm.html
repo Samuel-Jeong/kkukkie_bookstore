@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container" style="max-width: 600px">
 
     <div class="py-5 text-center">
         <h2 th:text="#{page.updateTeam}">팀 수정</h2>
@@ -28,10 +28,12 @@
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
         </div>
 
+        <!--<hr class="my-2">
         <div>
             <label for="id" th:text="#{label.team.id}">팀 ID</label>
             <input type="text" id="id" th:field="*{id}" class="form-control" readonly>
-        </div>
+        </div>-->
+        <hr class="my-2">
         <div>
             <label for="teamName" th:text="#{label.team.name}">팀명</label>
             <input type="text" id="teamName" th:field="*{name}"

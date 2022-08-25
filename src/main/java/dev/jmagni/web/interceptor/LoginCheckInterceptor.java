@@ -21,6 +21,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
             //로그인으로 redirect
             response.sendRedirect("/login?redirectURL=" + requestURI);
+            log.warn("REDIRECTION TO : {}", "/login?redirectURL=" + requestURI);
             return false;
         }
 

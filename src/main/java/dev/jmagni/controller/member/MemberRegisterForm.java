@@ -1,5 +1,6 @@
 package dev.jmagni.controller.member;
 
+import dev.jmagni.model.team.Team;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
@@ -28,5 +29,8 @@ public class MemberRegisterForm {
     @NotNull
     @Range(min = 1, max = 1000)
     private Integer age;
+
+    @NotNull
+    private Team team;
 
 }

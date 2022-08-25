@@ -17,6 +17,8 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class InitMember {
 
+    public static final String SUPER_TEAM_NAME = "ADMIN";
+
     private final InitMemberService initMemberService;
 
     /**
@@ -35,7 +37,7 @@ public class InitMember {
 
         @Transactional
         public void init() {
-            Team adminTeam = new Team("AdminTeam");
+            Team adminTeam = new Team(SUPER_TEAM_NAME);
             entityManager.persist(adminTeam);
 
             Member admin = new Member("admin", 999, adminTeam);

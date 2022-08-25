@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import static dev.jmagni.model.role.MemberRole.*;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -25,7 +27,6 @@ public class HomeController {
             case ADMIN:
                 return "loginAdminHome";
             case SUB_ADMIN:
-                return "loginNormalHome";
             case NORMAL:
                 return "loginNormalHome";
             default:

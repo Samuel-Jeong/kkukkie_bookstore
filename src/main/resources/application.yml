@@ -4,6 +4,7 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+
   profiles:
     #active: dev
     active: local
@@ -30,3 +31,9 @@ logging:
   level:
     org.hibernate.sql: debug
     #org.hibernate.type: trace # > ???(binding parameter)? ? ? ??
+
+server:
+  servlet:
+    session:
+      timeout: 10m
+      tracking-modes: cookie

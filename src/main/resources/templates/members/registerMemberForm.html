@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container" style="max-width: 600px">
 
     <div class="py-5 text-center">
         <h2>회원 가입</h2>
@@ -30,29 +30,63 @@
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
         </div>
 
+        <hr class="my-2">
         <div>
             <label for="loginId">로그인 ID</label>
             <input type="text" id="loginId" th:field="*{loginId}" class="form-control"
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{loginId}"></div>
         </div>
+        <hr class="my-2">
         <div>
             <label for="password">비밀번호</label>
             <input type="password" id="password" th:field="*{password}" class="form-control"
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{password}"></div>
         </div>
+        <hr class="my-2">
         <div>
             <label for="name">이름</label>
             <input type="text" id="name" th:field="*{username}" class="form-control"
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{username}"></div>
         </div>
+        <hr class="my-2">
         <div>
-            <label for="name">나이</label>
+            <label for="age">나이</label>
             <input type="text" id="age" th:field="*{age}" class="form-control"
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{age}"></div>
+        </div>
+
+        <hr class="my-4">
+
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <!--<th th:text="#{label.team.id}">ID</th>-->
+                    <th th:text="#{label.team.name}">이름</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="team : ${teams}">
+                    <!--<td th:text="${team.id}">팀 ID</td>-->
+                    <td th:text="${team.name}">팀명</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <label th:text="#{label.member.team}">팀 선택</label>
+            <hr class="my-2">
+            <label>
+                <select th:field="*{team}" class="form-select">
+                    <option value="">팀 선택</option>
+                    <option th:each="team : ${teams}" th:value="${team.id}" th:text="${team.name}"></option>
+                </select>
+            </label>
         </div>
 
         <hr class="my-4">

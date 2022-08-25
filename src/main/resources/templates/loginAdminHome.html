@@ -11,7 +11,7 @@
     <hr class="my-4">
 
     <div class="row">
-        <img id="cookie1" alt="cookie1" th:src="@{images/cookie1.JPG}" />
+        <img id="cookie2" alt="cookie2" th:src="@{images/cookie2.jpeg}" />
         <div class="py-5 text-center">
             <h4 class="mb-3" th:text="| ${member.username} |">로그인 사용자 이름</h4>
         </div>
@@ -32,12 +32,12 @@
                 멤버 관리
             </button>
         </div>
-        <div class="col">
+        <!--<div class="col">
             <button class="w-100 btn btn-secondary btn-sm" type="button"
                     th:onclick="|location.href='@{/items}'|">
                 상품 관리
             </button>
-        </div>
+        </div>-->
         <div class="col">
             <form th:action="@{/logout}" method="post">
                 <button class="w-100 btn btn-dark btn-sm" onclick="location.href='items.html'" type="submit">

@@ -16,15 +16,18 @@ public class MemberDto {
 
     private String loginId;
 
-    private MemberRole role;
+    private String role;
+
+    private String teamName;
 
     @QueryProjection
-    public MemberDto(long id, String username, int age, String loginId, MemberRole role) {
+    public MemberDto(long id, String username, int age, String loginId, String role, String teamName) {
         this.id = id;
         this.username = username;
         this.age = age;
         this.loginId = loginId;
         this.role = role;
+        this.teamName = teamName;
     }
 
 }

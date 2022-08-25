@@ -7,6 +7,7 @@ import dev.jmagni.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,13 +35,22 @@ public class LoginController {
                         @RequestParam(defaultValue = "/") String redirectURL,
                         HttpServletRequest request) {
 
-        if (bindingResult.hasErrors()) {
-            return "login/loginForm";
-        }
+        String loginId = form.getLoginId().trim();
+        String password = form.getPassword().trim();
 
-        Member member = loginService.login(form.getLoginId(), form.getPassword());
+        Member member = null;
+        if (loginId.isEmpty()) {
+            bindingResult.reject("loginFail", "아이디가 없습니다.");
+        } else if (password.isEmpty()) {
+            bindingResult.reject("loginFail", "비밀번호가 없습니다.");
+        } else {
+            member = loginService.login(loginId, password);
+        }
         if (member == null) {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+        }
+
+        if (bindingResult.hasErrors()) {
             return "login/loginForm";
         }
 
@@ -51,7 +61,6 @@ public class LoginController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, member);
 
         log.debug("redirectURL: {}", redirectURL);
-
         return "redirect:" + redirectURL;
     }
 

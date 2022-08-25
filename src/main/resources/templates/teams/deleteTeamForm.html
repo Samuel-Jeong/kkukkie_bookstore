@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" style="max-width: 600px">
+
+    <div class="py-5 text-center">
+        <h2>팀 삭제</h2>
+    </div>
+
+    <form action="" th:action th:object="${team}" method="post">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+        </div>
+
+        <hr class="my-2">
+        <div>
+            <label for="id" th:text="#{label.team.id}">팀 ID</label>
+            <input type="text" id="id" th:field="*{id}" class="form-control" readonly>
+        </div>
+
+        <hr class="my-2">
+        <div>
+            <label for="name" th:text="#{label.team.name}">팀 이름</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" readonly>
+        </div>
+
+        <hr class="my-4">
+
+        <div>
+            <label th:text="#{TeamDeleteWarning}">팀에 속한 멤버들이 모두 삭제됩니다. 그래도 삭제하시겠습니까?</label>
+        </div>
+
+        <hr class="my-2">
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <!--<th th:text="#{label.member.id}">ID</th>-->
+                    <th th:text="#{label.member.loginId}">로그인 ID</th>
+                    <th th:text="#{label.member.name}">이름</th>
+                    <th th:text="#{label.member.age}">나이</th>
+                    <th th:text="#{label.member.role}">권한</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="member : ${members}">
+                    <!--<td><a href="member.html" th:href="@{/members/{memberId}(memberId=${member.id})}" th:text="${member.id}">멤버 ID</a></td>-->
+                    <td th:text="${member.loginId}">멤버 로그인 ID</td>
+                    <td th:text="${member.username}">멤버 이름</td>
+                    <td th:text="${member.age}">멤버 나이</td>
+                    <td th:text="${member.role}">멤버 권한</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-sm" type="submit">삭제</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-sm"
+                        th:onclick="|location.href='@{/teams}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+
+    </form>
+
+</div> <!-- /container -->
+</body>
+</html>

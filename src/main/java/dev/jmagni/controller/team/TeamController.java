@@ -1,6 +1,8 @@
 package dev.jmagni.controller.team;
 
+import dev.jmagni.model.member.Member;
 import dev.jmagni.model.team.Team;
+import dev.jmagni.repository.member.MemberRepository;
 import dev.jmagni.repository.team.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+import static dev.jmagni.InitMember.SUPER_TEAM_NAME;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -20,6 +24,7 @@ import java.util.List;
 public class TeamController {
 
     private final TeamRepository teamRepository;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/add")
     public String addForm(@ModelAttribute("team") Team team) {
@@ -29,12 +34,12 @@ public class TeamController {
     @PostMapping("/add")
     public String add(@Validated @ModelAttribute("team") TeamSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         String name = form.getName();
-        if (name == null || name.isEmpty()) {
+        if (name.isEmpty()) {
             bindingResult.reject("NameError", new Object[]{name}, null);
         }
 
         // 팀 이름으로 중복 체크
-        Team team = teamRepository.findByName(form.getName()).stream().findFirst().orElse(null);
+        Team team = teamRepository.findByName(form.getName()).orElse(null);
         if (team != null) {
             bindingResult.reject("TeamAlreadyExist", new Object[]{team.getId()}, null);
         }
@@ -51,11 +56,57 @@ public class TeamController {
         return "redirect:/teams/{teamId}";
     }
 
+    @GetMapping("{teamId}/delete")
+    public String deleteForm(@PathVariable long teamId, Model model) {
+        Team team = teamRepository.findById(teamId).orElse(null);
+        model.addAttribute("team", team);
+
+        if (team != null) {
+            List<Member> members = team.getMembers();
+            model.addAttribute("members", members);
+        }
+
+        return "teams/deleteTeamForm";
+    }
+
+    @PostMapping("{teamId}/delete")
+    public String delete(@PathVariable Long teamId, @Validated @ModelAttribute("team") TeamDeleteForm form, BindingResult bindingResult) {
+        String name = form.getName();
+        if (name.isEmpty()) {
+            bindingResult.reject("NameError", new Object[]{name}, null);
+        } else if (name.equals(SUPER_TEAM_NAME)) {
+            bindingResult.reject("NameError", new Object[]{name}, null);
+        }
+
+        Team team = teamRepository.findById(teamId).orElse(null);
+        if (team == null) {
+            bindingResult.reject("NotFoundTeam", new Object[]{teamId}, null);
+        }
+
+        if (bindingResult.hasErrors()) {
+            log.warn("errors={}", bindingResult);
+            return "redirect:/teams";
+        }
+
+        if (team != null) {
+            memberRepository.deleteAll(team.getMembers());
+            teamRepository.deleteById(team.getId());
+        }
+
+        return "redirect:/teams";
+    }
+
     @GetMapping("/{teamId}")
     public String team(@PathVariable long teamId, Model model) {
         //로그인 여부 체크
         Team team = teamRepository.findById(teamId).orElse(null);
         model.addAttribute("team", team);
+
+        if (team != null) {
+            List<Member> members = team.getMembers();
+            model.addAttribute("members", members);
+        }
+
         return "teams/team";
     }
 
@@ -71,13 +122,14 @@ public class TeamController {
     public String editForm(@PathVariable Long teamId, Model model) {
         Team team = teamRepository.findById(teamId).orElse(null);
         model.addAttribute("team", team);
+
         return "teams/editTeamForm";
     }
 
     @PostMapping("/{teamId}/edit")
     public String edit(@PathVariable Long teamId, @Validated @ModelAttribute("team") TeamUpdateForm form, BindingResult bindingResult) {
         String name = form.getName();
-        if (name == null || name.isEmpty()) {
+        if (name.isEmpty()) {
             bindingResult.reject("NameError", new Object[]{name}, null);
         }
 
