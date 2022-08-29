@@ -1,6 +1,6 @@
 # jmagni
 ~~~
-WebServer for jmagni
+WAS for jmagni
 ~~~
 ![magni1 php](https://user-images.githubusercontent.com/37236920/183880471-0f2faa93-0b97-464a-980d-882ef7b418a4.jpeg)
   
