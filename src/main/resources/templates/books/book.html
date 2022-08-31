@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" style="max-width: 600px">
+
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.item}">상품 상세</h2>
+    </div>
+
+    <!-- 추가 -->
+    <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
+
+    <div>
+        <label for="id" th:text="#{label.item.id}">상품 ID</label>
+        <input type="text" id="id" name="itemId" class="form-control" value="1" th:value="${book.id}" readonly>
+    </div>
+    <div>
+        <label for="name" th:text="#{label.item.itemName}">상품명</label>
+        <input type="text" id="name" name="name" class="form-control" value="책" th:value="${book.name}" readonly>
+    </div>
+    <div>
+        <label for="price" th:text="#{label.item.price}">가격</label>
+        <input type="text" id="price" name="price" class="form-control" value="1" th:value="${book.price}" readonly>
+    </div>
+    <div>
+        <label for="count" th:text="#{label.item.count}">수량</label>
+        <input type="text" id="count" name="count" class="form-control" value="1" th:value="${book.count}" readonly>
+    </div>
+    <div>
+        <label for="isbn" th:text="#{label.item.isbn}">ISBN</label>
+        <input type="text" id="isbn" name="isbn" class="form-control" value="null" th:value="${book.isbn}" readonly>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-sm"
+                    onclick="location.href='editForm.html'"
+                    th:onclick="|location.href='@{/books/{memberId}/book/{bookId}/edit(bookId=${book.id}, memberId=${memberId})}'|"
+                    type="button" th:text="#{page.updateItem}">상품 수정</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-sm"
+                    onclick="location.href='deleteForm.html'"
+                    th:onclick="|location.href='@{/books/{memberId}/book/{bookId}/delete(bookId=${book.id}, memberId=${memberId})}'|"
+                    type="button" th:text="#{page.deleteItem}">상품 삭제</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-sm"
+                    onclick="location.href='books.html'"
+                    th:onclick="|location.href='@{/books/{memberId}(memberId=${memberId})}'|"
+                    type="button" th:text="#{button.cancel}">목록으로</button>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+</body>
+</html>

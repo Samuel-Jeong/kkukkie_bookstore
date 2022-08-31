@@ -1,9 +1,12 @@
 package dev.jmagni.controller.member;
 
-import dev.jmagni.controller.team.TeamDeleteForm;
-import dev.jmagni.model.dto.MemberDto;
+import dev.jmagni.controller.member.form.MemberAddForm;
+import dev.jmagni.controller.member.form.MemberDeleteForm;
+import dev.jmagni.controller.member.form.MemberRegisterForm;
+import dev.jmagni.controller.member.form.MemberUpdateForm;
 import dev.jmagni.model.member.Member;
-import dev.jmagni.model.role.MemberRole;
+import dev.jmagni.model.member.dto.MemberDto;
+import dev.jmagni.model.member.role.MemberRole;
 import dev.jmagni.model.team.Team;
 import dev.jmagni.repository.member.MemberRepository;
 import dev.jmagni.repository.team.TeamRepository;
@@ -18,8 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-
-import static dev.jmagni.InitMember.SUPER_TEAM_NAME;
 
 @Slf4j
 @Controller
@@ -80,7 +81,7 @@ public class MemberController {
     public String registerForm(@ModelAttribute("member") Member member, Model model) {
         List<Team> teams = teamRepository.findAll();
         if (!teams.isEmpty()) {
-            teams.removeIf(team -> team.getName().equals(SUPER_TEAM_NAME));
+            //teams.removeIf(team -> team.getName().equals(SUPER_TEAM_NAME));
             model.addAttribute("teams", teams);
         }
 
@@ -97,7 +98,8 @@ public class MemberController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "members/registerMemberForm";
+            //return "members/registerMemberForm";
+            return "redirect:/";
         }
 
         Member member = new Member(
@@ -137,7 +139,7 @@ public class MemberController {
 
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute("member") MemberAddForm memberAddForm, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        checkDuplicateMemberAtAdd(memberAddForm, bindingResult);
+        checkDuplicateMemberAtAddByLoginId(memberAddForm, bindingResult);
 
         Team team = memberAddForm.getTeam();
         if (team.getName() == null || team.getName().isEmpty()) {
@@ -168,14 +170,16 @@ public class MemberController {
         return "redirect:/members/{memberId}";
     }
 
-    private void checkDuplicateMemberAtAdd(MemberAddForm memberAddForm, BindingResult bindingResult) {
-        memberRepository.findByLoginId(
-                memberAddForm.getLoginId()).ifPresent(
+    private void checkDuplicateMemberAtAddByLoginId(MemberAddForm memberAddForm, BindingResult bindingResult) {
+        memberRepository.findByLoginId(memberAddForm.getLoginId())
+                .ifPresent(
                         foundMember ->
                                 bindingResult.reject(
-                                        "MemberAlreadyExist", new Object[]{foundMember.getId()}, null
+                                        "MemberAlreadyExist",
+                                        new Object[]{foundMember.getId()},
+                                        null
                                 )
-        );
+                );
     }
 
     @GetMapping("/{memberId}/edit")
@@ -192,7 +196,9 @@ public class MemberController {
     }
 
     @PostMapping("/{memberId}/edit")
-    public String edit(@PathVariable Long memberId, @Validated @ModelAttribute("member") MemberUpdateForm memberUpdateForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String edit(@PathVariable Long memberId,
+                       @Validated @ModelAttribute("member") MemberUpdateForm memberUpdateForm,
+                       BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) {
             bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
@@ -229,7 +235,10 @@ public class MemberController {
     }
 
     @PostMapping("{memberId}/delete")
-    public String delete(@PathVariable Long memberId, @Validated @ModelAttribute("member") MemberDeleteForm form, BindingResult bindingResult) {
+    public String delete(@PathVariable Long memberId,
+                         @Validated @ModelAttribute("member") MemberDeleteForm form,
+                         BindingResult bindingResult) {
+
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) {
             bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);

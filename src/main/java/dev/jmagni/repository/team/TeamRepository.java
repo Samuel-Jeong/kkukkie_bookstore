@@ -15,5 +15,4 @@ public interface TeamRepository
 
     List<Team> findAll();
 
-
 }

@@ -1,12 +1,15 @@
 package dev.jmagni.model.member;
 
 import dev.jmagni.model.base.BaseEntity;
-import dev.jmagni.model.role.MemberRole;
+import dev.jmagni.model.item.base.Item;
+import dev.jmagni.model.member.role.MemberRole;
 import dev.jmagni.model.team.Team;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,6 +34,10 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "team_id")
     @ToString.Exclude
     private Team team;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ToString.Exclude
+    private List<Item> items = new ArrayList<>();
 
     public Member(String username) {
         this(username, 0);

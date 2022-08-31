@@ -1,7 +1,6 @@
-package dev.jmagni.model.dto;
+package dev.jmagni.model.member.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import dev.jmagni.model.role.MemberRole;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;

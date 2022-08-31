@@ -23,7 +23,7 @@ public class Team extends BaseTimeEntity {
 
     private String name;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @ToString.Exclude
     private List<Member> members = new ArrayList<>();
 

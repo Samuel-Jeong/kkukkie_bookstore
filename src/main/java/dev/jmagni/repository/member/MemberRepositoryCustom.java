@@ -1,7 +1,7 @@
 package dev.jmagni.repository.member;
 
-import dev.jmagni.model.condition.MemberSearchCondition;
-import dev.jmagni.model.dto.MemberTeamDto;
+import dev.jmagni.model.member.condition.MemberSearchCondition;
+import dev.jmagni.model.member.dto.MemberTeamDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

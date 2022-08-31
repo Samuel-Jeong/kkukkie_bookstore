@@ -8,6 +8,9 @@
 <body>
 
 <div class="container" style="max-width: 600px">
+
+    <hr class="my-4">
+
     <h4 class="mb-3" th:text="|${member.username}|">로그인 사용자 이름</h4>
 
     <hr class="my-4">
@@ -15,13 +18,15 @@
     <div class="row">
         <div class="col">
             <button class="w-100 btn btn-secondary btn-sm" type="button"
-                    th:onclick="|location.href='@{/items}'|">
-                상품 관리
+                    th:onclick="|location.href='@{/books/{memberId}(memberId=${member.id})}'|">
+                책 목록
             </button>
         </div>
         <div class="col">
             <form th:action="@{/logout}" method="post">
-                <button class="w-100 btn btn-dark btn-sm" onclick="location.href='items.html'" type="submit">
+                <button class="w-100 btn btn-dark btn-sm"
+                        onclick="location.href='items.html'"
+                        type="submit">
                     로그아웃
                 </button>
             </form>

@@ -1,4 +1,4 @@
-package dev.jmagni.model.dto;
+package dev.jmagni.model.member.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;

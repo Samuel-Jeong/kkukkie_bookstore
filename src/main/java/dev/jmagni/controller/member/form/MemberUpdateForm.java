@@ -1,9 +1,9 @@
-package dev.jmagni.controller.member;
+package dev.jmagni.controller.member.form;
 
-import dev.jmagni.model.role.MemberRole;
 import dev.jmagni.model.team.Team;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -16,6 +16,7 @@ public class MemberUpdateForm {
     @NotBlank
     private String username;
 
+    @NumberFormat
     @NotNull
     @Range(min = 1, max = 1000)
     private Integer age;

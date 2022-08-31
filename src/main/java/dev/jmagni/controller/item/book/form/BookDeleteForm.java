@@ -1,4 +1,4 @@
-package dev.jmagni.controller.team;
+package dev.jmagni.controller.item.book.form;
 
 import lombok.Data;
 
@@ -7,11 +7,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class TeamDeleteForm {
+public class BookDeleteForm {
 
     @NotEmpty
     @NotNull
     @NotBlank
-    private String name;
+    private String isbn;
 
 }

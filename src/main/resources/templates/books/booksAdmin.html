@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container" style="max-width: 600px">
+
+    <div class="py-5 text-center">
+        <h2 th:text="#{label.book.list}">책 목록</h2>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <td><a href="addForm.html" class="w-100 btn btn-primary btn-sm"
+                   th:href="@{/books/{memberId}/add(memberId=${memberId})}"
+                   th:text="#{label.book.add}">
+                책 등록</a>
+            </td>
+        </div>
+
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-sm"
+                    onclick="location.href='books.html'"
+                    th:onclick="|location.href='@{/}'|"
+                    type="button" th:text="#{button.back}">뒤로</button>
+        </div>
+    </div>
+
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th th:text="#{label.item.id}">ID</th>
+                <th th:text="#{label.item.itemName}">상품명</th>
+                <th th:text="#{label.item.price}">가격</th>
+                <th th:text="#{label.item.count}">수량</th>
+                <th th:text="#{label.item.isbn}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}">
+                <td><a href="book.html" th:href="@{/books/{memberId}/book/{bookId}(bookId=${book.id}, memberId=${memberId})}" th:text="${book.id}">ID</a></td>
+                <td th:text="${book.name}">null</td>
+                <td th:text="${book.price}">1</td>
+                <td th:text="${book.count}">1</td>
+                <td th:text="${book.isbn}">null</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div> <!-- /container -->
+
+</body>
+</html>

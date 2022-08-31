@@ -1,4 +1,4 @@
-package dev.jmagni.model.role;
+package dev.jmagni.model.member.role;
 
 
 public class MemberRole {

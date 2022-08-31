@@ -1,4 +1,4 @@
-package dev.jmagni.controller.member;
+package dev.jmagni.controller.member.form;
 
 import lombok.Data;
 

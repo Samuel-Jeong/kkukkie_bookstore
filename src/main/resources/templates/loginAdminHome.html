@@ -32,12 +32,12 @@
                 멤버 관리
             </button>
         </div>
-        <!--<div class="col">
+        <div class="col">
             <button class="w-100 btn btn-secondary btn-sm" type="button"
-                    th:onclick="|location.href='@{/items}'|">
-                상품 관리
+                    th:onclick="|location.href='@{/books/{memberId}(memberId=${member.id})}'|">
+            책 관리
             </button>
-        </div>-->
+        </div>
         <div class="col">
             <form th:action="@{/logout}" method="post">
                 <button class="w-100 btn btn-dark btn-sm" onclick="location.href='items.html'" type="submit">

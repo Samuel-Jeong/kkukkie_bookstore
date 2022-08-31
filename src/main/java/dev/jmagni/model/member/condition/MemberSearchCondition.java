@@ -1,4 +1,4 @@
-package dev.jmagni.model.condition;
+package dev.jmagni.model.member.condition;
 
 import lombok.Data;
 

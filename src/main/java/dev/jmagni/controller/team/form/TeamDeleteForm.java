@@ -1,4 +1,4 @@
-package dev.jmagni.controller.team;
+package dev.jmagni.controller.team.form;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class TeamSaveForm {
+public class TeamDeleteForm {
 
     @NotEmpty
     @NotNull

@@ -1,5 +1,8 @@
 package dev.jmagni.controller.team;
 
+import dev.jmagni.controller.team.form.TeamDeleteForm;
+import dev.jmagni.controller.team.form.TeamSaveForm;
+import dev.jmagni.controller.team.form.TeamUpdateForm;
 import dev.jmagni.model.member.Member;
 import dev.jmagni.model.team.Team;
 import dev.jmagni.repository.member.MemberRepository;
@@ -15,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-import static dev.jmagni.InitMember.SUPER_TEAM_NAME;
+import static dev.jmagni.InitData.SUPER_TEAM_NAME;
 
 @Slf4j
 @Controller
