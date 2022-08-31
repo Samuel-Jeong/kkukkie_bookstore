@@ -32,7 +32,7 @@ KKukkie's bookstore
 ### 4) Thymeleaf
   
 ## Flow
-<img width="663" alt="image" src="https://user-images.githubusercontent.com/37236920/187610000-6a969674-ec4b-4d74-af55-0fc781c59729.png">
+![스크린샷 2022-08-31 오후 3 36 13](https://user-images.githubusercontent.com/37236920/187610083-17c11c65-c8cd-4a8e-8087-e789c0cbc3f0.png)
   
 ## DB Schema
 
