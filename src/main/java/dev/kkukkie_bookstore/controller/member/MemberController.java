@@ -22,6 +22,8 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dev.kkukkie_bookstore.InitData.SUPER_TEAM_NAME;
+
 @Slf4j
 @Controller
 @RequestMapping("/members")
@@ -73,7 +75,6 @@ public class MemberController {
         }
 
         model.addAttribute("members", memberDtoList);
-        //model.addAttribute("members", members);
         return "members/members";
     }
 
@@ -81,7 +82,7 @@ public class MemberController {
     public String registerForm(@ModelAttribute("member") Member member, Model model) {
         List<Team> teams = teamRepository.findAll();
         if (!teams.isEmpty()) {
-            //teams.removeIf(team -> team.getName().equals(SUPER_TEAM_NAME));
+            teams.removeIf(team -> team.getName().equals(SUPER_TEAM_NAME));
             model.addAttribute("teams", teams);
         }
 
@@ -89,26 +90,38 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public String register(@Valid @ModelAttribute("member") MemberRegisterForm memberRegisterForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        checkDuplicateMemberAtRegister(memberRegisterForm, bindingResult);
+    public String register(@Valid @ModelAttribute("member") MemberRegisterForm memberRegisterForm,
+                           BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+
+        checkDuplicateMemberAtRegisterByLoginId(memberRegisterForm, bindingResult);
 
         Team team = memberRegisterForm.getTeam();
-        if (team.getName() == null || team.getName().isEmpty()) {
+        if (team == null || team.getName() == null || team.getName().isEmpty()) {
             bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
         }
 
-        if (bindingResult.hasErrors()) {
-            //return "members/registerMemberForm";
-            return "redirect:/";
+        Member member = null;
+        try {
+            member = new Member(
+                    memberRegisterForm.getLoginId(),
+                    memberRegisterForm.getPassword(),
+                    memberRegisterForm.getUsername(),
+                    Integer.parseInt(memberRegisterForm.getAge()),
+                    memberRegisterForm.getTeam()
+            );
+        } catch (Exception e) {
+            bindingResult.reject("InputException", new Object[]{}, null);
         }
 
-        Member member = new Member(
-                memberRegisterForm.getLoginId(),
-                memberRegisterForm.getPassword(),
-                memberRegisterForm.getUsername(),
-                memberRegisterForm.getAge(),
-                memberRegisterForm.getTeam()
-        );
+        if (member == null || bindingResult.hasErrors()) {
+            List<Team> teams = teamRepository.findAll();
+            if (!teams.isEmpty()) {
+                teams.removeIf(foundTeam -> foundTeam.getName().equals(SUPER_TEAM_NAME));
+                model.addAttribute("teams", teams);
+            }
+
+            return "members/registerMemberForm";
+        }
 
         Member savedMember = memberRepository.save(member);
         redirectAttributes.addAttribute("memberId", savedMember.getId());
@@ -117,7 +130,8 @@ public class MemberController {
         return "redirect:/";
     }
 
-    private void checkDuplicateMemberAtRegister(MemberRegisterForm memberRegisterForm, BindingResult bindingResult) {
+    private void checkDuplicateMemberAtRegisterByLoginId(MemberRegisterForm memberRegisterForm,
+                                                         BindingResult bindingResult) {
         memberRepository.findByLoginId(
                 memberRegisterForm.getLoginId()).ifPresent(
                 foundMember ->
@@ -138,15 +152,30 @@ public class MemberController {
     }
 
     @PostMapping("/add")
-    public String add(@Valid @ModelAttribute("member") MemberAddForm memberAddForm, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String add(@Valid @ModelAttribute("member") MemberAddForm memberAddForm,
+                      BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+
         checkDuplicateMemberAtAddByLoginId(memberAddForm, bindingResult);
 
         Team team = memberAddForm.getTeam();
-        if (team.getName() == null || team.getName().isEmpty()) {
+        if (team == null || team.getName() == null || team.getName().isEmpty()) {
             bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
         }
 
-        if (bindingResult.hasErrors()) {
+        Member member = null;
+        try {
+            member = new Member(
+                    memberAddForm.getLoginId(),
+                    memberAddForm.getPassword(),
+                    memberAddForm.getUsername(),
+                    Integer.parseInt(memberAddForm.getAge()),
+                    memberAddForm.getTeam()
+            );
+        } catch (Exception e) {
+            bindingResult.reject("InputException", new Object[]{}, null);
+        }
+
+        if (member == null || bindingResult.hasErrors()) {
             List<Team> teams = teamRepository.findAll();
             if (!teams.isEmpty()) {
                 model.addAttribute("teams", teams);
@@ -155,14 +184,6 @@ public class MemberController {
             return "members/addMemberForm";
         }
 
-        Member member = new Member(
-                memberAddForm.getLoginId(),
-                memberAddForm.getPassword(),
-                memberAddForm.getUsername(),
-                memberAddForm.getAge(),
-                memberAddForm.getTeam()
-        );
-
         Member savedMember = memberRepository.save(member);
         redirectAttributes.addAttribute("memberId", savedMember.getId());
         redirectAttributes.addAttribute("status", true);
@@ -170,7 +191,8 @@ public class MemberController {
         return "redirect:/members/{memberId}";
     }
 
-    private void checkDuplicateMemberAtAddByLoginId(MemberAddForm memberAddForm, BindingResult bindingResult) {
+    private void checkDuplicateMemberAtAddByLoginId(MemberAddForm memberAddForm,
+                                                    BindingResult bindingResult) {
         memberRepository.findByLoginId(memberAddForm.getLoginId())
                 .ifPresent(
                         foundMember ->
@@ -209,19 +231,23 @@ public class MemberController {
             bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
         }
 
-        if (bindingResult.hasErrors()) {
+        if (member != null) {
+            try {
+                member.setUsername(memberUpdateForm.getUsername());
+                member.setAge(Integer.parseInt(memberUpdateForm.getAge()));
+                member.setPassword(memberUpdateForm.getPassword());
+                member.setRole(memberUpdateForm.getRole());
+                member.setTeam(memberUpdateForm.getTeam());
+            } catch (Exception e) {
+                bindingResult.reject("InputException", new Object[]{}, null);
+            }
+        }
+
+        if (member == null || bindingResult.hasErrors()) {
             return "members/editMemberForm";
         }
 
-        if (member != null) {
-            member.setUsername(memberUpdateForm.getUsername());
-            member.setAge(memberUpdateForm.getAge());
-            member.setPassword(memberUpdateForm.getPassword());
-            member.setRole(memberUpdateForm.getRole());
-            member.setTeam(memberUpdateForm.getTeam());
-
-            memberRepository.save(member);
-        }
+        memberRepository.save(member);
 
         return "redirect:/members/{memberId}";
     }

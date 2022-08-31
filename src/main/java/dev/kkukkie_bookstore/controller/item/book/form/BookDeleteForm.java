@@ -11,7 +11,6 @@ public class BookDeleteForm {
 
     @NotEmpty
     @NotNull
-    @NotBlank
     private String isbn;
 
 }

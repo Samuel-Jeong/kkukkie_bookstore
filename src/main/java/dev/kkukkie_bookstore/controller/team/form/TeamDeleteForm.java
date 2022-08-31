@@ -11,7 +11,6 @@ public class TeamDeleteForm {
 
     @NotEmpty
     @NotNull
-    @NotBlank
     private String name;
 
 }

@@ -18,6 +18,10 @@
 
 <div class="container" style="max-width: 600px">
 
+    <div class="py-5 text-center">
+        <h2>회원 가입</h2>
+    </div>
+
     <h4 class="mb-3">회원 정보 입력</h4>
 
     <form action="" th:action th:object="${member}" method="post">
@@ -33,6 +37,7 @@
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{loginId}"></div>
         </div>
+
         <hr class="my-2">
         <div>
             <label for="password">비밀번호</label>
@@ -40,6 +45,7 @@
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{password}"></div>
         </div>
+
         <hr class="my-2">
         <div>
             <label for="name">이름</label>
@@ -47,6 +53,7 @@
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{username}"></div>
         </div>
+
         <hr class="my-2">
         <div>
             <label for="age">나이</label>
@@ -54,6 +61,7 @@
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{age}"></div>
         </div>
+
         <hr class="my-2">
         <div>
             <label th:text="#{label.member.role}">멤버 역할</label>

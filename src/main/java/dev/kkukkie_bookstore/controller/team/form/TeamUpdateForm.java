@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Data
 public class TeamUpdateForm {
@@ -12,9 +13,9 @@ public class TeamUpdateForm {
     @NotNull
     private Long id;
 
+    @Pattern(regexp = "[A-Za-z0-9]{1,10}", message = "이름 최대 길이는 10입니다. 영문자와 숫자만 입력 가능합니다.")
     @NotEmpty
     @NotNull
-    @NotBlank
     private String name;
 
 }

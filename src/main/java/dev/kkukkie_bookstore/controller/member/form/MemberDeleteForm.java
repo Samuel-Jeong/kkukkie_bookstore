@@ -11,7 +11,6 @@ public class MemberDeleteForm {
 
     @NotEmpty
     @NotNull
-    @NotBlank
     private String loginId;
 
 }
