@@ -26,10 +26,12 @@ KKukkie's bookstore
 ~~~
   
 ## Tech
-### 1) Spring boot
-### 2) Spring data jpa
-### 3) QueryDSL
-### 4) Thymeleaf
+~~~
+1) Spring boot
+2) Spring data jpa
+3) QueryDSL
+4) Thymeleaf
+~~~
   
 ## Flow
 ![스크린샷 2022-08-31 오후 3 36 13](https://user-images.githubusercontent.com/37236920/187610083-17c11c65-c8cd-4a8e-8087-e789c0cbc3f0.png)
