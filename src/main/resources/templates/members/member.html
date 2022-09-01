@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
@@ -21,34 +21,66 @@
     <!-- 추가 -->
     <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
 
+    <hr class="my-2">
     <div>
         <label for="memberId" th:text="#{label.member.id}">멤버 ID</label>
         <input type="text" id="memberId" name="memberId" class="form-control" value="id" th:value="${member.id}" readonly>
     </div>
 
+    <hr class="my-2">
     <div>
         <label for="memberLoginID" th:text="#{label.member.loginId}">멤버 로그인 ID</label>
         <input type="text" id="memberLoginID" name="memberLoginID" class="form-control" value="loginId" th:value="${member.loginId}" readonly>
     </div>
 
+    <hr class="my-2">
     <div>
         <label for="memberName" th:text="#{label.member.name}">멤버 이름</label>
         <input type="text" id="memberName" name="memberName" class="form-control" value="username" th:value="${member.username}" readonly>
     </div>
 
+    <hr class="my-2">
     <div>
         <label for="memberAge" th:text="#{label.member.age}">멤버 나이</label>
         <input type="text" id="memberAge" name="memberAge" class="form-control" value="age" th:value="${member.age}" readonly>
     </div>
 
+    <hr class="my-2">
     <div>
         <label for="memberRole" th:text="#{label.member.role}">멤버 권한</label>
         <input type="text" id="memberRole" name="memberRole" class="form-control" value="role" th:value="${member.role}" readonly>
     </div>
 
+    <hr class="my-2">
     <div>
         <label for="team" th:text="#{label.member.team}">팀</label>
         <input type="text" id="team" name="team" class="form-control" value="team" th:value="${member.team.name}" readonly>
+    </div>
+
+    <hr class="my-4">
+
+    <h4 class="mb-3" th:text="#{label.book.list}">책장</h4>
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th th:text="#{label.item.id}">ID</th>
+                <th th:text="#{label.item.name}">책 이름</th>
+                <th th:text="#{label.item.price}">가격</th>
+                <th th:text="#{label.item.count}">수량</th>
+                <th th:text="#{label.item.isbn}">ISBN</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${member.books}">
+                <td th:text="${book.id}"></td>
+                <td th:text="${book.name}"></td>
+                <td th:text="${book.price}"></td>
+                <td th:text="${book.count}"></td>
+                <td th:text="${book.isbn}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
     <hr class="my-4">

@@ -30,10 +30,11 @@ public class LoginCheckFilter implements Filter {
                 //log.info("인증 체크 로직 실행 {}", requestURI);
                 HttpSession session = httpRequest.getSession(false);
                 if (session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
-                    log.warn("미인증 사용자 요청 {}", requestURI);
+                    //log.warn("미인증 사용자 요청 {}", requestURI);
 
                     // 로그인으로 redirect
-                    httpResponse.sendRedirect("/login?redirectURL=" + requestURI);
+                    //httpResponse.sendRedirect("/login?redirectURL=" + requestURI);
+                    httpResponse.sendRedirect("/");
                     return; // 이후의 모든 로직 실행 안함
                 }
             }

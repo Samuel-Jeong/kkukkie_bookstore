@@ -5,10 +5,12 @@ import dev.kkukkie_bookstore.controller.item.book.form.BookDeleteForm;
 import dev.kkukkie_bookstore.controller.item.book.form.BookUpdateForm;
 import dev.kkukkie_bookstore.model.item.book.Book;
 import dev.kkukkie_bookstore.model.item.book.dto.BookDto;
+import dev.kkukkie_bookstore.model.item.book.dto.BookListDto;
 import dev.kkukkie_bookstore.model.member.Member;
 import dev.kkukkie_bookstore.model.member.role.MemberRole;
 import dev.kkukkie_bookstore.repository.item.BookRepository;
 import dev.kkukkie_bookstore.repository.member.MemberRepository;
+import dev.kkukkie_bookstore.service.member.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -28,16 +28,24 @@ import java.util.UUID;
 public class BookController {
 
     private final BookRepository bookRepository;
+
+    private final MemberService memberService;
     private final MemberRepository memberRepository;
 
-    public BookController(BookRepository bookRepository, MemberRepository memberRepository) {
+
+    public BookController(BookRepository bookRepository,
+                          MemberService memberService, MemberRepository memberRepository) {
         this.bookRepository = bookRepository;
+        this.memberService = memberService;
         this.memberRepository = memberRepository;
     }
 
     @GetMapping("{memberId}/book/{bookId}")
-    public String book(@PathVariable long memberId, @PathVariable String bookId, Model model) {
+    public String book(@PathVariable long memberId,
+                       @PathVariable String bookId,
+                       Model model) {
         Book book = bookRepository.findById(bookId).orElse(null);
+
         model.addAttribute("memberId", memberId);
         model.addAttribute("book", book);
 
@@ -45,7 +53,8 @@ public class BookController {
     }
 
     @GetMapping("/{memberId}")
-    public String books(@PathVariable long memberId, Model model) {
+    public String books(@PathVariable long memberId,
+                        Model model) {
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) {
             return "redirect:/";
@@ -67,7 +76,13 @@ public class BookController {
         }
 
         model.addAttribute("memberId", memberId);
-        model.addAttribute("books", bookDtoList);
+        model.addAttribute("bookDtoList", bookDtoList);
+
+        Map<String, BookDto> bookDtoMap = new HashMap<>();
+        for (BookDto bookDto : bookDtoList) {
+            bookDtoMap.put(bookDto.getId(), bookDto);
+        }
+        model.addAttribute("bookListDto", new BookListDto(bookDtoMap));
 
         if (member.getRole().equals(MemberRole.ADMIN)) {
             return "books/booksAdmin";
@@ -76,14 +91,44 @@ public class BookController {
         }
     }
 
+    @PostMapping("/{memberId}")
+    public String books(@PathVariable long memberId,
+                        @ModelAttribute("bookDtoList") List<BookDto> bookDtoList,
+                        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        Member member = memberRepository.findById(memberId).orElse(null);
+        if (member == null) {
+            bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
+        }
+
+        redirectAttributes.addAttribute("memberId", memberId);
+        redirectAttributes.addAttribute("bookDtoList", bookDtoList);
+
+        if (bindingResult.hasErrors()) {
+            return "redirect:/books/{memberId}";
+        }
+
+        for (BookDto book : bookDtoList) {
+            if (book.isSave()) {
+                memberService.addBookToList(memberId, book.getId());
+            } else {
+                memberService.removeBookFromList(memberId, book.getId());
+            }
+        }
+
+        return "redirect:/books/{memberId}";
+    }
+
     @GetMapping("/{memberId}/add")
-    public String addForm(@PathVariable long memberId, @ModelAttribute("book") Book book, Model model) {
+    public String addForm(@PathVariable long memberId,
+                          @ModelAttribute("book") Book book,
+                          Model model) {
         model.addAttribute("memberId", memberId);
         return "books/addForm";
     }
 
     @PostMapping("/{memberId}/add")
-    public String add(@PathVariable long memberId, @Valid @ModelAttribute("book") BookAddForm bookAddForm,
+    public String add(@PathVariable long memberId,
+                      @Valid @ModelAttribute("book") BookAddForm bookAddForm,
                       BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         checkDuplicateBookAtAddByIsbn(bookAddForm, bindingResult);
@@ -113,7 +158,8 @@ public class BookController {
         return "redirect:/books/{memberId}/book/{bookId}";
     }
 
-    private void checkDuplicateBookAtAddByIsbn(BookAddForm bookAddForm, BindingResult bindingResult) {
+    private void checkDuplicateBookAtAddByIsbn(BookAddForm bookAddForm,
+                                               BindingResult bindingResult) {
         bookRepository.findByIsbn(bookAddForm.getIsbn())
                 .ifPresent(
                         foundBook ->
@@ -126,7 +172,8 @@ public class BookController {
     }
 
     @GetMapping("/{memberId}/book/{bookId}/edit")
-    public String editForm(@PathVariable long memberId, @PathVariable String bookId, Model model) {
+    public String editForm(@PathVariable long memberId,
+                           @PathVariable String bookId, Model model) {
         Book book = bookRepository.findById(bookId).orElse(null);
         model.addAttribute("memberId", memberId);
         model.addAttribute("book", book);
@@ -135,7 +182,8 @@ public class BookController {
     }
 
     @PostMapping("/{memberId}/book/{bookId}/edit")
-    public String edit(@PathVariable long memberId, @PathVariable String bookId,
+    public String edit(@PathVariable long memberId,
+                       @PathVariable String bookId,
                        @Validated @ModelAttribute("book") BookUpdateForm bookUpdateForm,
                        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
@@ -165,7 +213,9 @@ public class BookController {
     }
 
     @GetMapping("/{memberId}/book/{bookId}/delete")
-    public String deleteForm(@PathVariable long memberId, @PathVariable String bookId, Model model) {
+    public String deleteForm(@PathVariable long memberId,
+                             @PathVariable String bookId,
+                             Model model) {
         Book book = bookRepository.findById(bookId).orElse(null);
         model.addAttribute("memberId", memberId);
         model.addAttribute("book", book);
@@ -174,7 +224,8 @@ public class BookController {
     }
 
     @PostMapping("/{memberId}/book/{bookId}/delete")
-    public String delete(@PathVariable long memberId, @PathVariable String bookId,
+    public String delete(@PathVariable long memberId,
+                         @PathVariable String bookId,
                          @Validated @ModelAttribute("book") BookDeleteForm bookDeleteForm,
                          BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 

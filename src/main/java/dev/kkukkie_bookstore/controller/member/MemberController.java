@@ -69,12 +69,14 @@ public class MemberController {
                             member.getAge(),
                             member.getLoginId(),
                             member.getRole(),
-                            member.getTeam().getName()
+                            member.getTeam().getName(),
+                            member.getBooks()
                     )
             );
         }
 
         model.addAttribute("members", memberDtoList);
+
         return "members/members";
     }
 

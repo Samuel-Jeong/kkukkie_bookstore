@@ -15,10 +15,11 @@ spring:
       #ddl-auto: none
     properties:
       hibernate:
-        format_sql: true
-        show_sql: true
-        use_sql_comments: true # Print jpql
+        format_sql: false
+        show_sql: false
+        use_sql_comments: false # Print jpql
         #dialect: org.hibernate.dialect.Oracle10gDialect
+
 
   data:
     web:
@@ -29,7 +30,7 @@ spring:
 
 logging:
   level:
-    org.hibernate.sql: debug
+    org.hibernate.sql: error
     #org.hibernate.type: trace # > ???(binding parameter)? ? ? ??
 
 server:
@@ -37,3 +38,8 @@ server:
     session:
       timeout: 10m
       tracking-modes: cookie
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true

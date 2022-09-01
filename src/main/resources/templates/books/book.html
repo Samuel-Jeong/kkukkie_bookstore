@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
@@ -21,22 +21,31 @@
     <!-- 추가 -->
     <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
 
+    <hr class="my-2">
     <div>
         <label for="id" th:text="#{label.item.id}">상품 ID</label>
         <input type="text" id="id" name="itemId" class="form-control" value="1" th:value="${book.id}" readonly>
     </div>
+
+    <hr class="my-2">
     <div>
-        <label for="name" th:text="#{label.item.itemName}">상품명</label>
+        <label for="name" th:text="#{label.item.name}">상품명</label>
         <input type="text" id="name" name="name" class="form-control" value="책" th:value="${book.name}" readonly>
     </div>
+
+    <hr class="my-2">
     <div>
         <label for="price" th:text="#{label.item.price}">가격</label>
         <input type="text" id="price" name="price" class="form-control" value="1" th:value="${book.price}" readonly>
     </div>
+
+    <hr class="my-2">
     <div>
         <label for="count" th:text="#{label.item.count}">수량</label>
         <input type="text" id="count" name="count" class="form-control" value="1" th:value="${book.count}" readonly>
     </div>
+
+    <hr class="my-2">
     <div>
         <label for="isbn" th:text="#{label.item.isbn}">ISBN</label>
         <input type="text" id="isbn" name="isbn" class="form-control" value="null" th:value="${book.isbn}" readonly>

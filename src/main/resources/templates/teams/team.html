@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
@@ -21,11 +21,13 @@
     <!-- 추가 -->
     <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
 
+    <hr class="my-2">
     <div>
         <label for="teamId" th:text="#{label.team.id}">팀 ID</label>
         <input type="text" id="teamId" name="teamId" class="form-control" value="id" th:value="${team.id}" readonly>
     </div>
 
+    <hr class="my-2">
     <div>
         <label for="teamName" th:text="#{label.team.name}">팀 이름</label>
         <input type="text" id="teamName" name="teamName" class="form-control" value="name" th:value="${team.name}" readonly>

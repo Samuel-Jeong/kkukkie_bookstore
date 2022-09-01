@@ -2,6 +2,7 @@ package dev.kkukkie_bookstore.model.member;
 
 import dev.kkukkie_bookstore.model.base.BaseEntity;
 import dev.kkukkie_bookstore.model.item.base.Item;
+import dev.kkukkie_bookstore.model.item.book.Book;
 import dev.kkukkie_bookstore.model.member.role.MemberRole;
 import dev.kkukkie_bookstore.model.team.Team;
 import lombok.*;
@@ -35,9 +36,9 @@ public class Member extends BaseEntity {
     @ToString.Exclude
     private Team team;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Item> items = new ArrayList<>();
+    private List<Book> books = new ArrayList<>();
 
     public Member(String username) {
         this(username, 0);

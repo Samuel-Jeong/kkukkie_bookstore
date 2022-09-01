@@ -30,7 +30,7 @@
 
         <hr class="my-2">
         <div>
-            <label for="name" th:text="#{label.item.itemName}">상품명</label>
+            <label for="name" th:text="#{label.item.name}">상품명</label>
             <input type="text" id="name" th:field="*{name}"
                    th:errorclass="field-error" class="form-control" placeholder="이름을 입력하세요">
             <div class="field-error" th:errors="*{name}">

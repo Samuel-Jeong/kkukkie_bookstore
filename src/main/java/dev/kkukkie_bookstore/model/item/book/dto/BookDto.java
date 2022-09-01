@@ -15,6 +15,7 @@ public class BookDto {
     private int price;
     private int count;
     private String isbn;
+    private boolean save;
 
     @QueryProjection
     public BookDto(long memberId, String id, String name, int price, int count, String isbn) {

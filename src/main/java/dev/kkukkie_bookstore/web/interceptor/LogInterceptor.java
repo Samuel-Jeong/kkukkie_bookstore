@@ -28,23 +28,22 @@ public class LogInterceptor implements HandlerInterceptor {
             log.debug("HandlerMethod : {}", handlerMethod);
         }
 
-        log.info("-------- preHandle [{}][{}][{}]", uuid, requestURI, handler);
+        //log.info("-------- preHandle [{}][{}][{}]", uuid, requestURI, handler);
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        log.info("-------- postHandle [{}] [{}]", handler, modelAndView);
+        //log.info("-------- postHandle [{}] [{}]", handler, modelAndView);
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        String requestURI = request.getRequestURI();
+        /*String requestURI = request.getRequestURI();
         String logId = (String) request.getAttribute(LOG_ID);
-        log.info("-------- afterCompletion [{}][{}][{}]", logId, requestURI, handler);
+        log.info("-------- afterCompletion [{}][{}][{}]", logId, requestURI, handler);*/
         if (ex != null) {
             log.error("afterCompletion error!!", ex);
         }
-
     }
 }
