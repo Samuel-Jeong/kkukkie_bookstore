@@ -4,10 +4,12 @@ import dev.kkukkie_bookstore.model.item.book.Book;
 import dev.kkukkie_bookstore.model.member.Member;
 import dev.kkukkie_bookstore.repository.item.BookRepository;
 import dev.kkukkie_bookstore.repository.member.MemberRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+@Slf4j
 @Service
 public class MemberService {
 
@@ -29,6 +31,7 @@ public class MemberService {
             Book foundBook = findBookByIdFromMember(member, bookId);
             if (foundBook == null) {
                 member.getBooks().add(book);
+                log.info("### member: {}", member);
                 memberRepository.save(member);
             }
         }

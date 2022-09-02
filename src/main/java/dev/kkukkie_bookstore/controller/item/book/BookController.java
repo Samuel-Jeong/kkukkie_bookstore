@@ -5,7 +5,6 @@ import dev.kkukkie_bookstore.controller.item.book.form.BookDeleteForm;
 import dev.kkukkie_bookstore.controller.item.book.form.BookUpdateForm;
 import dev.kkukkie_bookstore.model.item.book.Book;
 import dev.kkukkie_bookstore.model.item.book.dto.BookDto;
-import dev.kkukkie_bookstore.model.item.book.dto.BookListDto;
 import dev.kkukkie_bookstore.model.member.Member;
 import dev.kkukkie_bookstore.model.member.role.MemberRole;
 import dev.kkukkie_bookstore.repository.item.BookRepository;
@@ -53,12 +52,13 @@ public class BookController {
     }
 
     @GetMapping("/{memberId}")
-    public String books(@PathVariable long memberId,
-                        Model model) {
+    public String books(@PathVariable long memberId, Model model) {
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) {
             return "redirect:/";
         }
+
+        model.addAttribute("memberId", memberId);
 
         List<Book> books = bookRepository.findAll();
         List<BookDto> bookDtoList = new ArrayList<>();
@@ -74,48 +74,13 @@ public class BookController {
                     )
             );
         }
-
-        model.addAttribute("memberId", memberId);
         model.addAttribute("bookDtoList", bookDtoList);
-
-        Map<String, BookDto> bookDtoMap = new HashMap<>();
-        for (BookDto bookDto : bookDtoList) {
-            bookDtoMap.put(bookDto.getId(), bookDto);
-        }
-        model.addAttribute("bookListDto", new BookListDto(bookDtoMap));
 
         if (member.getRole().equals(MemberRole.ADMIN)) {
             return "books/booksAdmin";
         } else {
             return "books/booksNormal";
         }
-    }
-
-    @PostMapping("/{memberId}")
-    public String books(@PathVariable long memberId,
-                        @ModelAttribute("bookDtoList") List<BookDto> bookDtoList,
-                        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        Member member = memberRepository.findById(memberId).orElse(null);
-        if (member == null) {
-            bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
-        }
-
-        redirectAttributes.addAttribute("memberId", memberId);
-        redirectAttributes.addAttribute("bookDtoList", bookDtoList);
-
-        if (bindingResult.hasErrors()) {
-            return "redirect:/books/{memberId}";
-        }
-
-        for (BookDto book : bookDtoList) {
-            if (book.isSave()) {
-                memberService.addBookToList(memberId, book.getId());
-            } else {
-                memberService.removeBookFromList(memberId, book.getId());
-            }
-        }
-
-        return "redirect:/books/{memberId}";
     }
 
     @GetMapping("/{memberId}/add")
@@ -246,6 +211,42 @@ public class BookController {
             bookRepository.delete(book);
         }
 
+        return "redirect:/books/{memberId}";
+    }
+
+    @GetMapping("/{memberId}/addtolist/{bookId}")
+    public String addBookModalForm(@PathVariable long memberId,
+                                   @PathVariable String bookId,
+                                   Model model) {
+        Book book = bookRepository.findById(bookId).orElse(null);
+        model.addAttribute("memberId", memberId);
+        model.addAttribute("book", book);
+        return "books/addBookModal";
+    }
+
+    @PostMapping("/{memberId}/addtolist/{bookId}")
+    public String addBookModal(@PathVariable long memberId,
+                          @PathVariable String bookId,
+                          @ModelAttribute("book") Book book,
+                          BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        Member member = memberRepository.findById(memberId).orElse(null);
+        if (member == null) {
+            bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
+        }
+
+        //Book book = bookRepository.findById(bookId).orElse(null);
+        if (book == null) {
+            bindingResult.reject("NotFoundBook", new Object[]{bookId}, null);
+        }
+
+        if (bindingResult.hasErrors()) {
+            log.warn("errors={}", bindingResult);
+            return "redirect:/books/{memberId}";
+        }
+
+        memberService.addBookToList(memberId, bookId);
+
+        redirectAttributes.addAttribute("memberId", memberId);
         return "redirect:/books/{memberId}";
     }
 

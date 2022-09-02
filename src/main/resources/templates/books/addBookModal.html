@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container" style="max-width: 600px">
+
+    <form class="form-control" th:object="${book}" method="post">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+        </div>
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">내 책장에 담기</h5>
+            </div>
+
+            <hr class="my-4">
+            <div class="modal-body">
+                <div>
+                    <label for="name" th:text="이름"></label>
+                    <input type="text" id="name" th:field="*{name}" class="form-control" readonly>
+                </div>
+                <hr class="my-2">
+                <div>
+                    <label for="price" th:text="가격"></label>
+                    <input type="text" id="price" th:field="*{price}" class="form-control" readonly>
+                </div>
+                <hr class="my-2">
+                <div>
+                    <label for="count}" th:text="수량"></label>
+                    <input type="text" id="count}" th:field="*{count}" class="form-control" readonly>
+                </div>
+                <hr class="my-2">
+                <div>
+                    <label for="isbn" th:text="ISBN"></label>
+                    <input type="text" id="isbn" th:field="*{isbn}" class="form-control" readonly>
+                </div>
+            </div>
+
+            <hr class="my-4">
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary"
+                        th:onclick="|location.href='@{/books/{memberId}(memberId=${memberId})}'|"
+                        data-bs-dismiss="modal" th:text="#{button.cancel}">취소</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

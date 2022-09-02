@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="ko">
 <head>
+    <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
 
@@ -11,9 +11,11 @@
     <hr class="my-4">
 
     <div class="row">
-        <img id="cookie2" alt="cookie2" th:src="@{images/cookie2.jpeg}" />
-        <div class="py-5 text-center">
-            <h4 class="mb-3" th:text="| ${member.username} |">로그인 사용자 이름</h4>
+        <div class="col">
+            <img id="cookie2" alt="cookie2" th:src="@{images/cookie2.jpeg}" />
+        </div>
+        <div class="col">
+            <h2 th:text="|${member.username}|">로그인 사용자 이름</h2>
         </div>
     </div>
 

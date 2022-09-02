@@ -37,7 +37,6 @@ public class Member extends BaseEntity {
     private Team team;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @ToString.Exclude
     private List<Book> books = new ArrayList<>();
 
     public Member(String username) {
@@ -97,12 +96,14 @@ public class Member extends BaseEntity {
     @Override
     public String toString() {
         return "Member{" +
+                "(" + this.hashCode() + ")" +
                 "id=" + id +
                 ", loginId='" + loginId + '\'' +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
                 ", age=" + age +
                 ", role=" + role +
+                ", books=" + books +
                 '}';
     }
 }

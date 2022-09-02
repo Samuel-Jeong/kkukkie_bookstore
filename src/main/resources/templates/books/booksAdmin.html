@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
+    <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
 
@@ -43,7 +43,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="book : ${books}">
+            <tr th:each="book : ${bookDtoList}">
                 <td><a href="book.html" th:href="@{/books/{memberId}/book/{bookId}(bookId=${book.id}, memberId=${memberId})}" th:text="${book.id}">ID</a></td>
                 <td th:text="${book.name}">null</td>
                 <td th:text="${book.price}">1</td>
