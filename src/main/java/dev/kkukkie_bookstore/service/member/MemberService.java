@@ -22,17 +22,28 @@ public class MemberService {
     }
 
     @Transactional
-    public void addBookToList(long memberId, String bookId) {
+    public boolean addBookToList(long memberId, String bookId) {
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member != null) {
             Book book = bookRepository.findById(bookId).orElse(null);
-            if (book == null) { return; }
+            if (book == null) { return false; }
 
             Book foundBook = findBookByIdFromMember(member, bookId);
-            if (foundBook == null) {
+            if (foundBook != null) { return false; }
+
+            Integer count = book.getCount();
+            if (count > 0) {
+                book.setCount(count - 1);
+                bookRepository.save(book);
+
                 member.getBooks().add(book);
                 memberRepository.save(member);
+                return true;
+            } else {
+                return false;
             }
+        } else {
+            return false;
         }
     }
 
@@ -42,6 +53,10 @@ public class MemberService {
         if (member != null) {
             Book book = bookRepository.findById(bookId).orElse(null);
             if (book == null) { return; }
+
+            Integer count = book.getCount();
+            book.setCount(count + 1);
+            bookRepository.save(book);
 
             member.getBooks().remove(book);
             memberRepository.save(member);

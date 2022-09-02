@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<div class="container" style="max-width: 600px">
+<div class="container" style="max-width: 700px">
 
     <div class="py-5 text-center">
         <h2 th:text="#{label.book.list}">책 목록</h2>
@@ -19,6 +19,7 @@
             <thead>
             <tr>
                 <!--<th th:text="#{label.item.id}">ID</th>-->
+                <th th:text="#{label.item.hold}">소지</th>
                 <th th:text="#{label.item.name}">상품명</th>
                 <th th:text="#{label.item.price}">가격</th>
                 <th th:text="#{label.item.count}">수량</th>
@@ -28,6 +29,11 @@
 
             <tbody>
             <tr th:each="bookDto : ${bookDtoList}">
+                <td>
+                    <span th:hidden="${(bookDto.save == false)}" class="badge rounded-pill bg-success">Y</span>
+                    <span th:hidden="${(bookDto.save == true)}" class="badge rounded-pill bg-danger">N</span>
+                </td>
+
                 <!--<td th:text="${bookDto.id}">null</td>-->
                 <td th:text="${bookDto.name}">null</td>
                 <td th:text="${bookDto.price}">1</td>
@@ -35,14 +41,14 @@
                 <td th:text="${bookDto.isbn}">null</td>
                 <td>
                     <div>
-                        <button th:disabled="${(bookDto.save == true)}" class="btn btn-secondary btn-sm"
+                        <button th:disabled="${(bookDto.count <= 0) || (bookDto.save == true)}" class="btn btn-secondary btn-sm"
                                 th:onclick="|location.href='@{/books/{memberId}/addtolist/{bookId}(memberId=${memberId}, bookId=${bookDto.id})}'|"
                                 type="button" th:text="담기"></button>
                     </div>
                 </td>
                 <td>
                     <div>
-                        <button th:disabled="${(bookDto.save == false)}" class="btn btn-secondary btn-sm"
+                        <button th:disabled="${(bookDto.count > 0) || (bookDto.save == false)}" class="btn btn-secondary btn-sm"
                                 th:onclick="|location.href='@{/books/{memberId}/removefromlist/{bookId}(memberId=${memberId}, bookId=${bookDto.id})}'|"
                                 type="button" th:text="빼기"></button>
                     </div>

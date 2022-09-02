@@ -230,26 +230,32 @@ public class BookController {
                           @PathVariable String bookId,
                           @ModelAttribute("book") Book book,
                           BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("memberId", memberId);
+
         if (book == null) {
             bindingResult.reject("NotFoundBook", new Object[]{bookId}, null);
+            return "redirect:/books/{memberId}";
         }
 
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) {
             bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
+            return "redirect:/";
         }
 
-        if (bindingResult.hasErrors()) {
-            log.warn("errors={}", bindingResult);
+        if (!memberService.addBookToList(memberId, bookId)) {
+            bindingResult.reject("FailToAddBookToList", new Object[]{memberId, bookId}, "추가하지 못했습니다. 존재하지 않는 책이거나 수량이 부족합니다.");
+
+            // 화면에 에러가 출력이 안되서 일단 주석처리하고 책 목록으로 돌아가기 변경
+            /*Book foundBook = bookRepository.findById(bookId).orElse(null);
+            redirectAttributes.addAttribute("book", foundBook);
+            return "redirect:/books/{memberId}/addtolist/{bookId}";*/
+
             return "redirect:/books/{memberId}";
         }
 
-        memberService.addBookToList(memberId, bookId);
-
-        redirectAttributes.addAttribute("memberId", memberId);
         return "redirect:/books/{memberId}";
     }
-
 
     @GetMapping("/{memberId}/removefromlist/{bookId}")
     public String removeBookModalForm(@PathVariable long memberId,
@@ -268,16 +274,13 @@ public class BookController {
                                BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (book == null) {
             bindingResult.reject("NotFoundBook", new Object[]{bookId}, null);
+            return "redirect:/books/{memberId}";
         }
 
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) {
             bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
-        }
-
-        if (bindingResult.hasErrors()) {
-            log.warn("errors={}", bindingResult);
-            return "redirect:/books/{memberId}";
+            return "redirect:/";
         }
 
         memberService.removeBookFromList(memberId, bookId);

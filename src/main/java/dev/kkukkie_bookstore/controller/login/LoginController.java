@@ -43,10 +43,14 @@ public class LoginController {
         } else if (password.isEmpty()) {
             bindingResult.reject("loginFail", "비밀번호가 없습니다.");
         } else {
-            member = loginService.login(loginId, password);
-        }
-        if (member == null) {
-            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            if (!loginService.validateId(loginId)) {
+                bindingResult.reject("loginFail", "등록된 아이디가 아닙니다.");
+            } else {
+                member = loginService.login(loginId, password);
+                if (member == null) {
+                    bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+                }
+            }
         }
 
         if (bindingResult.hasErrors()) {

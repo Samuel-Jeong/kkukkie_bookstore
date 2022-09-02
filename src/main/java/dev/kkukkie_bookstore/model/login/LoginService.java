@@ -11,6 +11,10 @@ public class LoginService {
 
     private final MemberRepository memberRepository;
 
+    public boolean validateId(String loginId) {
+        return memberRepository.findByLoginId(loginId).isPresent();
+    }
+
     /**
      * @return null 로그인 실패
      */

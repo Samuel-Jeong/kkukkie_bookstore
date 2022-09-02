@@ -55,16 +55,25 @@ public class InitData {
             Team guestTeam = new Team(GUEST_TEAM_NAME);
             entityManager.persist(guestTeam);
 
-            Member guest = new Member("guest", 100, guestTeam);
-            guest.setLoginId("guest");
-            guest.setPassword("guest");
-            guest.setRole(MemberRole.NORMAL);
-            entityManager.persist(guest);
+            Member guest1 = new Member("guest1", 100, guestTeam);
+            guest1.setLoginId("guest1");
+            guest1.setPassword("guest1");
+            guest1.setRole(MemberRole.NORMAL);
+            entityManager.persist(guest1);
+
+            Member guest2 = new Member("guest2", 100, guestTeam);
+            guest2.setLoginId("guest2");
+            guest2.setPassword("guest2");
+            guest2.setRole(MemberRole.NORMAL);
+            entityManager.persist(guest2);
             //
 
             //
-            Book book1 = new Book(UUID.randomUUID().toString(), "TEST_BOOK_1", 1, 1, "ISBN_TEST_1");
+            Book book1 = new Book(UUID.randomUUID().toString(), "TEST_BOOK_1", 12000, 1, "ISBN_TEST_1");
             entityManager.persist(book1);
+
+            Book book2 = new Book(UUID.randomUUID().toString(), "TEST_BOOK_2", 7500, 1, "ISBN_TEST_2");
+            entityManager.persist(book2);
             //
 
             entityManager.flush();

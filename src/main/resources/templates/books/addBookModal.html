@@ -4,6 +4,15 @@
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 
 <body>
@@ -12,17 +21,21 @@
 
     <form class="form-control" th:object="${book}" method="post">
 
-        <div th:if="${#fields.hasGlobalErrors()}">
-            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
-        </div>
-
+        <hr class="my-4">
         <div class="modal-content">
+
             <div class="modal-header">
                 <h5 class="modal-title" id="addBookModalLabel">내 책장에 담기</h5>
             </div>
 
             <hr class="my-4">
+
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+            </div>
+
             <div class="modal-body">
+
                 <div>
                     <label for="name" th:text="이름"></label>
                     <input type="text" id="name" th:field="*{name}" class="form-control" readonly>
