@@ -18,12 +18,13 @@ public class BookDto {
     private boolean save;
 
     @QueryProjection
-    public BookDto(long memberId, String id, String name, int price, int count, String isbn) {
+    public BookDto(long memberId, String id, String name, int price, int count, String isbn, boolean save) {
         this.memberId = memberId;
         this.id = id;
         this.name = name;
         this.price = price;
         this.count = count;
         this.isbn = isbn;
+        this.save = save;
     }
 }

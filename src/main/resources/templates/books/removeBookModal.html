@@ -17,7 +17,7 @@
 
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addBookModalLabel">내 책장에 담기</h5>
+                <h5 class="modal-title" id="removeBookModalLabel">내 책장에서 빼기</h5>
             </div>
 
             <hr class="my-4">
@@ -45,7 +45,7 @@
 
             <hr class="my-4">
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary">Remove</button>
                 <button type="button" class="btn btn-secondary"
                         th:onclick="|location.href='@{/books/{memberId}(memberId=${memberId})}'|"
                         data-bs-dismiss="modal" th:text="#{button.cancel}">취소</button>

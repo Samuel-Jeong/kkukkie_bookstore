@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<div class="container" style="max-width: 800px">
+<div class="container" style="max-width: 600px">
 
     <div class="py-5 text-center">
         <h2 th:text="#{label.book.list}">책 목록</h2>
@@ -18,28 +18,33 @@
         <table class="table">
             <thead>
             <tr>
-                <th th:text="#{label.item.id}">ID</th>
+                <!--<th th:text="#{label.item.id}">ID</th>-->
                 <th th:text="#{label.item.name}">상품명</th>
                 <th th:text="#{label.item.price}">가격</th>
                 <th th:text="#{label.item.count}">수량</th>
                 <th th:text="#{label.item.isbn}">ISBN</th>
-                <th th:text="보관"></th>
             </tr>
             </thead>
 
             <tbody>
             <tr th:each="bookDto : ${bookDtoList}">
-                <td th:text="${bookDto.id}">null</td>
+                <!--<td th:text="${bookDto.id}">null</td>-->
                 <td th:text="${bookDto.name}">null</td>
                 <td th:text="${bookDto.price}">1</td>
                 <td th:text="${bookDto.count}">1</td>
                 <td th:text="${bookDto.isbn}">null</td>
                 <td>
                     <div>
-                        <button class="btn btn-secondary"
+                        <button th:disabled="${(bookDto.save == true)}" class="btn btn-secondary btn-sm"
                                 th:onclick="|location.href='@{/books/{memberId}/addtolist/{bookId}(memberId=${memberId}, bookId=${bookDto.id})}'|"
-                                data-toggle="modal" data-target="#addBookModal"
                                 type="button" th:text="담기"></button>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <button th:disabled="${(bookDto.save == false)}" class="btn btn-secondary btn-sm"
+                                th:onclick="|location.href='@{/books/{memberId}/removefromlist/{bookId}(memberId=${memberId}, bookId=${bookDto.id})}'|"
+                                type="button" th:text="빼기"></button>
                     </div>
                 </td>
             </tr>

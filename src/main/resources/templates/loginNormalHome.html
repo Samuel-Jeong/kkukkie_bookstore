@@ -15,7 +15,7 @@
             var toastElementList = [].slice.call(document.querySelectorAll(".toast"));
             var toastList = toastElementList.map(function(element){
                 return new bootstrap.Toast(element, {
-                    autohide: false
+                    autohide: true
                 });
             });
         });
@@ -33,13 +33,13 @@
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
         </div>
         <div class="toast-body">
-            꾸끼가 환영하다옹!
+            반갑다냥!
         </div>
     </div>
 
 </div>
 
-<div class="container" style="max-width: 800px">
+<div class="container" style="max-width: 600px">
 
     <hr class="my-4">
 
@@ -59,7 +59,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th th:text="#{label.item.id}">ID</th>
+                <!--<th th:text="#{label.item.id}">ID</th>-->
                 <th th:text="#{label.item.name}">책 이름</th>
                 <th th:text="#{label.item.price}">가격</th>
                 <th th:text="#{label.item.count}">수량</th>
@@ -68,7 +68,7 @@
             </thead>
             <tbody>
             <tr th:each="book : ${member.books}">
-                <td th:text="${book.id}"></td>
+                <!--<td th:text="${book.id}"></td>-->
                 <td th:text="${book.name}"></td>
                 <td th:text="${book.price}"></td>
                 <td th:text="${book.count}"></td>

@@ -70,7 +70,8 @@ public class BookController {
                             book.getName(),
                             book.getPrice(),
                             book.getCount(),
-                            book.getIsbn()
+                            book.getIsbn(),
+                            memberService.findBookByIdFromMember(member, book.getId()) != null
                     )
             );
         }
@@ -229,14 +230,13 @@ public class BookController {
                           @PathVariable String bookId,
                           @ModelAttribute("book") Book book,
                           BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (book == null) {
+            bindingResult.reject("NotFoundBook", new Object[]{bookId}, null);
+        }
+
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) {
             bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
-        }
-
-        //Book book = bookRepository.findById(bookId).orElse(null);
-        if (book == null) {
-            bindingResult.reject("NotFoundBook", new Object[]{bookId}, null);
         }
 
         if (bindingResult.hasErrors()) {
@@ -245,6 +245,42 @@ public class BookController {
         }
 
         memberService.addBookToList(memberId, bookId);
+
+        redirectAttributes.addAttribute("memberId", memberId);
+        return "redirect:/books/{memberId}";
+    }
+
+
+    @GetMapping("/{memberId}/removefromlist/{bookId}")
+    public String removeBookModalForm(@PathVariable long memberId,
+                                   @PathVariable String bookId,
+                                   Model model) {
+        Book book = bookRepository.findById(bookId).orElse(null);
+        model.addAttribute("memberId", memberId);
+        model.addAttribute("book", book);
+        return "books/removeBookModal";
+    }
+
+    @PostMapping("/{memberId}/removefromlist/{bookId}")
+    public String removeBookModal(@PathVariable long memberId,
+                               @PathVariable String bookId,
+                               @ModelAttribute("book") Book book,
+                               BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (book == null) {
+            bindingResult.reject("NotFoundBook", new Object[]{bookId}, null);
+        }
+
+        Member member = memberRepository.findById(memberId).orElse(null);
+        if (member == null) {
+            bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
+        }
+
+        if (bindingResult.hasErrors()) {
+            log.warn("errors={}", bindingResult);
+            return "redirect:/books/{memberId}";
+        }
+
+        memberService.removeBookFromList(memberId, bookId);
 
         redirectAttributes.addAttribute("memberId", memberId);
         return "redirect:/books/{memberId}";

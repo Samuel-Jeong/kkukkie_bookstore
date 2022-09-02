@@ -31,7 +31,6 @@ public class MemberService {
             Book foundBook = findBookByIdFromMember(member, bookId);
             if (foundBook == null) {
                 member.getBooks().add(book);
-                log.info("### member: {}", member);
                 memberRepository.save(member);
             }
         }
