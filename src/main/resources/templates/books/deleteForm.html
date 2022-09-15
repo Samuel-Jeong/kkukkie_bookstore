@@ -30,28 +30,29 @@
 
         <hr class="my-2">
         <div>
-            <label for="loginId" th:text="ID"></label>
-            <input type="text" id="loginId" th:field="*{id}" class="form-control" readonly>
+            <label for="id" th:text="#{label.item.id}">상품 ID</label>
+            <input type="text" id="id" name="itemId" class="form-control" value="1" th:value="${book.id}" readonly>
         </div>
         <hr class="my-2">
         <div>
-            <label for="name" th:text="이름"></label>
-            <input type="text" id="name" th:field="*{name}" class="form-control" readonly>
+            <!--<label for="name" th:text="이름"></label>-->
+            <label for="name" th:text="#{label.item.name}">상품명</label>
+            <input type="text" id="name" name="name" class="form-control" value="책" th:value="${book.name}" readonly>
         </div>
         <hr class="my-2">
         <div>
-            <label for="price" th:text="가격"></label>
-            <input type="text" id="price" th:field="*{price}" class="form-control" readonly>
+            <label for="price" th:text="#{label.item.price}">가격</label>
+            <input type="text" id="price" name="price" class="form-control" value="1" th:value="${book.price}" readonly>
         </div>
         <hr class="my-2">
         <div>
-            <label for="count}" th:text="수량"></label>
-            <input type="text" id="count}" th:field="*{count}" class="form-control" readonly>
+            <label for="count" th:text="#{label.item.count}">수량</label>
+            <input type="text" id="count" name="count" class="form-control" value="1" th:value="${book.count}" readonly>
         </div>
         <hr class="my-2">
         <div>
-            <label for="isbn" th:text="ISBN"></label>
-            <input type="text" id="isbn" th:field="*{isbn}" class="form-control" readonly>
+            <label for="isbn" th:text="#{label.item.isbn}">ISBN</label>
+            <input type="text" id="isbn" name="isbn" class="form-control" value="null" th:value="${book.isbn}" readonly>
         </div>
 
         <hr class="my-4">
