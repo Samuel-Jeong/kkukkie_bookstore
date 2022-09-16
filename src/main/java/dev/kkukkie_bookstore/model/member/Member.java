@@ -1,7 +1,7 @@
 package dev.kkukkie_bookstore.model.member;
 
 import dev.kkukkie_bookstore.model.base.BaseEntity;
-import dev.kkukkie_bookstore.model.item.base.Item;
+import dev.kkukkie_bookstore.model.file.image.ImageFile;
 import dev.kkukkie_bookstore.model.item.book.Book;
 import dev.kkukkie_bookstore.model.member.role.MemberRole;
 import dev.kkukkie_bookstore.model.team.Team;
@@ -31,6 +31,9 @@ public class Member extends BaseEntity {
 
     private String role = MemberRole.NORMAL;
 
+    @Embedded
+    private ImageFile profileImgFile;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "team_id")
     @ToString.Exclude
@@ -38,6 +41,8 @@ public class Member extends BaseEntity {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
+
+    ////////////////////////////////////////////////////////
 
     public Member(String username) {
         this(username, 0);
@@ -98,6 +103,7 @@ public class Member extends BaseEntity {
         return "Member{" +
                 "(" + this.hashCode() + ")" +
                 "id=" + id +
+                ", imageFile='" + profileImgFile + '\'' +
                 ", loginId='" + loginId + '\'' +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +

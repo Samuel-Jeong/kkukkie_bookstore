@@ -12,7 +12,8 @@
 
     <div class="row">
         <div class="col">
-            <img id="cookie2" alt="cookie2" th:src="@{images/cookie2.jpeg}" />
+            <img id="profile_img" alt="profile_img"
+                 th:src="@{${member.getProfileImgFile().getUriFullPath()}}" />
         </div>
         <div class="col">
             <h2 th:text="|${member.username}|">로그인 사용자 이름</h2>

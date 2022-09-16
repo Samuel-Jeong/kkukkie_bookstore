@@ -2,8 +2,7 @@ package dev.kkukkie_bookstore.controller.member.form;
 
 import dev.kkukkie_bookstore.model.team.Team;
 import lombok.Data;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.NumberFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -12,6 +11,8 @@ import javax.validation.constraints.Pattern;
 
 @Data
 public class MemberUpdateForm {
+
+    private MultipartFile profileImgFile;
 
     @NotEmpty
     @NotBlank

@@ -10,6 +10,7 @@ import dev.kkukkie_bookstore.model.member.role.MemberRole;
 import dev.kkukkie_bookstore.model.team.Team;
 import dev.kkukkie_bookstore.repository.member.MemberRepository;
 import dev.kkukkie_bookstore.repository.team.TeamRepository;
+import dev.kkukkie_bookstore.service.member.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dev.kkukkie_bookstore.InitData.SUPER_TEAM_NAME;
+import static dev.kkukkie_bookstore.InitTestData.SUPER_TEAM_NAME;
 
 @Slf4j
 @Controller
@@ -32,11 +33,15 @@ public class MemberController {
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
 
+    private final MemberService memberService;
+
     private final List<String> memberRoles = new ArrayList<>();
 
-    public MemberController(MemberRepository memberRepository, TeamRepository teamRepository) {
+    public MemberController(MemberRepository memberRepository, TeamRepository teamRepository,
+                            MemberService memberService) {
         this.memberRepository = memberRepository;
         this.teamRepository = teamRepository;
+        this.memberService = memberService;
 
         memberRoles.add(MemberRole.ADMIN);
         memberRoles.add(MemberRole.SUB_ADMIN);
@@ -98,22 +103,19 @@ public class MemberController {
         checkDuplicateMemberAtRegisterByLoginId(memberRegisterForm, bindingResult);
 
         Team team = memberRegisterForm.getTeam();
-        if (team == null || team.getName() == null || team.getName().isEmpty()) {
+        if (team.getName() == null || team.getName().isEmpty()) {
             bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
         }
 
-        Member member = null;
-        try {
-            member = new Member(
-                    memberRegisterForm.getLoginId(),
-                    memberRegisterForm.getPassword(),
-                    memberRegisterForm.getUsername(),
-                    Integer.parseInt(memberRegisterForm.getAge()),
-                    memberRegisterForm.getTeam()
-            );
-        } catch (Exception e) {
-            bindingResult.reject("InputException", new Object[]{}, null);
-        }
+        Member member = memberService.saveMember(
+                memberRegisterForm.getLoginId(),
+                memberRegisterForm.getPassword(),
+                memberRegisterForm.getUsername(),
+                memberRegisterForm.getAge(),
+                memberRegisterForm.getTeam(),
+                memberRegisterForm.getProfileImgFile(),
+                bindingResult
+        );
 
         if (member == null || bindingResult.hasErrors()) {
             List<Team> teams = teamRepository.findAll();
@@ -160,22 +162,19 @@ public class MemberController {
         checkDuplicateMemberAtAddByLoginId(memberAddForm, bindingResult);
 
         Team team = memberAddForm.getTeam();
-        if (team == null || team.getName() == null || team.getName().isEmpty()) {
+        if (team.getName() == null || team.getName().isEmpty()) {
             bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
         }
 
-        Member member = null;
-        try {
-            member = new Member(
-                    memberAddForm.getLoginId(),
-                    memberAddForm.getPassword(),
-                    memberAddForm.getUsername(),
-                    Integer.parseInt(memberAddForm.getAge()),
-                    memberAddForm.getTeam()
-            );
-        } catch (Exception e) {
-            bindingResult.reject("InputException", new Object[]{}, null);
-        }
+        Member member = memberService.saveMember(
+                memberAddForm.getLoginId(),
+                memberAddForm.getPassword(),
+                memberAddForm.getUsername(),
+                memberAddForm.getAge(),
+                memberAddForm.getTeam(),
+                memberAddForm.getProfileImgFile(),
+                bindingResult
+        );
 
         if (member == null || bindingResult.hasErrors()) {
             List<Team> teams = teamRepository.findAll();
@@ -192,6 +191,8 @@ public class MemberController {
 
         return "redirect:/members/{memberId}";
     }
+
+
 
     private void checkDuplicateMemberAtAddByLoginId(MemberAddForm memberAddForm,
                                                     BindingResult bindingResult) {
@@ -233,17 +234,7 @@ public class MemberController {
             bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
         }
 
-        if (member != null) {
-            try {
-                member.setUsername(memberUpdateForm.getUsername());
-                member.setAge(Integer.parseInt(memberUpdateForm.getAge()));
-                member.setPassword(memberUpdateForm.getPassword());
-                member.setRole(memberUpdateForm.getRole());
-                member.setTeam(memberUpdateForm.getTeam());
-            } catch (Exception e) {
-                bindingResult.reject("InputException", new Object[]{}, null);
-            }
-        }
+        memberService.updateMember(memberUpdateForm, bindingResult, member);
 
         if (member == null || bindingResult.hasErrors()) {
             return "members/editMemberForm";
@@ -278,6 +269,9 @@ public class MemberController {
         }
 
         if (member != null) {
+            // 기존에 프로파일 이미지가 있으면 해당 파일 삭제
+            memberService.deletePrevProfileImage(member);
+
             memberRepository.delete(member);
         }
 
