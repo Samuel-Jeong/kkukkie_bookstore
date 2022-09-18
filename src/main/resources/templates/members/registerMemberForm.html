@@ -55,6 +55,7 @@
         <hr class="my-2">
         <div>
             <label for="passwordConfirm">비밀번호 확인</label>
+            <span id="confirmMsg"></span>
             <input type="password" id="passwordConfirm" class="form-control" oninput="passConfirm()">
         </div>
 
@@ -137,10 +138,10 @@
 
         if(password.value === passwordConfirm.value){//password 변수의 값과 passwordConfirm 변수의 값과 동일하다.
             confirmMsg.style.color = correctColor;/* span 태그의 ID(confirmMsg) 사용  */
-            confirmMsg.innerHTML ="비밀번호 일치";/* innerHTML : HTML 내부에 추가적인 내용을 넣을 때 사용하는 것. */
+            confirmMsg.innerHTML ="일치";/* innerHTML : HTML 내부에 추가적인 내용을 넣을 때 사용하는 것. */
         }else{
             confirmMsg.style.color = wrongColor;
-            confirmMsg.innerHTML ="비밀번호 불일치";
+            confirmMsg.innerHTML ="불일치";
         }
     }
 </script>
