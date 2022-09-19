@@ -142,7 +142,7 @@ public class TeamController {
         }
 
         if (bindingResult.hasErrors()) {
-            log.info("errors={}", bindingResult);
+            log.debug("errors={}", bindingResult);
             return "teams/editTeamForm";
         }
 

@@ -22,15 +22,15 @@ public class SessionInfoController {
         //세션 데이터 출력
         session.getAttributeNames().asIterator()
                 .forEachRemaining(
-                        name -> log.info("session name={}, value={}", name, session.getAttribute(name)
+                        name -> log.debug("session name={}, value={}", name, session.getAttribute(name)
                         )
                 );
 
-        log.info("sessionId={}", session.getId());
-        log.info("getMaxInactiveInterval={}", session.getMaxInactiveInterval());
-        log.info("creationTime={}", new Date(session.getCreationTime()));
-        log.info("lastAccessedTime={}", new Date(session.getLastAccessedTime()));
-        log.info("isNew={}", session.isNew());
+        log.debug("sessionId={}", session.getId());
+        log.debug("getMaxInactiveInterval={}", session.getMaxInactiveInterval());
+        log.debug("creationTime={}", new Date(session.getCreationTime()));
+        log.debug("lastAccessedTime={}", new Date(session.getLastAccessedTime()));
+        log.debug("isNew={}", session.isNew());
 
         return "PRINT SESSION";
 
