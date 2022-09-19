@@ -14,17 +14,16 @@
 
 <div class="container" style="max-width: 600px">
 
-    <div class="py-5 text-center">
-        <h2 th:text="#{page.member}">상세</h2>
-    </div>
+    <hr class="my-4">
 
-    <!-- 추가 -->
-    <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
-
-    <hr class="my-2">
-    <div class="col">
-        <img id="profile_img" alt="profile_img"
-             th:src="@{${member.getProfileImgFile().getUriFullPath()}}" />
+    <div class="row">
+        <div class="col">
+            <img id="profile_img" alt="profile_img"
+                 th:src="@{${member.getProfileImgFile().getUriFullPath()}}" />
+        </div>
+        <div class="col">
+            <h2 th:text="|${member.username}|">로그인 사용자 이름</h2>
+        </div>
     </div>
 
     <hr class="my-2">
@@ -110,6 +109,8 @@
                     type="button" th:text="#{button.cancel}">목록으로</button>
         </div>
     </div>
+
+    <hr class="my-4">
 
 </div> <!-- /container -->
 </body>

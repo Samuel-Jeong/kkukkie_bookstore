@@ -34,44 +34,43 @@
             <input type="file" class="form-control" id="imgFile" th:field="*{profileImgFile}" th:errorclass="field-error">
         </div>
 
-        <!--<hr class="my-2">
-        <div>
-            <label for="id" th:text="#{label.member.id}">멤버 ID</label>
-            <input type="text" id="id" th:field="*{id}" class="form-control" readonly>
-        </div>-->
-
         <hr class="my-2">
         <div>
-            <label for="memberName" th:text="#{label.member.name}">멤버명</label>
+            <label for="memberName">멤버명</label>
             <input type="text" id="memberName" th:field="*{username}"
                    th:errorclass="field-error" class="form-control" placeholder="멤버 이름을 입력하세요">
             <div class="field-error" th:errors="*{username}">멤버명 오류</div>
         </div>
+
         <hr class="my-2">
         <div>
-            <label for="memberAge" th:text="#{label.member.age}">멤버 나이</label>
+            <label for="memberAge">멤버 나이</label>
             <input type="text" id="memberAge" th:field="*{age}"
                    th:errorclass="field-error" class="form-control" placeholder="멤버 나이를 입력하세요">
             <div class="field-error" th:errors="*{age}">멤버 나이 오류</div>
         </div>
+
         <hr class="my-2">
         <div>
-            <label for="memberLoginId" th:text="#{label.member.loginId}">멤버 로그인 ID</label>
-            <input type="text" id="memberLoginId" th:field="*{loginId}" class="form-control" readonly>
+            <label for="loginId">로그인 ID</label>
+            <input type="text" id="loginId" th:field="*{loginId}" class="form-control" readonly>
         </div>
+
         <hr class="my-2">
         <div>
-            <label for="memberPassword" th:text="#{label.member.password}">멤버 암호</label>
-            <input type="text" id="memberPassword" th:field="*{password}"
+            <label for="password">비밀번호</label>
+            <input type="text" id="password" th:field="*{password}"
                    th:errorclass="field-error" class="form-control" placeholder="멤버 암호를 입력하세요">
             <div class="field-error" th:errors="*{password}">멤버 암호 오류</div>
         </div>
+
         <hr class="my-2">
         <div>
             <label for="passwordConfirm">비밀번호 확인</label>
             <span id="confirmMsg"></span>
-            <input type="password" id="passwordConfirm" class="form-control" onkeyup="passConfirm()">
+            <input type="password" id="passwordConfirm" class="form-control" oninput="passConfirm()">
         </div>
+
         <hr class="my-2">
         <div>
             <label th:text="#{label.member.role}">멤버 역할</label>
@@ -128,6 +127,8 @@
             </div>
         </div>
 
+        <hr class="my-4">
+
     </form>
 
 </div> <!-- /container -->
@@ -143,15 +144,15 @@
         var password = document.getElementById('password');					//비밀번호
         var passwordConfirm = document.getElementById('passwordConfirm');	//비밀번호 확인 값
         var confirmMsg = document.getElementById('confirmMsg');				//확인 메세지
-        var correctColor = "#00ff00";	//맞았을 때 출력되는 색깔.
+        var correctColor = "#11ff00";	//맞았을 때 출력되는 색깔.
         var wrongColor ="#ff0000";	//틀렸을 때 출력되는 색깔
 
         if(password.value === passwordConfirm.value){//password 변수의 값과 passwordConfirm 변수의 값과 동일하다.
             confirmMsg.style.color = correctColor;/* span 태그의 ID(confirmMsg) 사용  */
-            confirmMsg.innerHTML ="비밀번호 일치";/* innerHTML : HTML 내부에 추가적인 내용을 넣을 때 사용하는 것. */
+            confirmMsg.innerHTML ="일치";/* innerHTML : HTML 내부에 추가적인 내용을 넣을 때 사용하는 것. */
         }else{
             confirmMsg.style.color = wrongColor;
-            confirmMsg.innerHTML ="비밀번호 불일치";
+            confirmMsg.innerHTML ="불일치";
         }
     }
 </script>

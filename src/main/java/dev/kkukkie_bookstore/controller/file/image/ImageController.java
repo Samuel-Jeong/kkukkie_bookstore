@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @Slf4j
 @RestController
-@RequestMapping("/images")
+@RequestMapping("*/images")
 public class ImageController {
 
     private final Environment environment;
