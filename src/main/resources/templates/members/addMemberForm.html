@@ -27,7 +27,7 @@
     <form action="" th:action th:object="${member}" method="post" enctype="multipart/form-data">
 
         <div th:if="${#fields.hasGlobalErrors()}">
-            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
         </div>
 
         <hr class="my-2">
@@ -117,10 +117,10 @@
 
         <div class="row">
             <div class="col">
-                <button class="w-100 btn btn-primary btn-sm" type="submit">추가</button>
+                <button class="w-25 btn btn-primary btn-sm" type="submit">추가</button>
             </div>
             <div class="col">
-                <button class="w-100 btn btn-secondary btn-sm"
+                <button class="w-25 btn btn-secondary btn-sm"
                         th:onclick="|location.href='@{/members}'|"
                         type="button">취소</button>
             </div>

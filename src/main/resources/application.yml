@@ -41,7 +41,7 @@ logging:
   level:
     org.hibernate.sql: error
     #org.hibernate.type: trace # > ???(binding parameter)? ? ? ??
-    root: debug
+    root: info
   logback:
     rollingpolicy:
       file-name-pattern: kkukkie_bookstore-%d{yyyy-MM-dd}.%i.log

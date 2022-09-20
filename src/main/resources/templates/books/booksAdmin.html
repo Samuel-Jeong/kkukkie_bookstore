@@ -15,7 +15,7 @@
 
     <div class="row">
         <div class="col">
-            <td><a href="addForm.html" class="w-100 btn btn-primary btn-sm"
+            <td><a href="addForm.html" class="w-25 btn btn-primary btn-sm"
                    th:href="@{/books/{memberId}/add(memberId=${memberId})}"
                    th:text="#{label.book.add}">
                 책 등록</a>
@@ -23,7 +23,7 @@
         </div>
 
         <div class="col">
-            <button class="w-100 btn btn-secondary btn-sm"
+            <button class="w-25 btn btn-secondary btn-sm"
                     onclick="location.href='books.html'"
                     th:onclick="|location.href='@{/}'|"
                     type="button" th:text="#{button.back}">뒤로</button>

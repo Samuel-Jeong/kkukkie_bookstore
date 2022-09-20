@@ -24,26 +24,32 @@
 
     <div class="row">
         <div class="col">
-            <button class="w-100 btn btn-secondary btn-sm" type="button"
+            <button class="w-25 btn btn-secondary btn-sm" type="button"
                     th:onclick="|location.href='@{/teams}'|">
                 팀 관리
             </button>
         </div>
         <div class="col">
-            <button class="w-100 btn btn-secondary btn-sm" type="button"
+            <button class="w-25 btn btn-secondary btn-sm" type="button"
                     th:onclick="|location.href='@{/members}'|">
                 멤버 관리
             </button>
         </div>
         <div class="col">
-            <button class="w-100 btn btn-secondary btn-sm" type="button"
+            <button class="w-25 btn btn-secondary btn-sm" type="button"
                     th:onclick="|location.href='@{/books/{memberId}(memberId=${member.id})}'|">
             책 관리
             </button>
         </div>
         <div class="col">
+            <button class="w-25 btn btn-secondary btn-sm" type="button"
+                    th:onclick="|location.href='@{/boards/{memberId}(memberId=${member.id})}'|">
+            게시판
+            </button>
+        </div>
+        <div class="col">
             <form th:action="@{/logout}" method="post">
-                <button class="w-100 btn btn-dark btn-sm" onclick="location.href='items.html'" type="submit">
+                <button class="w-25 btn btn-dark btn-sm" onclick="location.href='items.html'" type="submit">
                     로그아웃
                 </button>
             </form>

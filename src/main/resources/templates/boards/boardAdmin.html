@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <title>쿠키의 서점</title>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="max-width: 800px">
+
+    <hr class="my-4">
+
+    <table class ="table table-bordered">
+        <thead>
+        <tr>
+            <th>제목</th>
+            <td th:text="${board.title}"></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th>작성자</th>
+            <td th:text="${board.author}"></td>
+        </tr>
+        <tr>
+            <th>작성일</th>
+            <td th:inline="text">[[${#temporals.format(board.createDateTime, 'yyyy-MM-dd HH:mm')}]]</td>
+        </tr>
+        <tr>
+            <th>마지막 수정일</th>
+            <td th:inline="text">[[${#temporals.format(board.lastModifiedDateTime, 'yyyy-MM-dd HH:mm')}]]</td>
+        </tr>
+        <hr class="my-2">
+        <tr>
+            <td colspan="2" th:text="${board.content}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col">
+            <button class="w-25 btn btn-primary btn-sm"
+                    onclick="location.href='updateBoard.html'"
+                    th:onclick="|location.href='@{/boards/{memberId}/{boardId}/update(boardId=${board.id},memberId=${memberId})}'|"
+                    type="button">수정</button>
+        </div>
+        <div class="col">
+            <button class="w-25 btn btn-primary btn-sm"
+                    th:onclick="|location.href='@{/boards/{memberId}/{boardId}/delete(boardId=${board.id},memberId=${memberId})}'|"
+                    type="button">삭제</button>
+        </div>
+        <div class="col">
+            <button class="w-25 btn btn-secondary btn-sm"
+                    onclick="location.href='boards.html'"
+                    th:onclick="|location.href='@{/boards/{memberId}(memberId=${memberId})}'|"
+                    type="button">목록으로</button>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

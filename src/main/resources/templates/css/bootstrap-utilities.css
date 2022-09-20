@@ -488,7 +488,7 @@
   width: 75% !important;
 }
 
-.w-100 {
+.w-25 {
   width: 100% !important;
 }
 
@@ -496,15 +496,15 @@
   width: auto !important;
 }
 
-.mw-100 {
+.mw-25 {
   max-width: 100% !important;
 }
 
-.vw-100 {
+.vw-25 {
   width: 100vw !important;
 }
 
-.min-vw-100 {
+.min-vw-25 {
   min-width: 100vw !important;
 }
 

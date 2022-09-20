@@ -92,18 +92,18 @@
 
     <div class="row">
         <div class="col">
-            <button class="w-100 btn btn-primary btn-sm"
+            <button class="w-25 btn btn-primary btn-sm"
                     onclick="location.href='editMemberForm.html'"
                     th:onclick="|location.href='@{/members/{memberId}/edit(memberId=${member.id})}'|"
                     type="button" th:text="#{page.updateMember}">멤버 수정</button>
         </div>
         <div class="col">
-            <button class="w-100 btn btn-primary btn-sm"
+            <button class="w-25 btn btn-primary btn-sm"
                     th:onclick="|location.href='@{/members/{memberId}/delete(memberId=${member.id})}'|"
                     type="button" th:text="#{page.deleteMember}">멤버 삭제</button>
         </div>
         <div class="col">
-            <button class="w-100 btn btn-secondary btn-sm"
+            <button class="w-25 btn btn-secondary btn-sm"
                     onclick="location.href='members.html'"
                     th:onclick="|location.href='@{/members}'|"
                     type="button" th:text="#{button.cancel}">목록으로</button>

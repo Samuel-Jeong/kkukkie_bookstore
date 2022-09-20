@@ -83,14 +83,20 @@
 
     <div class="row">
         <div class="col">
-            <button class="w-100 btn btn-secondary btn-sm" type="button"
+            <button class="w-50 btn btn-secondary btn-sm" type="button"
                     th:onclick="|location.href='@{/books/{memberId}(memberId=${member.id})}'|">
                 책 목록
             </button>
         </div>
         <div class="col">
+            <button class="w-50 btn btn-secondary btn-sm" type="button"
+                    th:onclick="|location.href='@{/boards/{memberId}(memberId=${member.id})}'|">
+                게시판
+            </button>
+        </div>
+        <div class="col">
             <form th:action="@{/logout}" method="post">
-                <button class="w-100 btn btn-dark btn-sm"
+                <button class="w-50 btn btn-dark btn-sm"
                         onclick="location.href='items.html'"
                         type="submit">
                     로그아웃
