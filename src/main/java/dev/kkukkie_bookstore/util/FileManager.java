@@ -176,7 +176,9 @@ public class FileManager {
             } else {
                 FileUtils.forceDelete(file);
             }
-            //logger.debug("[FileManager] Success to delete the file. (path={})", file.getAbsolutePath());
+            if (!file.exists()) {
+                logger.info("[FileManager] Success to delete the file. (path={})", file.getAbsolutePath());
+            }
             return true;
         } catch (Exception e) {
             logger.warn("[FileManager] Fail to delete the file. (path={})", file.getAbsolutePath(), e);

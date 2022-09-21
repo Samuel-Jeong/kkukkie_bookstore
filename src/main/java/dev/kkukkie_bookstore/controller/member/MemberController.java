@@ -182,6 +182,7 @@ public class MemberController {
                 model.addAttribute("teams", teams);
             }
 
+            log.warn("errors={}", bindingResult);
             return "members/addMemberForm";
         }
 
@@ -210,6 +211,12 @@ public class MemberController {
     @GetMapping("/{memberId}/edit")
     public String editForm(@PathVariable Long memberId, Model model) {
         Member member = memberRepository.findById(memberId).orElse(null);
+
+        if (member != null) {
+            member.setPassword("");
+        }
+
+        model.addAttribute("memberId", memberId);
         model.addAttribute("member", member);
 
         List<Team> teams = teamRepository.findAll();
@@ -223,20 +230,26 @@ public class MemberController {
     @PostMapping("/{memberId}/edit")
     public String edit(@PathVariable Long memberId,
                        @Validated @ModelAttribute("member") MemberUpdateForm memberUpdateForm,
-                       BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+                       BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) {
             bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
         }
 
         Team team = memberUpdateForm.getTeam();
-        if (team.getName() == null || team.getName().isEmpty()) {
+        if (team == null || team.getName() == null || team.getName().isEmpty()) {
             bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
         }
 
         memberService.updateMember(memberUpdateForm, bindingResult, member);
 
         if (member == null || bindingResult.hasErrors()) {
+            List<Team> teams = teamRepository.findAll();
+            if (!teams.isEmpty()) {
+                model.addAttribute("teams", teams);
+            }
+
+            log.warn("errors={}", bindingResult);
             return "members/editMemberForm";
         }
 

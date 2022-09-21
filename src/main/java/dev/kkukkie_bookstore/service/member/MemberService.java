@@ -110,9 +110,10 @@ public class MemberService {
         }
 
         String fileName = profileImgFile.getOriginalFilename();
+        if (fileName == null || fileName.isEmpty()) { return; }
+
         String extension = FilenameUtils.getExtension(fileName);
-        if (extension == null || extension.isEmpty()
-                || !allowedExtensions.contains(extension)) {
+        if (extension.isEmpty() || !allowedExtensions.contains(extension)) {
             throw new ImageExtensionException();
         }
 
@@ -207,7 +208,8 @@ public class MemberService {
 
                 // 프로파일 이미지 선택은 Option
                 MultipartFile profileImgFile = memberUpdateForm.getProfileImgFile();
-                if (profileImgFile != null) {
+                if ((profileImgFile != null)
+                        && (!profileImgFile.getName().isEmpty())) {
                     // 기존에 프로파일 이미지가 있으면 해당 파일 삭제
                     deletePrevProfileImage(member);
 

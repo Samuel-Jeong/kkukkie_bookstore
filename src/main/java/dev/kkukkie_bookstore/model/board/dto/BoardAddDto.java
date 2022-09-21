@@ -12,10 +12,6 @@ public class BoardAddDto {
     @NotNull
     private String title;
 
-    @NotEmpty
-    @NotNull
-    private String author;
-
     private String content;
 
 }

@@ -11,6 +11,7 @@ import javax.validation.constraints.Pattern;
 @Data
 public class MemberRegisterForm {
 
+    @NotNull
     private MultipartFile profileImgFile;
 
     @NotEmpty

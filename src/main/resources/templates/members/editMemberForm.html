@@ -59,7 +59,7 @@
         <hr class="my-2">
         <div>
             <label for="password">비밀번호</label>
-            <input type="text" id="password" th:field="*{password}"
+            <input type="password" id="password" th:field="*{password}"
                    th:errorclass="field-error" class="form-control" placeholder="멤버 암호를 입력하세요">
             <div class="field-error" th:errors="*{password}">멤버 암호 오류</div>
         </div>
@@ -122,7 +122,7 @@
             <div class="col">
                 <button class="w-25 btn btn-secondary btn-sm"
                         onclick="location.href='member.html'"
-                        th:onclick="|location.href='@{/members/{memberId}(memberId=${member.id})}'|"
+                        th:onclick="|location.href='@{/members/{memberId}(memberId=${memberId})}'|"
                         type="button" th:text="#{button.cancel}">취소</button>
             </div>
         </div>

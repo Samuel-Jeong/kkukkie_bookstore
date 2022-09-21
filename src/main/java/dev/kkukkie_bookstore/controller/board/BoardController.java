@@ -83,7 +83,6 @@ public class BoardController {
                       @Validated @ModelAttribute("board") BoardAddDto boardAddDto,
                       BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         String title = boardAddDto.getTitle();
-        String author = boardAddDto.getAuthor();
         String content = boardAddDto.getContent();
 
         if (bindingResult.hasErrors()) {
@@ -91,7 +90,12 @@ public class BoardController {
             return "boards/addBoard";
         }
 
-        Board board = new Board(title, author, content);
+        Member member = memberRepository.findById(memberId).orElse(null);
+        if (member == null) {
+            return "redirect:/";
+        }
+
+        Board board = new Board(title, member.getUsername(), content);
         Board saveBoard = boardRepository.save(board);
 
         redirectAttributes.addAttribute("memberId", memberId);
