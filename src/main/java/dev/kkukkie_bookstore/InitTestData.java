@@ -6,24 +6,16 @@ import dev.kkukkie_bookstore.model.member.Member;
 import dev.kkukkie_bookstore.model.member.role.MemberRole;
 import dev.kkukkie_bookstore.model.team.Team;
 import dev.kkukkie_bookstore.service.member.MemberService;
-import dev.kkukkie_bookstore.util.FileManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
-import org.aspectj.util.FileUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.management.RuntimeErrorException;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.File;
-import java.io.IOException;
-import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -32,7 +24,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class InitTestData {
 
-    public static final String SUPER_TEAM_NAME = "ADMIN";
     public static final String GUEST_TEAM_NAME = "GUEST";
 
     private final InitMemberService initMemberService;
@@ -66,10 +57,6 @@ public class InitTestData {
             File file = new File(profileImgBasePath, DEFAULT_PROFILE_IMG_NAME);
             //
 
-            //
-            Team adminTeam = new Team(SUPER_TEAM_NAME);
-            entityManager.persist(adminTeam);
-
             // 테스트용 프로파일 이미지 생성
             String imageId = DEFAULT_PROFILE_IMG_NAME;
 
@@ -96,13 +83,6 @@ public class InitTestData {
                     profileImgBasePath,
                     file.length()
             );
-
-            Member admin = new Member("admin", 999, adminTeam);
-            admin.setLoginId("admin");
-            admin.setPassword("admin.123");
-            admin.setRole(MemberRole.ADMIN);
-            admin.setProfileImgFile(profileImgFile);
-            entityManager.persist(admin);
             //
 
             //

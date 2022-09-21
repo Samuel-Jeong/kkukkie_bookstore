@@ -32,22 +32,8 @@ spring:
         max-page-size: 2000
         #one-indexed-parameters: true
 
-
 logging:
-  file:
-    name: /Users/jamesj/GIT_PROJECTS/kkukkie_bookstore/src/main/resources/logs/kkukkie_bookstore.log
-  pattern:
-    file: "[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
-  level:
-    org.hibernate.sql: error
-    #org.hibernate.type: trace # > ???(binding parameter)? ? ? ??
-    root: info
-  logback:
-    rollingpolicy:
-      file-name-pattern: kkukkie_bookstore-%d{yyyy-MM-dd}.%i.log
-      max-file-size: 200MB
-      max-history: 20
-      total-size-cap: 200MB
+  config: classpath:logback-${spring.config.activate.on-profile}.xml
 
 server:
   servlet:
@@ -68,28 +54,23 @@ spring:
     activate:
       on-profile: prod
 
-  # Need to change to mysql
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/kkukkie_bookstore
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: false
         show_sql: false
         use_sql_comments: false # Print jpql
         #dialect: org.hibernate.dialect.Oracle10gDialect
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
   servlet:
     multipart:
-      location: /Users/jamesj/GIT_PROJECTS/kkukkie_bookstore/src/main/resources/templates/images
+      location: /var/kkukie_bookstore/resources/images
       maxFileSize: 200MB
       maxRequestSize: 100MB
+
   data:
     web:
       pageable:
@@ -98,20 +79,7 @@ spring:
         #one-indexed-parameters: true
 
 logging:
-  file:
-    name: /Users/jamesj/GIT_PROJECTS/kkukkie_bookstore/src/main/resources/logs/kkukkie_bookstore.log
-  pattern:
-    file: "[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
-  level:
-    org.hibernate.sql: error
-    #org.hibernate.type: trace # > ???(binding parameter)? ? ? ??
-    root: error
-  logback:
-    rollingpolicy:
-      file-name-pattern: kkukkie_bookstore-%d{yyyy-MM-dd}.%i.log
-      max-file-size: 200MB
-      max-history: 20
-      total-size-cap: 200MB
+  config: classpath:logback-${spring.config.activate.on-profile}.xml
 
 server:
   servlet:

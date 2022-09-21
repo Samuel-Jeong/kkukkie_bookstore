@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-import static dev.kkukkie_bookstore.InitTestData.SUPER_TEAM_NAME;
+import static dev.kkukkie_bookstore.InitAdminData.SUPER_TEAM_NAME;
 
 @Slf4j
 @Controller

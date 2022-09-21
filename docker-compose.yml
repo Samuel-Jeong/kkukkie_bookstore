@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  database:
+    image: mysql
+    container_name: kkukie_bookstore_db_1
+    environment:
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: kkukie
+      MYSQL_PASSWORD: kkukie.123
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    ports:
+      - 3306:3306
+    networks:
+      - springboot-mysql-net
+    volumes:
+      - ./db:/var/lib/mysql
+
+  app:
+    container_name: kkukie_bookstore
+    #restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/mydb?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: kkukie
+      SPRING_DATASOURCE_PASSWORD: kkukie.123
+    volumes:
+      - /tmp/kkukie_bookstore:/var/kkukie_bookstore
+    networks:
+      - springboot-mysql-net
+
+networks:
+  springboot-mysql-net:
+    driver: bridge

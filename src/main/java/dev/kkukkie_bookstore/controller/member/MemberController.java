@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dev.kkukkie_bookstore.InitTestData.SUPER_TEAM_NAME;
+import static dev.kkukkie_bookstore.InitAdminData.SUPER_TEAM_NAME;
 
 @Slf4j
 @Controller
@@ -103,7 +103,7 @@ public class MemberController {
         checkDuplicateMemberAtRegisterByLoginId(memberRegisterForm, bindingResult);
 
         Team team = memberRegisterForm.getTeam();
-        if (team.getName() == null || team.getName().isEmpty()) {
+        if (team == null || team.getName() == null || team.getName().isEmpty()) {
             bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
         }
 
@@ -162,7 +162,7 @@ public class MemberController {
         checkDuplicateMemberAtAddByLoginId(memberAddForm, bindingResult);
 
         Team team = memberAddForm.getTeam();
-        if (team.getName() == null || team.getName().isEmpty()) {
+        if (team == null || team.getName() == null || team.getName().isEmpty()) {
             bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
         }
 

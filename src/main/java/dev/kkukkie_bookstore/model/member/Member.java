@@ -34,12 +34,12 @@ public class Member extends BaseEntity {
     @Embedded
     private ImageFile profileImgFile;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "team_id")
     @ToString.Exclude
     private Team team;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Book> books = new ArrayList<>();
 
     ////////////////////////////////////////////////////////

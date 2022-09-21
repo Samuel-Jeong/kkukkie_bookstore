@@ -1,7 +1,6 @@
 package dev.kkukkie_bookstore.model.board;
 
 import dev.kkukkie_bookstore.model.base.BaseEntity;
-import dev.kkukkie_bookstore.model.board.dto.BoardAddDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
