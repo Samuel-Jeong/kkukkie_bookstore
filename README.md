@@ -1,15 +1,15 @@
 ~~~
-KKukkie's bookstore
+[ KKukkie's bookstore ]
 ~~~
 ![IMG_1041](https://user-images.githubusercontent.com/37236920/187603755-ac393017-c9f8-4d96-9a12-174f09e62c02.JPG)
   
-## Purpose
+## [1] Purpose
 ~~~
 - 서점 운영 시스템 구축
 - 복잡한 개발보다는 [Spring Boot] 와 [Spring Data JPA] 를 사용한 개발 방법 적용
 ~~~
   
-## Function
+## [2] Function
 ### 1) 팀 + 계정 관리
 ~~~
 - 사용자 계정은 특정 팀에 아래 종속되어 관리된다.
@@ -25,7 +25,7 @@ KKukkie's bookstore
 - 사용자는 자신의 계정에 책 정보를 추가할 수 있다. (장바구니 기능 또는 즐겨찾기 기능, 향후 구현 예정)
 ~~~
   
-## Tech
+## [3] 사용 기술
 ~~~
 1) Spring boot
 2) Spring data jpa
@@ -33,13 +33,13 @@ KKukkie's bookstore
 4) Thymeleaf
 ~~~
   
-## Flow
+## [4] Flow
 ![스크린샷 2022-08-31 오후 3 36 13](https://user-images.githubusercontent.com/37236920/187610083-17c11c65-c8cd-4a8e-8087-e789c0cbc3f0.png)
   
-## 운영 환경
+## [5] 운영 환경
 ![스크린샷 2022-09-22 오전 8 19 04](https://user-images.githubusercontent.com/37236920/191626592-7b9b848e-f847-4ab8-b388-0bbd50003576.png)
   
-## 홈페이지 화면 상세
+## [6] 홈페이지 화면 상세
 ### 1) 홈
 
   
