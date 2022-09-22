@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="ko">
 
 <head>
-    <meta charset="utf-8">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <title>쿠키네 서점</title>
+
+    <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-
-    <!-- Favicon -->
-    <link href="icon/favicon.ico" rel="icon">
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -45,7 +45,7 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav ml-auto p-4">
-                    <a href="home.html" class="nav-item nav-link active">홈</a>
+                    <!--<a href="home.html" class="nav-item nav-link active">홈</a>-->
                     <a type="button" class="nav-item nav-link bg-transparent" th:onclick="|location.href='@{/members/register}'|" >회원가입</a>
                     <a type="button" class="nav-item nav-link bg-transparent" th:onclick="|location.href='@{/login}'|" >로그인</a>
                 </div>
