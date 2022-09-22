@@ -30,6 +30,8 @@ import static dev.kkukkie_bookstore.InitAdminData.SUPER_TEAM_NAME;
 @RequestMapping("/members")
 public class MemberController {
 
+    private final String AUTH_CODE = "3f806e81-fa6d-4c7f-b11a-196138c2e74f";
+
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
 
@@ -99,25 +101,32 @@ public class MemberController {
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("member") MemberRegisterForm memberRegisterForm,
                            BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-
-        checkDuplicateMemberAtRegisterByLoginId(memberRegisterForm, bindingResult);
-
-        Team team = memberRegisterForm.getTeam();
-        if (team == null || team.getName() == null || team.getName().isEmpty()) {
-            bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
+        String authenticationCode = memberRegisterForm.getAuthenticationCode();
+        if (!authenticationCode.equals(AUTH_CODE)) { // TODO : AUTH_CODE by CustomMessageService
+            bindingResult.reject("AuthenticationFailed", new Object[]{}, "인증 실패");
         }
 
-        Member member = memberService.saveMember(
-                memberRegisterForm.getLoginId(),
-                memberRegisterForm.getPassword(),
-                memberRegisterForm.getUsername(),
-                memberRegisterForm.getAge(),
-                memberRegisterForm.getTeam(),
-                memberRegisterForm.getProfileImgFile(),
-                bindingResult
-        );
+        Member member = null;
+        if (!bindingResult.hasErrors()) {
+            checkDuplicateMemberAtRegisterByLoginId(memberRegisterForm, bindingResult);
 
-        if (member == null || bindingResult.hasErrors()) {
+            Team team = memberRegisterForm.getTeam();
+            if (team == null || team.getName() == null || team.getName().isEmpty()) {
+                bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
+            }
+
+            member = memberService.saveMember(
+                    memberRegisterForm.getLoginId(),
+                    memberRegisterForm.getPassword(),
+                    memberRegisterForm.getUsername(),
+                    memberRegisterForm.getAge(),
+                    memberRegisterForm.getTeam(),
+                    memberRegisterForm.getProfileImgFile(),
+                    bindingResult
+            );
+        }
+
+        if (member == null) {
             List<Team> teams = teamRepository.findAll();
             if (!teams.isEmpty()) {
                 teams.removeIf(foundTeam -> foundTeam.getName().equals(SUPER_TEAM_NAME));

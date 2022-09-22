@@ -37,4 +37,9 @@ public class MemberRegisterForm {
     @NotNull
     private Team team;
 
+    @NotEmpty
+    @NotNull
+    @Pattern(regexp = "[A-Za-z0-9]{1,40}", message = "인증문자 최대 길이는 40입니다. 영문자와 숫자만 입력 가능합니다.")
+    private String authenticationCode;
+
 }

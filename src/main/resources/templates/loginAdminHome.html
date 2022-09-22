@@ -50,6 +50,7 @@
     <div class="row">
         <div class="col">
             <form th:action="@{/logout}" method="post">
+                <button class="btn-primary" type="button" onclick="sendRequest()">인증 코드 발급</button>
                 <button class="btn-primary" onclick="location.href='items.html'" type="submit">로그아웃</button>
             </form>
         </div>
@@ -60,4 +61,20 @@
 </div> <!-- /container -->
 
 </body>
+
+<script type="text/javascript">
+
+    function sendRequest() {
+        const Http = new XMLHttpRequest();
+        const url='https://kauth.kakao.com/oauth/authorize?client_id=334597f4502c5ce340c507ce0126502f&redirect_uri=http://localhost:8080/auth&response_type=code&scope=talk_message';
+        Http.open("POST", url);
+        Http.send();
+
+        Http.onreadystatechange = (e) => {
+            console.log(Http.responseText)
+        }
+    }
+
+</script>
+
 </html>

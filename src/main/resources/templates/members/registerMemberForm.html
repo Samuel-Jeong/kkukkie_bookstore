@@ -86,6 +86,14 @@
             <div class="field-error" th:errors="*{age}"></div>
         </div>
 
+        <hr class="my-2">
+        <div>
+            <label for="authenticationCode">인증 코드</label>
+            <input type="password" id="authenticationCode" th:field="*{authenticationCode}" class="form-control"
+                   th:errorclass="field-error">
+            <div class="field-error" th:errors="*{authenticationCode}"></div>
+        </div>
+
         <hr class="my-4">
 
         <div>

@@ -42,6 +42,10 @@ public class Member extends BaseEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Book> books = new ArrayList<>();
 
+    // Only for authentication code (by kakao)
+    @Transient
+    private String authenticationCode;
+
     ////////////////////////////////////////////////////////
 
     public Member(String username) {
