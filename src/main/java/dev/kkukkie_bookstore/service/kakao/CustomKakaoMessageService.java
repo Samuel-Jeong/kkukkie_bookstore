@@ -26,7 +26,7 @@ public class CustomKakaoMessageService {
         myMsg.setWebUrl("");
 
         // AdminAuthService 에 UUID 등록
-        String uuid = UUID.randomUUID().toString();
+        String uuid = UUID.randomUUID().toString().substring(0, 10);
         authService.addAuthCode(uuid);
         myMsg.setText(uuid);
 

@@ -91,7 +91,7 @@ public class BoardController {
         String content = boardAddDto.getContent();
 
         if (bindingResult.hasErrors()) {
-            log.warn("errors={}", bindingResult);
+            //log.warn("errors={}", bindingResult);
             return "boards/addBoard";
         }
 
@@ -127,11 +127,11 @@ public class BoardController {
 
         Board board = boardRepository.findById(boardId).orElse(null);
         if (board == null) {
-            bindingResult.reject("NotFoundBoard", new Object[]{boardId}, null);
+            bindingResult.reject("NotFoundBoard", new Object[]{boardId}, "게시판이 존재하지 않습니다.");
         }
 
         if (bindingResult.hasErrors()) {
-            log.warn("errors={}", bindingResult);
+            //log.warn("errors={}", bindingResult);
             return "redirect:/boards/{memberId}";
         }
 
@@ -160,11 +160,11 @@ public class BoardController {
 
         Board board = boardRepository.findById(boardId).orElse(null);
         if (board == null) {
-            bindingResult.reject("NotFoundBoard", new Object[]{boardId}, null);
+            bindingResult.reject("NotFoundBoard", new Object[]{boardId}, "게시판이 존재하지 않습니다.");
         }
 
         if (bindingResult.hasErrors()) {
-            log.warn("errors={}", bindingResult);
+            //log.warn("errors={}", bindingResult);
             return "redirect:/boards/{memberId}";
         }
 

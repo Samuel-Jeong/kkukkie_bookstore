@@ -187,11 +187,11 @@ public class MemberService {
             }
         } catch (Exception e) {
             if (e.getClass().equals(ImageSizeException.class)) {
-                bindingResult.reject("ImageSizeException", new Object[]{profileImgFile.getSize()}, null);
+                bindingResult.reject("ImageSizeException", new Object[]{profileImgFile.getSize()}, "프로필 이미지 크기가 너무 큽니다.");
             } else if (e.getClass().equals(ImageExtensionException.class)) {
-                bindingResult.reject("ImageExtensionException", new Object[]{allowedExtensions.toArray()}, null);
+                bindingResult.reject("ImageExtensionException", new Object[]{allowedExtensions.toArray()}, "등록할 프로필 이미지 파일의 확장자는 지원하지 않습니다.");
             } else {
-                bindingResult.reject("InputException", new Object[]{}, null);
+                bindingResult.reject("InputException", new Object[]{}, "입력값 확인이 필요합니다.");
             }
         }
         return member;
@@ -218,11 +218,11 @@ public class MemberService {
                 }
             } catch (Exception e) {
                 if (e.getClass().equals(ImageSizeException.class)) {
-                    bindingResult.reject("ImageSizeException", new Object[]{memberUpdateForm.getProfileImgFile().getSize()}, null);
+                    bindingResult.reject("ImageSizeException", new Object[]{memberUpdateForm.getProfileImgFile().getSize()}, "프로필 이미지 크기가 너무 큽니다.");
                 } else if (e.getClass().equals(ImageExtensionException.class)) {
-                    bindingResult.reject("ImageExtensionException", new Object[]{allowedExtensions.toArray()}, null);
+                    bindingResult.reject("ImageExtensionException", new Object[]{allowedExtensions.toArray()}, "등록할 프로필 이미지 파일의 확장자는 지원하지 않습니다.");
                 } else {
-                    bindingResult.reject("InputException", new Object[]{}, null);
+                    bindingResult.reject("InputException", new Object[]{}, "입력값 확인이 필요합니다.");
                 }
             }
         }

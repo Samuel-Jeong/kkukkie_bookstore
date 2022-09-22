@@ -113,9 +113,19 @@ public class MemberController {
         if (!bindingResult.hasErrors()) {
             checkDuplicateMemberAtRegisterByLoginId(memberRegisterForm, bindingResult);
 
+            if (bindingResult.hasErrors()) {
+                List<Team> teams = teamRepository.findAll();
+                if (!teams.isEmpty()) {
+                    model.addAttribute("teams", teams);
+                }
+
+                //log.warn("errors={}", bindingResult);
+                return "members/registerMemberForm";
+            }
+
             Team team = memberRegisterForm.getTeam();
             if (team == null || team.getName() == null || team.getName().isEmpty()) {
-                bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
+                bindingResult.reject("TeamIsNotSelected", new Object[]{}, "팀이 선택되지 않았습니다.");
             }
 
             member = memberService.saveMember(
@@ -152,7 +162,7 @@ public class MemberController {
                 memberRegisterForm.getLoginId()).ifPresent(
                 foundMember ->
                         bindingResult.reject(
-                                "MemberAlreadyExist", new Object[]{foundMember.getId()}, null
+                                "MemberAlreadyExistByLoginId", new Object[]{foundMember.getId()}, "로그인 ID 가 이미 존재합니다."
                         )
         );
     }
@@ -173,9 +183,19 @@ public class MemberController {
 
         checkDuplicateMemberAtAddByLoginId(memberAddForm, bindingResult);
 
+        if (bindingResult.hasErrors()) {
+            List<Team> teams = teamRepository.findAll();
+            if (!teams.isEmpty()) {
+                model.addAttribute("teams", teams);
+            }
+
+            //log.warn("errors={}", bindingResult);
+            return "members/addMemberForm";
+        }
+
         Team team = memberAddForm.getTeam();
         if (team == null || team.getName() == null || team.getName().isEmpty()) {
-            bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
+            bindingResult.reject("TeamIsNotSelected", new Object[]{}, "팀이 선택되지 않았습니다.");
         }
 
         Member member = memberService.saveMember(
@@ -194,7 +214,7 @@ public class MemberController {
                 model.addAttribute("teams", teams);
             }
 
-            log.warn("errors={}", bindingResult);
+            //log.warn("errors={}", bindingResult);
             return "members/addMemberForm";
         }
 
@@ -215,7 +235,7 @@ public class MemberController {
                                 bindingResult.reject(
                                         "MemberAlreadyExist",
                                         new Object[]{foundMember.getId()},
-                                        null
+                                        "로그인 ID 가 이미 존재합니다."
                                 )
                 );
     }
@@ -245,12 +265,12 @@ public class MemberController {
                        BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) {
-            bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
+            bindingResult.reject("NotFoundMember", new Object[]{memberId}, "사용자를 찾을 수 없습니다.");
         }
 
         Team team = memberUpdateForm.getTeam();
         if (team == null || team.getName() == null || team.getName().isEmpty()) {
-            bindingResult.reject("TeamIsNotSelected", new Object[]{}, null);
+            bindingResult.reject("TeamIsNotSelected", new Object[]{}, "팀이 선택되지 않았습니다.");
         }
 
         memberService.updateMember(memberUpdateForm, bindingResult, member);
@@ -261,7 +281,7 @@ public class MemberController {
                 model.addAttribute("teams", teams);
             }
 
-            log.warn("errors={}", bindingResult);
+            //log.warn("errors={}", bindingResult);
             return "members/editMemberForm";
         }
 
@@ -285,11 +305,11 @@ public class MemberController {
 
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) {
-            bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
+            bindingResult.reject("NotFoundMember", new Object[]{memberId}, "사용자를 찾을 수 없습니다.");
         }
 
         if (bindingResult.hasErrors()) {
-            log.warn("errors={}", bindingResult);
+            //log.warn("errors={}", bindingResult);
             return "redirect:/members";
         }
 

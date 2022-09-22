@@ -38,17 +38,17 @@ public class TeamController {
     public String add(@Validated @ModelAttribute("team") TeamSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         String name = form.getName();
         if (name.isEmpty()) {
-            bindingResult.reject("NameError", new Object[]{name}, null);
+            bindingResult.reject("NameError", new Object[]{name}, "팀 이름이 비어있습니다.");
         }
 
         // 팀 이름으로 중복 체크
         Team team = teamRepository.findByName(form.getName()).orElse(null);
         if (team != null) {
-            bindingResult.reject("TeamAlreadyExist", new Object[]{team.getId()}, null);
+            bindingResult.reject("TeamAlreadyExist", new Object[]{team.getId()}, "팀이 이미 존재합니다.");
         }
 
         if (bindingResult.hasErrors()) {
-            log.warn("errors={}", bindingResult);
+            //log.warn("errors={}", bindingResult);
             return "teams/addTeamForm";
         }
 
@@ -76,18 +76,18 @@ public class TeamController {
     public String delete(@PathVariable Long teamId, @Validated @ModelAttribute("team") TeamDeleteForm form, BindingResult bindingResult) {
         String name = form.getName();
         if (name.isEmpty()) {
-            bindingResult.reject("NameError", new Object[]{name}, null);
+            bindingResult.reject("NameError", new Object[]{name}, "팀 이름이 비어있습니다.");
         } else if (name.equals(SUPER_TEAM_NAME)) {
-            bindingResult.reject("NameError", new Object[]{name}, null);
+            bindingResult.reject("NameError", new Object[]{name}, "관리자 팀은 삭제할 수 없습니다.");
         }
 
         Team team = teamRepository.findById(teamId).orElse(null);
         if (team == null) {
-            bindingResult.reject("NotFoundTeam", new Object[]{teamId}, null);
+            bindingResult.reject("NotFoundTeam", new Object[]{teamId}, "팀이 존재하지 않습니다.");
         }
 
         if (bindingResult.hasErrors()) {
-            log.warn("errors={}", bindingResult);
+            //log.warn("errors={}", bindingResult);
             return "redirect:/teams";
         }
 
@@ -133,12 +133,12 @@ public class TeamController {
     public String edit(@PathVariable Long teamId, @Validated @ModelAttribute("team") TeamUpdateForm form, BindingResult bindingResult) {
         String name = form.getName();
         if (name.isEmpty()) {
-            bindingResult.reject("NameError", new Object[]{name}, null);
+            bindingResult.reject("NameError", new Object[]{name}, "팀 이름이 비어있습니다.");
         }
 
         Team team = teamRepository.findById(teamId).orElse(null);
         if (team == null) {
-            bindingResult.reject("NotFoundTeam", new Object[]{teamId}, null);
+            bindingResult.reject("NotFoundTeam", new Object[]{teamId}, "팀이 존재하지 않습니다.");
         }
 
         if (bindingResult.hasErrors()) {

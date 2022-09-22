@@ -111,7 +111,7 @@ public class BookController {
                     bookAddForm.getIsbn()
             );
         } catch (Exception e) {
-            bindingResult.reject("InputException", new Object[]{}, null);
+            bindingResult.reject("InputException", new Object[]{}, "입력값 확인이 필요합니다.");
         }
 
         if (book == null || bindingResult.hasErrors()) {
@@ -134,7 +134,7 @@ public class BookController {
                                 bindingResult.reject(
                                         "BookAlreadyExist",
                                         new Object[]{foundBook.getIsbn()},
-                                        null
+                                        "등록할 ISBN 이 이미 존재합니다."
                                 )
                 );
     }
@@ -157,7 +157,7 @@ public class BookController {
 
         Book book = bookRepository.findById(bookId).orElse(null);
         if (book == null) {
-            bindingResult.reject("NotFoundBook", new Object[]{bookId}, null);
+            bindingResult.reject("NotFoundBook", new Object[]{bookId}, "책이 존재하지 않습니다.");
         }
 
         if (book != null) {
@@ -165,7 +165,7 @@ public class BookController {
                 book.setPrice(Integer.parseInt(bookUpdateForm.getPrice()));
                 book.setCount(Integer.parseInt(bookUpdateForm.getCount()));
             } catch (Exception e) {
-                bindingResult.reject("InputException", new Object[]{}, null);
+                bindingResult.reject("InputException", new Object[]{}, "입력값 확인이 필요합니다.");
             }
         }
 
@@ -199,14 +199,14 @@ public class BookController {
 
         Book book = bookRepository.findById(bookId).orElse(null);
         if (book == null) {
-            bindingResult.reject("NotFoundBook", new Object[]{bookId}, null);
+            bindingResult.reject("NotFoundBook", new Object[]{bookId}, "책이 존재하지 않습니다.");
         }
 
         redirectAttributes.addAttribute("memberId", memberId);
         redirectAttributes.addAttribute("bookId", bookId);
 
         if (bindingResult.hasErrors()) {
-            log.warn("errors={}", bindingResult);
+            //log.warn("errors={}", bindingResult);
             return "redirect:/books/{memberId}";
         }
 
@@ -235,13 +235,13 @@ public class BookController {
         redirectAttributes.addAttribute("memberId", memberId);
 
         if (book == null) {
-            bindingResult.reject("NotFoundBook", new Object[]{bookId}, null);
+            bindingResult.reject("NotFoundBook", new Object[]{bookId}, "책이 존재하지 않습니다.");
             return "redirect:/books/{memberId}";
         }
 
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) {
-            bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
+            bindingResult.reject("NotFoundMember", new Object[]{memberId}, "사용자를 찾을 수 없습니다.");
             return "redirect:/";
         }
 
@@ -275,13 +275,13 @@ public class BookController {
                                @ModelAttribute("book") Book book,
                                BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (book == null) {
-            bindingResult.reject("NotFoundBook", new Object[]{bookId}, null);
+            bindingResult.reject("NotFoundBook", new Object[]{bookId}, "책이 존재하지 않습니다.");
             return "redirect:/books/{memberId}";
         }
 
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) {
-            bindingResult.reject("NotFoundMember", new Object[]{memberId}, null);
+            bindingResult.reject("NotFoundMember", new Object[]{memberId}, "사용자를 찾을 수 없습니다.");
             return "redirect:/";
         }
 
