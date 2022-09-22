@@ -4,9 +4,22 @@
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
     <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
+    <style>
+        .bg-transparent {
+            border: none;
+            background-color: rgba(0,0,0,0);
+        }
+    </style>
 </head>
 
 <body>
+<!-- Navbar Start -->
+<div class="container p-0 nav-bar">
+    <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
+        <button class="bg-transparent btn-primary display-4 text-black-50" type="button" th:onclick="|location.href='@{/}'|">쿠키네 서점</button>
+    </nav>
+</div>
+<!-- Navbar End -->
 
 <div class="container" style="max-width: 600px">
 
