@@ -3,7 +3,7 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
     <style>
         .container {
             max-width: 560px;
@@ -28,52 +28,52 @@
 
     <hr class="my-2">
     <div>
-        <label for="memberId" th:text="#{label.member.id}">멤버 ID</label>
+        <label for="memberId">멤버 ID</label>
         <input type="text" id="memberId" name="memberId" class="form-control" value="id" th:value="${member.id}" readonly>
     </div>
 
     <hr class="my-2">
     <div>
-        <label for="memberLoginID" th:text="#{label.member.loginId}">멤버 로그인 ID</label>
+        <label for="memberLoginID">멤버 로그인 ID</label>
         <input type="text" id="memberLoginID" name="memberLoginID" class="form-control" value="loginId" th:value="${member.loginId}" readonly>
     </div>
 
     <hr class="my-2">
     <div>
-        <label for="memberName" th:text="#{label.member.name}">멤버 이름</label>
+        <label for="memberName">멤버 이름</label>
         <input type="text" id="memberName" name="memberName" class="form-control" value="username" th:value="${member.username}" readonly>
     </div>
 
     <hr class="my-2">
     <div>
-        <label for="memberAge" th:text="#{label.member.age}">멤버 나이</label>
+        <label for="memberAge">멤버 나이</label>
         <input type="text" id="memberAge" name="memberAge" class="form-control" value="age" th:value="${member.age}" readonly>
     </div>
 
     <hr class="my-2">
     <div>
-        <label for="memberRole" th:text="#{label.member.role}">멤버 권한</label>
+        <label for="memberRole">멤버 권한</label>
         <input type="text" id="memberRole" name="memberRole" class="form-control" value="role" th:value="${member.role}" readonly>
     </div>
 
     <hr class="my-2">
     <div>
-        <label for="team" th:text="#{label.member.team}">팀</label>
+        <label for="team">팀</label>
         <input type="text" id="team" name="team" class="form-control" value="team" th:value="${member.team.name}" readonly>
     </div>
 
     <hr class="my-4">
 
-    <h4 class="mb-3" th:text="#{label.book.list}">책장</h4>
+    <h4 class="mb-3">책장</h4>
     <div>
         <table class="table">
             <thead>
             <tr>
-                <th th:text="#{label.item.id}">ID</th>
-                <th th:text="#{label.item.name}">책 이름</th>
-                <th th:text="#{label.item.price}">가격</th>
-                <th th:text="#{label.item.count}">수량</th>
-                <th th:text="#{label.item.isbn}">ISBN</th>
+                <th>ID</th>
+                <th >책 이름</th>
+                <th>가격</th>
+                <th>수량</th>
+                <th>ISBN</th>
             </tr>
             </thead>
             <tbody>
@@ -92,21 +92,9 @@
 
     <div class="row">
         <div class="col">
-            <button class="w-25 btn btn-primary btn-sm"
-                    onclick="location.href='editMemberForm.html'"
-                    th:onclick="|location.href='@{/members/{memberId}/edit(memberId=${member.id})}'|"
-                    type="button" th:text="#{page.updateMember}">멤버 수정</button>
-        </div>
-        <div class="col">
-            <button class="w-25 btn btn-primary btn-sm"
-                    th:onclick="|location.href='@{/members/{memberId}/delete(memberId=${member.id})}'|"
-                    type="button" th:text="#{page.deleteMember}">멤버 삭제</button>
-        </div>
-        <div class="col">
-            <button class="w-25 btn btn-secondary btn-sm"
-                    onclick="location.href='members.html'"
-                    th:onclick="|location.href='@{/members}'|"
-                    type="button" th:text="#{button.cancel}">목록으로</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/members/{memberId}/edit(memberId=${member.id})}'|">수정</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/members/{memberId}/delete(memberId=${member.id})}'|">삭제</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/members}'|">목록으로</button>
         </div>
     </div>
 

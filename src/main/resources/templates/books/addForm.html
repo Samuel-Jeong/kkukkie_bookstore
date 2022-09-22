@@ -3,7 +3,7 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
     <style>
         .container {
             max-width: 560px;
@@ -19,7 +19,7 @@
 <div class="container" style="max-width: 600px">
 
     <div class="py-5 text-center">
-        <h2 th:text="#{page.addItem}">책 등록</h2>
+        <h2>책 등록</h2>
     </div>
 
     <form action="book.html" th:action th:object="${book}" method="post">
@@ -30,7 +30,7 @@
 
         <hr class="my-2">
         <div>
-            <label for="name" th:text="#{label.item.name}">상품명</label>
+            <label for="name">상품명</label>
             <input type="text" id="name" th:field="*{name}"
                    th:errorclass="field-error" class="form-control" placeholder="이름을 입력하세요">
             <div class="field-error" th:errors="*{name}">
@@ -40,7 +40,7 @@
 
         <hr class="my-2">
         <div>
-            <label for="price" th:text="#{label.item.price}">가격</label>
+            <label for="price">가격</label>
             <input type="text" id="price" th:field="*{price}"
                    th:errorclass="field-error" class="form-control" placeholder="가격을 입력하세요">
             <div class="field-error" th:errors="*{price}">
@@ -50,7 +50,7 @@
 
         <hr class="my-2">
         <div>
-            <label for="count" th:text="#{label.item.count}">수량</label>
+            <label for="count">수량</label>
             <input type="text" id="count" th:field="*{count}"
                    th:errorclass="field-error" class="form-control" placeholder="수량을 입력하세요">
             <div class="field-error" th:errors="*{count}">
@@ -60,7 +60,7 @@
 
         <hr class="my-2">
         <div>
-            <label for="isbn" th:text="#{label.item.isbn}">ISBN</label>
+            <label for="isbn">ISBN</label>
             <input type="text" id="isbn" th:field="*{isbn}"
                    th:errorclass="field-error" class="form-control" placeholder="ISBN을 입력하세요">
             <div class="field-error" th:errors="*{isbn}">
@@ -72,13 +72,8 @@
 
         <div class="row">
             <div class="col">
-                <button class="w-25 btn btn-primary btn-sm" type="submit" th:text="#{button.save}">저장</button>
-            </div>
-            <div class="col">
-                <button class="w-25 btn btn-secondary btn-sm"
-                        onclick="location.href='books.html'"
-                        th:onclick="|location.href='@{/books/{memberId}(memberId=${memberId})}'|"
-                        type="button" th:text="#{button.cancel}">취소</button>
+                <button class="btn-primary" type="submit">저장</button>
+                <button type="button" class="btn-primary" th:onclick="|location.href='@{/books/{memberId}(memberId=${memberId})}'|">취소</button>
             </div>
         </div>
 

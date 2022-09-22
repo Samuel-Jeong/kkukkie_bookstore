@@ -3,23 +3,18 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
 </head>
 <body>
 
 <div class="container" style="max-width: 600px">
-
-    <div class="py-5 text-center">
-        <h2 th:text="#{page.teams}">목록</h2>
-    </div>
 
     <hr class="my-4">
     <div>
         <table class="table">
             <thead>
             <tr>
-                <!--<th th:text="#{label.team.id}">ID</th>-->
-                <th th:text="#{label.team.name}">이름</th>
+                <th>팀 이름</th>
             </tr>
             </thead>
             <tbody>
@@ -34,16 +29,8 @@
     <hr class="my-4">
     <div class="row">
         <div class="col">
-            <button class="w-25 btn btn-primary btn-sm"
-                    onclick="location.href='addTeamForm.html'"
-                    th:onclick="|location.href='@{/teams/add}'|"
-                    type="button" th:text="#{page.addTeam}">등록</button>
-        </div>
-        <div class="col">
-            <button class="w-25 btn btn-secondary btn-sm"
-                    onclick="location.href='teams.html'"
-                    th:onclick="|location.href='@{/}'|"
-                    type="button" th:text="#{button.back}">뒤로가기</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/teams/add}'|">추가</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/}'|">뒤로</button>
         </div>
     </div>
 

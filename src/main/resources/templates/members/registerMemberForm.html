@@ -3,7 +3,7 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
     <style>
         .container {
             max-width: 560px;
@@ -31,7 +31,7 @@
         </div>
 
         <hr class="my-2">
-        <div class="col-12">
+        <div>
             <label for="imgFile" class="form-label">프로필 사진 업로드</label>
             <input type="file" class="form-control" id="imgFile" th:field="*{profileImgFile}" th:errorclass="field-error">
         </div>
@@ -81,13 +81,11 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <!--<th th:text="#{label.team.id}">ID</th>-->
-                    <th th:text="#{label.team.name}">이름</th>
+                    <th>이름</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="team : ${teams}">
-                    <!--<td th:text="${team.id}">팀 ID</td>-->
                     <td th:text="${team.name}">팀명</td>
                 </tr>
                 </tbody>
@@ -95,7 +93,7 @@
         </div>
 
         <div>
-            <label th:text="#{label.member.team}">팀 선택</label>
+            <label>팀 선택</label>
             <hr class="my-2">
             <label>
                 <select th:field="*{team}" class="form-select">
@@ -109,12 +107,8 @@
 
         <div class="row">
             <div class="col">
-                <button class="w-25 btn btn-primary btn-sm" type="submit">회원 가입</button>
-            </div>
-            <div class="col">
-                <button class="w-25 btn btn-secondary btn-sm"
-                        th:onclick="|location.href='@{/}'|"
-                        type="button">취소</button>
+                <button class="btn-primary" type="submit">회원 가입</button>
+                <button type="button" class="btn-primary" th:onclick="|location.href='@{/}'|">취소</button>
             </div>
         </div>
 

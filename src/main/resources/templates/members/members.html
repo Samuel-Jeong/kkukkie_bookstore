@@ -3,14 +3,14 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
 </head>
 <body>
 
 <div class="container" style="max-width: 600px">
 
     <div class="py-5 text-center">
-        <h2 th:text="#{page.members}">목록</h2>
+        <h2>목록</h2>
     </div>
 
     <hr class="my-4">
@@ -18,12 +18,11 @@
         <table class="table">
             <thead>
             <tr>
-                <!--<th th:text="#{label.member.id}">ID</th>-->
-                <th th:text="#{label.member.loginId}">로그인 ID</th>
-                <th th:text="#{label.member.name}">이름</th>
-                <th th:text="#{label.member.age}">나이</th>
-                <th th:text="#{label.member.role}">권한</th>
-                <th th:text="#{label.member.team}">팀</th>
+                <th>로그인 ID</th>
+                <th>이름</th>
+                <th>나이</th>
+                <th>권한</th>
+                <th>팀</th>
             </tr>
             </thead>
             <tbody>
@@ -42,16 +41,8 @@
     <hr class="my-4">
     <div class="row">
         <div class="col">
-            <button class="w-25 btn btn-primary btn-sm"
-                    onclick="location.href='addMemberForm.html'"
-                    th:onclick="|location.href='@{/members/add}'|"
-                    type="button" th:text="#{page.addMember}">추가</button>
-        </div>
-        <div class="col">
-            <button class="w-25 btn btn-secondary btn-sm"
-                    onclick="location.href='members.html'"
-                    th:onclick="|location.href='@{/}'|"
-                    type="button" th:text="#{button.back}">뒤로가기</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/members/add}'|">추가</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/}'|">뒤로</button>
         </div>
     </div>
 

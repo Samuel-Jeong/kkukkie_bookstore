@@ -3,7 +3,7 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
     <style>
         .container {
             max-width: 560px;
@@ -14,22 +14,18 @@
 
 <div class="container" style="max-width: 600px">
 
-    <div class="py-5 text-center">
-        <h2 th:text="#{page.team}">상세</h2>
-    </div>
-
     <!-- 추가 -->
     <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
 
     <hr class="my-2">
     <div>
-        <label for="teamId" th:text="#{label.team.id}">팀 ID</label>
+        <label for="teamId">팀 ID</label>
         <input type="text" id="teamId" name="teamId" class="form-control" value="id" th:value="${team.id}" readonly>
     </div>
 
     <hr class="my-2">
     <div>
-        <label for="teamName" th:text="#{label.team.name}">팀 이름</label>
+        <label for="teamName">팀 이름</label>
         <input type="text" id="teamName" name="teamName" class="form-control" value="name" th:value="${team.name}" readonly>
     </div>
 
@@ -40,10 +36,10 @@
             <thead>
             <tr>
                 <!--<th th:text="#{label.member.id}">ID</th>-->
-                <th th:text="#{label.member.loginId}">로그인 ID</th>
-                <th th:text="#{label.member.name}">이름</th>
-                <th th:text="#{label.member.age}">나이</th>
-                <th th:text="#{label.member.role}">권한</th>
+                <th>로그인 ID</th>
+                <th>이름</th>
+                <th>나이</th>
+                <th>권한</th>
             </tr>
             </thead>
             <tbody>
@@ -62,21 +58,9 @@
 
     <div class="row">
         <div class="col">
-            <button class="w-25 btn btn-primary btn-sm"
-                    onclick="location.href='editTeamForm.html'"
-                    th:onclick="|location.href='@{/teams/{teamId}/edit(teamId=${team.id})}'|"
-                    type="button" th:text="#{page.updateTeam}">팀 수정</button>
-        </div>
-        <div class="col">
-            <button class="w-25 btn btn-primary btn-sm"
-                    th:onclick="|location.href='@{/teams/{teamId}/delete(teamId=${team.id})}'|"
-                    type="button" th:text="#{page.deleteTeam}">팀 삭제</button>
-        </div>
-        <div class="col">
-            <button class="w-25 btn btn-secondary btn-sm"
-                    onclick="location.href='teams.html'"
-                    th:onclick="|location.href='@{/teams}'|"
-                    type="button" th:text="#{button.cancel}">목록으로</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/teams/{teamId}/edit(teamId=${team.id})}'|">수정</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/teams/{teamId}/delete(teamId=${team.id})}'|">삭제</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/teams}'|">목록으로</button>
         </div>
     </div>
 

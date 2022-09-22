@@ -3,14 +3,14 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
 </head>
 <body>
 
 <div class="container" style="max-width: 700px">
 
     <div class="py-5 text-center">
-        <h2 th:text="#{label.book.list}">책 목록</h2>
+        <h2>책 목록</h2>
     </div>
 
     <hr class="my-4">
@@ -18,12 +18,11 @@
         <table class="table">
             <thead>
             <tr>
-                <!--<th th:text="#{label.item.id}">ID</th>-->
-                <th th:text="#{label.item.hold}">소지</th>
-                <th th:text="#{label.item.name}">상품명</th>
-                <th th:text="#{label.item.price}">가격</th>
-                <th th:text="#{label.item.count}">수량</th>
-                <th th:text="#{label.item.isbn}">ISBN</th>
+                <th>소지</th>
+                <th>상품명</th>
+                <th>가격</th>
+                <th>수량</th>
+                <th>ISBN</th>
             </tr>
             </thead>
 
@@ -41,16 +40,14 @@
                 <td th:text="${bookDto.isbn}">null</td>
                 <td>
                     <div>
-                        <button th:disabled="${(bookDto.count <= 0) || (bookDto.save == true)}" class="btn btn-secondary btn-sm"
-                                th:onclick="|location.href='@{/books/{memberId}/addtolist/{bookId}(memberId=${memberId}, bookId=${bookDto.id})}'|"
-                                type="button" th:text="담기"></button>
+                        <button type="button" th:disabled="${(bookDto.count <= 0) || (bookDto.save == true)}" class="btn-primary"
+                                th:onclick="|location.href='@{/books/{memberId}/addtolist/{bookId}(memberId=${memberId}, bookId=${bookDto.id})}'|">담기</button>
                     </div>
                 </td>
                 <td>
                     <div>
-                        <button th:disabled="${(bookDto.count > 0) || (bookDto.save == false)}" class="btn btn-secondary btn-sm"
-                                th:onclick="|location.href='@{/books/{memberId}/removefromlist/{bookId}(memberId=${memberId}, bookId=${bookDto.id})}'|"
-                                type="button" th:text="빼기"></button>
+                        <button type="button" th:disabled="${(bookDto.count > 0) || (bookDto.save == false)}" class="btn-primary"
+                                th:onclick="|location.href='@{/books/{memberId}/removefromlist/{bookId}(memberId=${memberId}, bookId=${bookDto.id})}'|">빼기</button>
                     </div>
                 </td>
             </tr>
@@ -62,10 +59,7 @@
     <hr class="my-4">
     <div class="row">
         <div class="col">
-            <button class="w-25 btn btn-secondary btn-sm"
-                    onclick="location.href='books.html'"
-                    th:onclick="|location.href='@{/}'|"
-                    type="button" th:text="#{button.back}">뒤로</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/}'|">뒤로</button>
         </div>
     </div>
 

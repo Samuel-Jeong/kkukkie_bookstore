@@ -3,7 +3,7 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
 </head>
 <body>
 <div class="container" style="max-width: 1000px">
@@ -16,12 +16,12 @@
     <table class="table table-bordered" style="max-width: 1000px">
         <thead>
         <tr>
-            <th class="col-md-1">번호</th>
-            <th class="col-md-4">글제목</th>
-            <th class="col-md-2">작성자</th>
-            <th class="col-md-1">조회수</th>
-            <th class="col-md-2">작성일</th>
-            <th class="col-md-2">수정일</th>
+            <th>번호</th>
+            <th>글제목</th>
+            <th>작성자</th>
+            <th>조회수</th>
+            <th>작성일</th>
+            <th>수정일</th>
         </tr>
         </thead>
         <tbody>
@@ -52,11 +52,8 @@
     <hr class="my-4">
     <div class="row">
         <div class="col">
-            <button class="w-25 btn btn-primary btn-sm" type="button"
-                    th:onclick="|location.href='@{/boards/{memberId}/add(memberId=${memberId})}'|">글쓰기</button>
-        </div>
-        <div class="col">
-            <button class="w-25 btn btn-secondary btn-sm" th:onclick="|location.href='@{/}'|" type="button">뒤로</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/boards/{memberId}/add(memberId=${memberId})}'|">글쓰기</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/}'|">뒤로</button>
         </div>
     </div>
 

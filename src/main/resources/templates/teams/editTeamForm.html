@@ -3,7 +3,7 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
     <style>
         .container {
             max-width: 560px;
@@ -19,7 +19,7 @@
 <div class="container" style="max-width: 600px">
 
     <div class="py-5 text-center">
-        <h2 th:text="#{page.updateTeam}">팀 수정</h2>
+        <h2>팀 수정</h2>
     </div>
 
     <form action="team.html" th:action th:object="${team}" method="post">
@@ -28,14 +28,9 @@
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
         </div>
 
-        <!--<hr class="my-2">
-        <div>
-            <label for="id" th:text="#{label.team.id}">팀 ID</label>
-            <input type="text" id="id" th:field="*{id}" class="form-control" readonly>
-        </div>-->
         <hr class="my-2">
         <div>
-            <label for="teamName" th:text="#{label.team.name}">팀명</label>
+            <label for="teamName">팀명</label>
             <input type="text" id="teamName" th:field="*{name}"
                    th:errorclass="field-error" class="form-control" placeholder="팀 이름을 입력하세요">
             <div class="field-error" th:errors="*{name}">팀명 오류</div>
@@ -45,13 +40,8 @@
 
         <div class="row">
             <div class="col">
-                <button class="w-25 btn btn-primary btn-sm" type="submit" th:text="#{button.save}">저장</button>
-            </div>
-            <div class="col">
-                <button class="w-25 btn btn-secondary btn-sm"
-                        onclick="location.href='team.html'"
-                        th:onclick="|location.href='@{/teams/{teamId}(teamId=${team.id})}'|"
-                        type="button" th:text="#{button.cancel}">취소</button>
+                <button class="btn-primary" type="submit">저장</button>
+                <button type="button" class="btn-primary" th:onclick="|location.href='@{/teams/{teamId}(teamId=${team.id})}'|">취소</button>
             </div>
         </div>
 

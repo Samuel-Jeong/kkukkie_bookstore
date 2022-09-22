@@ -3,11 +3,9 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -19,17 +17,17 @@
                 });
             });
         });
-    </script>
+    </script>-->
 </head>
 <body>
 
-<div class="toast-container">
+<!--<div class="toast-container">
 
-    <!--Green variant -->
+    &lt;!&ndash;Green variant &ndash;&gt;
     <div class="position-fixed bottom-0 end-0 p-3 toast bg-success text-white fade show">
         <div class="toast-header bg-success text-white">
             <strong class="me-auto"><i class="bi-emoji-wink"></i>  꾸끼</strong>
-            <!--<small>10 mins ago</small>-->
+            &lt;!&ndash;<small>10 mins ago</small>&ndash;&gt;
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
         </div>
         <div class="toast-body">
@@ -37,7 +35,7 @@
         </div>
     </div>
 
-</div>
+</div>-->
 
 <div class="container" style="max-width: 600px">
 
@@ -55,21 +53,19 @@
 
     <hr class="my-4">
 
-    <h4 class="mb-3" th:text="#{label.book.list}">책장</h4>
+    <h4 class="mb-3">책장</h4>
     <div>
         <table class="table">
             <thead>
             <tr>
-                <!--<th th:text="#{label.item.id}">ID</th>-->
-                <th th:text="#{label.item.name}">책 이름</th>
-                <th th:text="#{label.item.price}">가격</th>
-                <th th:text="#{label.item.count}">수량</th>
-                <th th:text="#{label.item.isbn}">ISBN</th>
+                <th>책 이름</th>
+                <th>가격</th>
+                <th>수량</th>
+                <th>ISBN</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="book : ${member.books}">
-                <!--<td th:text="${book.id}"></td>-->
                 <td th:text="${book.name}"></td>
                 <td th:text="${book.price}"></td>
                 <td th:text="${book.count}"></td>
@@ -80,27 +76,18 @@
     </div>
 
     <hr class="my-4">
-
     <div class="row">
         <div class="col">
-            <button class="w-50 btn btn-secondary btn-sm" type="button"
-                    th:onclick="|location.href='@{/books/{memberId}(memberId=${member.id})}'|">
-                책 목록
-            </button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/books/{memberId}(memberId=${member.id})}'|">책 목록</button>
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/boards/{memberId}(memberId=${member.id})}'|">게시판</button>
         </div>
-        <div class="col">
-            <button class="w-50 btn btn-secondary btn-sm" type="button"
-                    th:onclick="|location.href='@{/boards/{memberId}(memberId=${member.id})}'|">
-                게시판
-            </button>
-        </div>
+    </div>
+
+    <hr class="my-4">
+    <div class="row">
         <div class="col">
             <form th:action="@{/logout}" method="post">
-                <button class="w-50 btn btn-dark btn-sm"
-                        onclick="location.href='items.html'"
-                        type="submit">
-                    로그아웃
-                </button>
+                <button class="btn-primary" onclick="location.href='items.html'" type="submit">로그아웃</button>
             </form>
         </div>
     </div>

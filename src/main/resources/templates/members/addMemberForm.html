@@ -3,7 +3,7 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
     <style>
         .container {
             max-width: 560px;
@@ -19,7 +19,7 @@
 <div class="container" style="max-width: 600px">
 
     <div class="py-5 text-center">
-        <h2>회원 가입</h2>
+        <h2>멤버 추가</h2>
     </div>
 
     <h4 class="mb-3">회원 정보 입력</h4>
@@ -31,7 +31,7 @@
         </div>
 
         <hr class="my-2">
-        <div class="col-12">
+        <div>
             <label for="imgFile" class="form-label">프로필 사진 업로드</label>
             <input type="file" class="form-control" id="imgFile" th:field="*{profileImgFile}" th:errorclass="field-error">
         </div>
@@ -73,7 +73,7 @@
 
         <hr class="my-2">
         <div>
-            <label th:text="#{label.member.role}">멤버 역할</label>
+            <label>멤버 역할</label>
             <hr class="my-2">
             <label>
                 <select th:field="*{role}" class="form-select">
@@ -89,8 +89,7 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <!--<th th:text="#{label.team.id}">ID</th>-->
-                    <th th:text="#{label.team.name}">이름</th>
+                    <th>이름</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -103,7 +102,7 @@
         </div>
 
         <div>
-            <label th:text="#{label.member.team}">팀 선택</label>
+            <label>팀 선택</label>
             <hr class="my-2">
             <label>
                 <select th:field="*{team}" class="form-select">
@@ -117,12 +116,8 @@
 
         <div class="row">
             <div class="col">
-                <button class="w-25 btn btn-primary btn-sm" type="submit">추가</button>
-            </div>
-            <div class="col">
-                <button class="w-25 btn btn-secondary btn-sm"
-                        th:onclick="|location.href='@{/members}'|"
-                        type="button">취소</button>
+                <button class="btn-primary" type="submit">추가</button>
+                <button type="button" class="btn-primary" th:onclick="|location.href='@{/members}'|">취소</button>
             </div>
         </div>
 

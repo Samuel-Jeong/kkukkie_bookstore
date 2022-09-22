@@ -3,7 +3,7 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -47,10 +47,8 @@
 
             <hr class="my-4">
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Remove</button>
-                <button type="button" class="btn btn-secondary"
-                        th:onclick="|location.href='@{/books/{memberId}(memberId=${memberId})}'|"
-                        data-bs-dismiss="modal" th:text="#{button.cancel}">취소</button>
+                <button type="submit" class="btn btn-primary">삭제</button>
+                <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/books/{memberId}(memberId=${memberId})}'|" data-bs-dismiss="modal">취소</button>
             </div>
         </div>
 

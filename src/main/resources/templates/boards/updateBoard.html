@@ -3,7 +3,7 @@
 <head>
     <title>쿠키의 서점</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.css}" href="/css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
     <style>
         .container {
             max-width: 560px;
@@ -49,12 +49,8 @@
 
         <div class="row">
             <div class="col">
-                <button class="w-25 btn btn-primary btn-sm" type="submit">저장</button>
-            </div>
-            <div class="col">
-                <button class="w-25 btn btn-secondary btn-sm"
-                        th:onclick="|location.href='@{/boards/{memberId}/{boardId}(boardId=${board.id},memberId=${memberId})}'|"
-                        type="button">뒤로</button>
+                <button class="btn-primary" type="submit">저장</button>
+                <button type="button" class="btn-primary" th:onclick="|location.href='@{/boards/{memberId}/{boardId}(boardId=${board.id},memberId=${memberId})}'|">뒤로</button>
             </div>
         </div>
     </form>
