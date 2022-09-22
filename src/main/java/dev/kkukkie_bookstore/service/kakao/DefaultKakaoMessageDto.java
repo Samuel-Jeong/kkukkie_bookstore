@@ -3,7 +3,7 @@ package dev.kkukkie_bookstore.service.kakao;
 import lombok.Data;
 
 @Data
-public class DefaultMessageDto {
+public class DefaultKakaoMessageDto {
 
     private String objType;
     private String text;

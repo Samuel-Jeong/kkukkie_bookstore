@@ -10,6 +10,7 @@ import dev.kkukkie_bookstore.model.member.role.MemberRole;
 import dev.kkukkie_bookstore.model.team.Team;
 import dev.kkukkie_bookstore.repository.member.MemberRepository;
 import dev.kkukkie_bookstore.repository.team.TeamRepository;
+import dev.kkukkie_bookstore.service.admin.AdminAuthService;
 import dev.kkukkie_bookstore.service.member.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -30,20 +31,20 @@ import static dev.kkukkie_bookstore.InitAdminData.SUPER_TEAM_NAME;
 @RequestMapping("/members")
 public class MemberController {
 
-    private final String AUTH_CODE = "3f806e81-fa6d-4c7f-b11a-196138c2e74f";
-
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
 
     private final MemberService memberService;
+    private final AdminAuthService adminAuthService;
 
     private final List<String> memberRoles = new ArrayList<>();
 
     public MemberController(MemberRepository memberRepository, TeamRepository teamRepository,
-                            MemberService memberService) {
+                            MemberService memberService, AdminAuthService adminAuthService) {
         this.memberRepository = memberRepository;
         this.teamRepository = teamRepository;
         this.memberService = memberService;
+        this.adminAuthService = adminAuthService;
 
         memberRoles.add(MemberRole.ADMIN);
         memberRoles.add(MemberRole.SUB_ADMIN);
@@ -102,8 +103,10 @@ public class MemberController {
     public String register(@Valid @ModelAttribute("member") MemberRegisterForm memberRegisterForm,
                            BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         String authenticationCode = memberRegisterForm.getAuthenticationCode();
-        if (!authenticationCode.equals(AUTH_CODE)) { // TODO : AUTH_CODE by CustomMessageService
+        if (!adminAuthService.isContains(authenticationCode)) {
             bindingResult.reject("AuthenticationFailed", new Object[]{}, "인증 실패");
+        } else {
+            adminAuthService.removeAuthCode(authenticationCode);
         }
 
         Member member = null;

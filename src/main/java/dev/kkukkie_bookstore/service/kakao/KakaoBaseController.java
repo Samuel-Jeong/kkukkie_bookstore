@@ -1,29 +1,28 @@
 package dev.kkukkie_bookstore.service.kakao;
 
-import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.json.JSONException;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class KakaoBaseController {
 
-    AuthService authService;
+    KakaoAuthService kakaoAuthService;
 
-    CustomMessageService customMessageService;
+    CustomKakaoMessageService customKakaoMessageService;
 
-    public KakaoBaseController(AuthService authService, CustomMessageService customMessageService) {
-        this.authService = authService;
-        this.customMessageService = customMessageService;
+    public KakaoBaseController(KakaoAuthService kakaoAuthService, CustomKakaoMessageService customKakaoMessageService) {
+        this.kakaoAuthService = kakaoAuthService;
+        this.customKakaoMessageService = customKakaoMessageService;
     }
 
     @GetMapping("/auth")
-    public String serviceStart(String code) throws JSONException {
-        if(authService.getKakaoAuthToken(code)) {
-            customMessageService.sendMyMessage();
-            return "메시지 전송 성공";
-        }else {
-            return "토큰발급 실패";
+    public String serviceStart(String code)
+            throws JSONException {
+        if (kakaoAuthService.getKakaoAuthToken(code)) {
+            customKakaoMessageService.sendMyMessage();
         }
+        return "redirect:/";
     }
 
 }

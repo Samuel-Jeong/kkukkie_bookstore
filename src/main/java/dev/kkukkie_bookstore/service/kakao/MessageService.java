@@ -1,10 +1,8 @@
 package dev.kkukkie_bookstore.service.kakao;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,7 +21,7 @@ public class MessageService extends HttpCallService{
 
     private static final String SUCCESS_CODE = "0"; //kakao api에서 return해주는 success code 값
 
-    public boolean sendMessage(String accessToken, DefaultMessageDto msgDto) throws JSONException {
+    public boolean sendMessage(String accessToken, DefaultKakaoMessageDto msgDto) throws JSONException {
         JSONObject linkObj = new JSONObject();
         linkObj.put("web_url", msgDto.getWebUrl());
         linkObj.put("mobile_web_url", msgDto.getMobileUrl());
@@ -53,10 +51,10 @@ public class MessageService extends HttpCallService{
 
     public boolean successCheck(String resultCode) {
         if(resultCode.equals(SUCCESS_CODE)) {
-            log.info(SEND_SUCCESS_MSG);
+            log.debug(SEND_SUCCESS_MSG);
             return true;
         }else {
-            log.debug(SEND_FAIL_MSG);
+            log.warn(SEND_FAIL_MSG);
             return false;
         }
 
