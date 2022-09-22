@@ -46,6 +46,11 @@ public class BoardController {
         model.addAttribute("memberId", memberId);
         model.addAttribute("board", board);
 
+        model.addAttribute(
+                "isBoardAuthor",
+                (board != null) && (member.getUsername().equals(board.getAuthor()))
+        );
+
         if (member.getRole().equals(MemberRole.ADMIN)) {
             return "boards/boardAdmin";
         } else {
