@@ -25,6 +25,10 @@ spring:
       maxFileSize: 200MB
       maxRequestSize: 100MB
 
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   data:
     web:
       pageable:
@@ -77,6 +81,10 @@ spring:
         default-page-size: 10
         max-page-size: 2000
         #one-indexed-parameters: true
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 logging:
   config: classpath:logback-${spring.config.activate.on-profile}.xml

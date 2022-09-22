@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @Slf4j
 @RestController
-@RequestMapping("*/images")
+@RequestMapping("**/images")
 public class ImageController {
 
     private final Environment environment;
@@ -31,15 +31,15 @@ public class ImageController {
     // http://127.0.0.1:8080/images/20cb9808-e248-406a-871b-01a0f63b4d9b.jpeg
     @GetMapping(value = "{name}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getProfileImage(@PathVariable("name") String name) throws IOException {
+        String filePath = FileManager.concatFilePath(environment.getProperty("spring.servlet.multipart.location"), name);
         InputStream imageStream = new FileInputStream(
-                Objects.requireNonNull(
-                        FileManager.concatFilePath(environment.getProperty("spring.servlet.multipart.location"), name)
-                )
+                Objects.requireNonNull(filePath)
         );
 
         byte[] imageByteArray = IOUtils.toByteArray(imageStream);
         imageStream.close();
 
+        //log.info("@@@ [{}] imageByteArray.length: {}", filePath, imageByteArray.length);
         if (imageByteArray.length > 0) {
             return new ResponseEntity<>(imageByteArray, HttpStatus.OK);
         } else {

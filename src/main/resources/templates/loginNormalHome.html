@@ -45,8 +45,8 @@
 
     <div class="row">
         <div class="col">
-            <img id="profile_img" alt="profile_img" th:if="${member.getProfileImgFile() != null}"
-                 th:src="@{${member.getProfileImgFile().getUriFullPath()}}" src=""/>
+            <img id="profile_img" alt="profile_img" th:if="${member.profileImgFile != null}"
+                 th:src="@{${member.profileImgFile.uriFullPath}}" />
         </div>
         <div class="col">
             <h2 th:text="|${member.username}|">로그인 사용자 이름</h2>

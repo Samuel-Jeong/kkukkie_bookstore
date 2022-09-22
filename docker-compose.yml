@@ -32,7 +32,7 @@ services:
       SPRING_DATASOURCE_USERNAME: kkukie
       SPRING_DATASOURCE_PASSWORD: kkukie.123
     volumes:
-      - /tmp/kkukie_bookstore:/var/kkukie_bookstore
+      - /Users/jamesj/Desktop/spring_test/kkukie_bookstore:/var/kkukie_bookstore
     networks:
       - springboot-mysql-net
 
