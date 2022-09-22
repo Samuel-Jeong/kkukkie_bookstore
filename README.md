@@ -42,7 +42,7 @@
 ![스크린샷 2022-08-31 오후 3 36 13](https://user-images.githubusercontent.com/37236920/187610083-17c11c65-c8cd-4a8e-8087-e789c0cbc3f0.png)
   
 ## [5] 운영 환경
-![스크린샷 2022-09-22 오전 8 19 04](https://user-images.githubusercontent.com/37236920/191626592-7b9b848e-f847-4ab8-b388-0bbd50003576.png)
+![스크린샷 2022-09-22 오전 11 14 22](https://user-images.githubusercontent.com/37236920/191643444-5848d935-0fd7-48c4-874c-c5f3da9caa88.png)
   
 ## [6] 홈페이지 화면 상세
 ### 1) 홈
