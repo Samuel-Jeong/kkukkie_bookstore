@@ -108,7 +108,7 @@ public class MemberService {
         ).findAny().orElse(null);
     }
 
-    public void saveProfileImage(Member member, MultipartFile profileImgFile)
+    public void saveProfileImage(Member member, MultipartFile profileImgFile, String prevProfileImgId)
             throws RuntimeErrorException, IOException {
         // 파일 최대 저장 크기 확인
         if (profileImgFile.getSize() >= profileMaxFileSize) {
@@ -124,7 +124,10 @@ public class MemberService {
         }
 
         // 파일 이름 그대로 저장하지 않고 UUID 로 변경해서 저장
-        String newImgName = UUID.randomUUID() + "." + extension;
+        String newImgName = prevProfileImgId;
+        if (newImgName == null || newImgName.isEmpty()) {
+            newImgName = UUID.randomUUID() + "." + extension;
+        }
 
         // 저장
         File file = new File(profileImgBasePath, newImgName);
@@ -189,7 +192,7 @@ public class MemberService {
 
             // 프로파일 이미지 선택은 Option
             if (profileImgFile != null) {
-                saveProfileImage(member, profileImgFile);
+                saveProfileImage(member, profileImgFile, null);
             }
         } catch (Exception e) {
             if (e.getClass().equals(ImageSizeException.class)) {
@@ -217,10 +220,10 @@ public class MemberService {
                 if ((profileImgFile != null)
                         && (!profileImgFile.getName().isEmpty())) {
                     // 기존에 프로파일 이미지가 있으면 해당 파일 삭제
-                    deletePrevProfileImage(member);
+                    String prevProfileImgId = deletePrevProfileImage(member);
 
                     // 새로운 프로파일 이미지 저장
-                    saveProfileImage(member, profileImgFile);
+                    saveProfileImage(member, profileImgFile, prevProfileImgId);
                 }
             } catch (Exception e) {
                 if (e.getClass().equals(ImageSizeException.class)) {
@@ -234,7 +237,7 @@ public class MemberService {
         }
     }
 
-    public void deletePrevProfileImage(Member member) {
+    public String deletePrevProfileImage(Member member) {
         ImageFile prevProfileImgFile = member.getProfileImgFile();
         if (prevProfileImgFile != null) {
             // 삭제할 파일 이름은 UUID (저장할 때 랜덤으로 생성된 UUID 가 파일 이름)
@@ -243,7 +246,9 @@ public class MemberService {
                             prevProfileImgFile.getLocalBasePath(), prevProfileImgFile.getId()
                     ))
             );
+            return prevProfileImgFile.getId();
         }
+        return null;
     }
 
 }
