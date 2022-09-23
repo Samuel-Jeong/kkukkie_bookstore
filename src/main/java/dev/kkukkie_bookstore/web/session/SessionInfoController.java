@@ -12,7 +12,7 @@ import java.util.Date;
 @RestController
 public class SessionInfoController {
 
-    @GetMapping("/session-info")
+    //@GetMapping("/session-info")
     public String sessionInfo(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null) {

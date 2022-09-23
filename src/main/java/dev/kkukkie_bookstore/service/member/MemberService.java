@@ -218,7 +218,7 @@ public class MemberService {
                 // 프로파일 이미지 선택은 Option
                 MultipartFile profileImgFile = memberUpdateForm.getProfileImgFile();
                 if ((profileImgFile != null)
-                        && (!profileImgFile.getName().isEmpty())) {
+                        && (profileImgFile.getOriginalFilename() != null && !profileImgFile.getOriginalFilename().isEmpty())) {
                     // 기존에 프로파일 이미지가 있으면 해당 파일 삭제
                     String prevProfileImgId = deletePrevProfileImage(member);
 
