@@ -1,6 +1,7 @@
 package dev.kkukkie_bookstore.security;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
@@ -16,7 +17,7 @@ import java.util.Random;
  */
 
 @Slf4j
-@Service
+@Component
 public class PasswordService {
 
     private final String ALGORITHM = "AES";
