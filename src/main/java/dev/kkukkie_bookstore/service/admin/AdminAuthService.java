@@ -1,54 +1,69 @@
 package dev.kkukkie_bookstore.service.admin;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
 public class AdminAuthService {
 
-    private final HashSet<String> authCodeSet;
-    private final ReentrantLock authCodeLock;
+    // Key: authCode / Value: createdTime
+    private final ConcurrentHashMap<String, Long> authCodeMap;
 
-    public AdminAuthService() {
-        authCodeSet = new HashSet<>();
-        authCodeLock = new ReentrantLock();
+    private final ScheduledExecutorService scheduledExecutorService;
+
+    public AdminAuthService(Environment environment) {
+        authCodeMap = new ConcurrentHashMap<>();
+
+        // Remove old key
+        long keyTimeout = Long.parseLong(Objects.requireNonNull(environment.getProperty("kakao.keyTimeout")));
+
+        scheduledExecutorService = new ScheduledThreadPoolExecutor(10);
+        scheduledExecutorService.scheduleAtFixedRate(
+                () -> {
+                    long currentTime = System.currentTimeMillis();
+                    ConcurrentHashMap<String, Long> clonedMap = clone();
+                    for (Map.Entry<String, Long> entry : clonedMap.entrySet()) {
+                        if (entry == null) { continue; }
+
+                        String authCode = entry.getKey();
+                        Long createdTime = entry.getValue();
+                        if ((currentTime - createdTime) >= keyTimeout) {
+                            removeAuthCode(authCode);
+                            if (!isContains(authCode)) {
+                                log.info("Old auth code is deleted. ({})", authCode);
+                            }
+                        }
+                    }
+                },
+                0, 2, TimeUnit.SECONDS
+        );
     }
 
     public void addAuthCode(String authCode) {
-        authCodeLock.lock();
-        try {
-            authCodeSet.add(authCode);
-        } catch (Exception e) {
-            log.warn("AdminAuthService.addAuthCode.Exception", e);
-        } finally {
-            authCodeLock.unlock();
-        }
+        authCodeMap.putIfAbsent(authCode, System.currentTimeMillis());
     }
 
     public void removeAuthCode(String authCode) {
-        authCodeLock.lock();
-        try {
-            authCodeSet.remove(authCode);
-        } catch (Exception e) {
-            log.warn("AdminAuthService.removeAuthCode.Exception", e);
-        } finally {
-            authCodeLock.unlock();
-        }
+        authCodeMap.remove(authCode);
     }
+
     public boolean isContains(String authCode) {
-        authCodeLock.lock();
-        try {
-            return authCodeSet.contains(authCode);
-        } catch (Exception e) {
-            log.warn("AdminAuthService.isContains.Exception", e);
-            return false;
-        } finally {
-            authCodeLock.unlock();
-        }
+        return authCodeMap.containsKey(authCode);
+    }
+
+    public ConcurrentHashMap<String, Long> clone() {
+        return new ConcurrentHashMap<>(authCodeMap);
     }
 
 }

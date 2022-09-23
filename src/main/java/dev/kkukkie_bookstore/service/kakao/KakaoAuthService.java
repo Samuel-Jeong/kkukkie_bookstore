@@ -3,6 +3,7 @@ package dev.kkukkie_bookstore.service.kakao;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,12 +16,19 @@ import org.springframework.util.MultiValueMap;
 @Service
 public class KakaoAuthService extends HttpCallService{
 
-    private static final String BASE_URL = "https://kauth.kakao.com/oauth/token";
-    private static final String APP_KEY = "334597f4502c5ce340c507ce0126502f"; // REST API KEY
-    private static final String REDIRECT_URI = "http://localhost:8080/auth";
-    private static final String CLIENT_SECRET = "Hl8IpCZLWueA2eDPxrTtLrYi9K2nA4pr";
+    private final String baseUrl;
+    private final String appKey;
+    private final String redirectUri;
+    private final String clientSecret;
 
     public static String authToken;
+
+    public KakaoAuthService(Environment environment) {
+        this.baseUrl = environment.getProperty("kakao.baseUrl");
+        this.appKey = environment.getProperty("kakao.appKey");
+        this.redirectUri = environment.getProperty("kakao.redirectUri");
+        this.clientSecret = environment.getProperty("kakao.clientSecret");
+    }
 
     public boolean getKakaoAuthToken(String code) throws JSONException {
         HttpHeaders header = new HttpHeaders();
@@ -29,13 +37,13 @@ public class KakaoAuthService extends HttpCallService{
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("code", code);
         parameters.add("grant_type", "authorization_code");
-        parameters.add("client_id", APP_KEY);
-        parameters.add("redirect_uri", REDIRECT_URI);
-        parameters.add("client_secret", CLIENT_SECRET);
+        parameters.add("client_id", appKey);
+        parameters.add("redirect_uri", redirectUri);
+        parameters.add("client_secret", clientSecret);
 
         HttpEntity<?> requestEntity = httpClientEntity(header, parameters);
 
-        ResponseEntity<String> response = httpRequest(BASE_URL, HttpMethod.POST, requestEntity);
+        ResponseEntity<String> response = httpRequest(baseUrl, HttpMethod.POST, requestEntity);
         JSONObject jsonData = new JSONObject(response.getBody());
         String accessToken = jsonData.get("access_token").toString();
         String refreshToken = jsonData.get("refresh_token").toString();

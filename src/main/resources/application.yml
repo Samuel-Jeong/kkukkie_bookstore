@@ -56,7 +56,7 @@ decorator:
 spring:
   config:
     activate:
-      on-profile: prod
+      on-profile: local
 
   jpa:
     hibernate:
@@ -101,5 +101,70 @@ decorator:
     p6spy:
       enable-logging: false
 
+kakao:
+  baseUrl: "https://kauth.kakao.com/oauth/token"
+  appKey: "334597f4502c5ce340c507ce0126502f"
+  redirectUri: "http://localhost:8080/auth"
+  clientSecret: "Hl8IpCZLWueA2eDPxrTtLrYi9K2nA4pr"
+  keyTimeout: 600000
+
 ---
 
+---
+
+spring:
+  config:
+    activate:
+      on-profile: server
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: false
+        show_sql: false
+        use_sql_comments: false # Print jpql
+        #dialect: org.hibernate.dialect.Oracle10gDialect
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  servlet:
+    multipart:
+      location: /var/kkukie_bookstore/resources/images
+      maxFileSize: 200MB
+      maxRequestSize: 100MB
+
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 2000
+        #one-indexed-parameters: true
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+logging:
+  config: classpath:logback-${spring.config.activate.on-profile}.xml
+
+server:
+  servlet:
+    session:
+      timeout: 10m
+      tracking-modes: cookie
+  port: 80
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
+
+kakao:
+  baseUrl: "https://kauth.kakao.com/oauth/token"
+  appKey: "334597f4502c5ce340c507ce0126502f"
+  redirectUri: "http://ec2-52-78-245-33.ap-northeast-2.compute.amazonaws.com/auth"
+  clientSecret: "Hl8IpCZLWueA2eDPxrTtLrYi9K2nA4pr"
+  keyTimeout: 600000
+
+---
