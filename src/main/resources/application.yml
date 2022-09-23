@@ -51,6 +51,13 @@ decorator:
     p6spy:
       enable-logging: true
 
+kakao:
+  baseUrl: "https://kauth.kakao.com/oauth/token"
+  appKey: "334597f4502c5ce340c507ce0126502f"
+  redirectUri: "http://localhost:8080/auth"
+  clientSecret: "Hl8IpCZLWueA2eDPxrTtLrYi9K2nA4pr"
+  keyTimeout: 600000
+
 ---
 
 spring:

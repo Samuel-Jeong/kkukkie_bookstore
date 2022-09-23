@@ -11,10 +11,15 @@ public class CustomKakaoMessageService {
 
     private final AdminAuthService authService;
 
+    private final KakaoAuthService kakaoAuthService;
+
     private final MessageService messageService;
 
-    public CustomKakaoMessageService(AdminAuthService authService, MessageService messageService) {
+    public CustomKakaoMessageService(AdminAuthService authService,
+                                     KakaoAuthService kakaoAuthService,
+                                     MessageService messageService) {
         this.authService = authService;
+        this.kakaoAuthService = kakaoAuthService;
         this.messageService = messageService;
     }
 
@@ -26,11 +31,11 @@ public class CustomKakaoMessageService {
         myMsg.setWebUrl("");
 
         // AdminAuthService 에 UUID 등록
-        String authCode = UUID.randomUUID().toString().substring(0, 10);
+        String authCode = UUID.randomUUID().toString().substring(0, 8);
         authService.addAuthCode(authCode);
         myMsg.setText(authCode);
 
-        String accessToken = KakaoAuthService.authToken;
+        String accessToken = kakaoAuthService.getAuthToken();
         return messageService.sendMessage(accessToken, myMsg)? authCode : "";
     }
 }

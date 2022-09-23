@@ -10,6 +10,7 @@ import dev.kkukkie_bookstore.model.member.role.MemberRole;
 import dev.kkukkie_bookstore.model.team.Team;
 import dev.kkukkie_bookstore.repository.member.MemberRepository;
 import dev.kkukkie_bookstore.repository.team.TeamRepository;
+import dev.kkukkie_bookstore.security.PasswordService;
 import dev.kkukkie_bookstore.service.admin.AdminAuthService;
 import dev.kkukkie_bookstore.service.member.MemberService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,14 +38,18 @@ public class MemberController {
     private final MemberService memberService;
     private final AdminAuthService adminAuthService;
 
+    private final PasswordService passwordService;
+
     private final List<String> memberRoles = new ArrayList<>();
 
     public MemberController(MemberRepository memberRepository, TeamRepository teamRepository,
-                            MemberService memberService, AdminAuthService adminAuthService) {
+                            MemberService memberService, AdminAuthService adminAuthService,
+                            PasswordService passwordService) {
         this.memberRepository = memberRepository;
         this.teamRepository = teamRepository;
         this.memberService = memberService;
         this.adminAuthService = adminAuthService;
+        this.passwordService = passwordService;
 
         memberRoles.add(MemberRole.ADMIN);
         memberRoles.add(MemberRole.SUB_ADMIN);
@@ -102,6 +107,7 @@ public class MemberController {
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("member") MemberRegisterForm memberRegisterForm,
                            BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+
         String authenticationCode = memberRegisterForm.getAuthenticationCode();
         if (!adminAuthService.isContains(authenticationCode)) {
             bindingResult.reject("AuthenticationFailed", new Object[]{}, "인증 실패");
@@ -130,7 +136,7 @@ public class MemberController {
 
             member = memberService.saveMember(
                     memberRegisterForm.getLoginId(),
-                    memberRegisterForm.getPassword(),
+                    passwordService.encryptPassword(memberRegisterForm.getPassword()),
                     memberRegisterForm.getUsername(),
                     memberRegisterForm.getAge(),
                     memberRegisterForm.getTeam(),
@@ -200,7 +206,7 @@ public class MemberController {
 
         Member member = memberService.saveMember(
                 memberAddForm.getLoginId(),
-                memberAddForm.getPassword(),
+                passwordService.encryptPassword(memberAddForm.getPassword()),
                 memberAddForm.getUsername(),
                 memberAddForm.getAge(),
                 memberAddForm.getTeam(),
@@ -224,8 +230,6 @@ public class MemberController {
 
         return "redirect:/members/{memberId}";
     }
-
-
 
     private void checkDuplicateMemberAtAddByLoginId(MemberAddForm memberAddForm,
                                                     BindingResult bindingResult) {

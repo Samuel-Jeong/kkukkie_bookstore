@@ -4,6 +4,7 @@ import dev.kkukkie_bookstore.model.file.image.ImageFile;
 import dev.kkukkie_bookstore.model.member.Member;
 import dev.kkukkie_bookstore.model.member.role.MemberRole;
 import dev.kkukkie_bookstore.model.team.Team;
+import dev.kkukkie_bookstore.security.PasswordService;
 import dev.kkukkie_bookstore.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ import java.io.File;
 import java.util.Collection;
 
 @Slf4j
-@Profile({"dev", "prod"})
+@Profile({"dev", "prod", "server"})
 @Component
 @RequiredArgsConstructor
 public class InitAdminData {
@@ -45,9 +46,12 @@ public class InitAdminData {
 
         private final Environment environment;
 
-        public InitMemberService(EntityManager entityManager, Environment environment) {
+        private final PasswordService passwordService;
+
+        public InitMemberService(EntityManager entityManager, Environment environment, PasswordService passwordService) {
             this.entityManager = entityManager;
             this.environment = environment;
+            this.passwordService = passwordService;
         }
 
         public Collection<Team> findAllTeamsByName(String name) {
@@ -80,7 +84,7 @@ public class InitAdminData {
                 Member member = members.stream().findFirst().orElse(null);
                 if (member != null) {
                     member.setLoginId("admin");
-                    member.setPassword("admin.123");
+                    member.setPassword(passwordService.encryptPassword("admin.123"));
                     member.setRole(MemberRole.ADMIN);
                     entityManager.persist(member);
                 }
@@ -96,7 +100,7 @@ public class InitAdminData {
         private void createAdmin(Team adminTeam) {
             Member admin = new Member("admin", 999, adminTeam);
             admin.setLoginId("admin");
-            admin.setPassword("admin.123");
+            admin.setPassword(passwordService.encryptPassword("admin.123"));
             admin.setRole(MemberRole.ADMIN);
 
             String profileImgBasePath = environment.getProperty("spring.servlet.multipart.location");

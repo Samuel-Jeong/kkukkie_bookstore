@@ -9,6 +9,7 @@ import dev.kkukkie_bookstore.model.member.Member;
 import dev.kkukkie_bookstore.model.team.Team;
 import dev.kkukkie_bookstore.repository.item.BookRepository;
 import dev.kkukkie_bookstore.repository.member.MemberRepository;
+import dev.kkukkie_bookstore.security.PasswordService;
 import dev.kkukkie_bookstore.util.FileManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -42,13 +43,18 @@ public class MemberService {
     private final BookRepository bookRepository;
     private final MemberRepository memberRepository;
 
+    private final PasswordService passwordService;
+
     public MemberService(Environment environment,
-                         BookRepository bookRepository, MemberRepository memberRepository) {
+                         BookRepository bookRepository, MemberRepository memberRepository,
+                         PasswordService passwordService) {
         this.bookRepository = bookRepository;
         this.memberRepository = memberRepository;
 
         this.profileImgBasePath = environment.getProperty("spring.servlet.multipart.location");
         this.profileMaxFileSize = FileManager.getSizeFromUnit(environment.getProperty("spring.servlet.multipart.maxFileSize"));
+
+        this.passwordService = passwordService;
 
         allowedExtensions.add("jpeg");
         allowedExtensions.add("jpg");
@@ -202,7 +208,7 @@ public class MemberService {
             try {
                 member.setUsername(memberUpdateForm.getUsername());
                 member.setAge(Integer.parseInt(memberUpdateForm.getAge()));
-                member.setPassword(memberUpdateForm.getPassword());
+                member.setPassword(passwordService.encryptPassword(memberUpdateForm.getPassword()));
                 member.setRole(memberUpdateForm.getRole());
                 member.setTeam(memberUpdateForm.getTeam());
 

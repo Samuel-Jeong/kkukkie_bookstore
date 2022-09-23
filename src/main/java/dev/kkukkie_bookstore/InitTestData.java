@@ -5,6 +5,7 @@ import dev.kkukkie_bookstore.model.item.book.Book;
 import dev.kkukkie_bookstore.model.member.Member;
 import dev.kkukkie_bookstore.model.member.role.MemberRole;
 import dev.kkukkie_bookstore.model.team.Team;
+import dev.kkukkie_bookstore.security.PasswordService;
 import dev.kkukkie_bookstore.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,9 +46,12 @@ public class InitTestData {
 
         private final Environment environment;
 
-        public InitMemberService(EntityManager entityManager, Environment environment) {
+        private final PasswordService passwordService;
+
+        public InitMemberService(EntityManager entityManager, Environment environment, PasswordService passwordService) {
             this.entityManager = entityManager;
             this.environment = environment;
+            this.passwordService = passwordService;
         }
 
         @Transactional
@@ -91,14 +95,14 @@ public class InitTestData {
 
             Member guest1 = new Member("guest1", 100, guestTeam);
             guest1.setLoginId("guest1");
-            guest1.setPassword("guest1");
+            guest1.setPassword(passwordService.encryptPassword("guest.123"));
             guest1.setRole(MemberRole.NORMAL);
             guest1.setProfileImgFile(profileImgFile);
             entityManager.persist(guest1);
 
             Member guest2 = new Member("guest2", 100, guestTeam);
             guest2.setLoginId("guest2");
-            guest2.setPassword("guest2");
+            guest2.setPassword(passwordService.encryptPassword("guest.123"));
             guest2.setRole(MemberRole.NORMAL);
             guest2.setProfileImgFile(profileImgFile);
             entityManager.persist(guest2);

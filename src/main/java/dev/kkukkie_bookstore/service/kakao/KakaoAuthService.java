@@ -21,7 +21,7 @@ public class KakaoAuthService extends HttpCallService{
     private final String redirectUri;
     private final String clientSecret;
 
-    public static String authToken;
+    private String authToken;
 
     public KakaoAuthService(Environment environment) {
         this.baseUrl = environment.getProperty("kakao.baseUrl");
@@ -54,6 +54,10 @@ public class KakaoAuthService extends HttpCallService{
             authToken = accessToken;
             return true;
         }
+    }
+
+    public String getAuthToken() {
+        return authToken;
     }
 
 }

@@ -20,42 +20,45 @@ public class AdminAuthService {
     // Key: authCode / Value: createdTime
     private final ConcurrentHashMap<String, Long> authCodeMap;
 
-    private final ScheduledExecutorService scheduledExecutorService;
-
     public AdminAuthService(Environment environment) {
         authCodeMap = new ConcurrentHashMap<>();
 
         // Remove old key
-        long keyTimeout = Long.parseLong(Objects.requireNonNull(environment.getProperty("kakao.keyTimeout")));
+        String keyTimeoutString = environment.getProperty("kakao.keyTimeout");
+        if (keyTimeoutString != null) {
+            long keyTimeout = Long.parseLong(keyTimeoutString);
 
-        scheduledExecutorService = new ScheduledThreadPoolExecutor(10);
-        scheduledExecutorService.scheduleAtFixedRate(
-                () -> {
-                    long currentTime = System.currentTimeMillis();
-                    ConcurrentHashMap<String, Long> clonedMap = clone();
-                    for (Map.Entry<String, Long> entry : clonedMap.entrySet()) {
-                        if (entry == null) { continue; }
+            ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(10);
+            scheduledExecutorService.scheduleAtFixedRate(
+                    () -> {
+                        long currentTime = System.currentTimeMillis();
+                        ConcurrentHashMap<String, Long> clonedMap = clone();
+                        for (Map.Entry<String, Long> entry : clonedMap.entrySet()) {
+                            if (entry == null) { continue; }
 
-                        String authCode = entry.getKey();
-                        Long createdTime = entry.getValue();
-                        if ((currentTime - createdTime) >= keyTimeout) {
-                            removeAuthCode(authCode);
-                            if (!isContains(authCode)) {
-                                log.info("Old auth code is deleted. ({})", authCode);
+                            String authCode = entry.getKey();
+                            Long createdTime = entry.getValue();
+                            if ((currentTime - createdTime) >= keyTimeout) {
+                                removeAuthCode(authCode);
+                                if (!isContains(authCode)) {
+                                    log.info("Old auth code is deleted. ({})", authCode);
+                                }
                             }
                         }
-                    }
-                },
-                0, 2, TimeUnit.SECONDS
-        );
+                    },
+                    0, 2, TimeUnit.SECONDS
+            );
+        }
     }
 
     public void addAuthCode(String authCode) {
         authCodeMap.putIfAbsent(authCode, System.currentTimeMillis());
+        log.info("New auth code is added. ({})", authCode);
     }
 
     public void removeAuthCode(String authCode) {
         authCodeMap.remove(authCode);
+        log.info("Auth code is deleted ({})", authCode);
     }
 
     public boolean isContains(String authCode) {

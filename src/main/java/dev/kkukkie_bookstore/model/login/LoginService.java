@@ -2,6 +2,7 @@ package dev.kkukkie_bookstore.model.login;
 
 import dev.kkukkie_bookstore.model.member.Member;
 import dev.kkukkie_bookstore.repository.member.MemberRepository;
+import dev.kkukkie_bookstore.security.PasswordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ public class LoginService {
 
     private final MemberRepository memberRepository;
 
+    private final PasswordService passwordService;
+
     public boolean validateId(String loginId) {
         return memberRepository.findByLoginId(loginId).isPresent();
     }
@@ -22,7 +25,7 @@ public class LoginService {
      */
     public Member login(String loginId, String password) {
         return memberRepository.findByLoginId(loginId)
-                .filter(m -> m.getPassword().equals(password))
+                .filter(m -> passwordService.decryptPassword(m.getPassword()).equals(password))
                 .orElse(null);
     }
 
