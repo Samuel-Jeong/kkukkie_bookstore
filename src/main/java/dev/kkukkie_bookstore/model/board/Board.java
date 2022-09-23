@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,6 +29,13 @@ public class Board extends BaseEntity {
     private String content;
 
     private int hitCount = 0;
+
+    @OneToMany(
+            mappedBy = "board",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true
+    )
+    private List<Photo> photo = new ArrayList<>();
 
     public Board(String title, String author, String content) {
         this.title = title;
