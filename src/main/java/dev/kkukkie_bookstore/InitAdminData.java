@@ -84,7 +84,7 @@ public class InitAdminData {
                 Member member = members.stream().findFirst().orElse(null);
                 if (member != null) {
                     member.setLoginId("admin");
-                    member.setPassword(passwordService.encryptPassword("admin.123"));
+                    member.setPassword(passwordService.encryptPassword("admin.123", member));
                     member.setRole(MemberRole.ADMIN);
                     entityManager.persist(member);
                 }
@@ -100,7 +100,7 @@ public class InitAdminData {
         private void createAdmin(Team adminTeam) {
             Member admin = new Member("admin", 999, adminTeam);
             admin.setLoginId("admin");
-            admin.setPassword(passwordService.encryptPassword("admin.123"));
+            admin.setPassword(passwordService.encryptPassword("admin.123", admin));
             admin.setRole(MemberRole.ADMIN);
 
             String profileImgBasePath = environment.getProperty("spring.servlet.multipart.location");

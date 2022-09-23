@@ -95,14 +95,14 @@ public class InitTestData {
 
             Member guest1 = new Member("guest1", 100, guestTeam);
             guest1.setLoginId("guest1");
-            guest1.setPassword(passwordService.encryptPassword("guest.123"));
+            guest1.setPassword(passwordService.encryptPassword("guest.123", guest1));
             guest1.setRole(MemberRole.NORMAL);
             guest1.setProfileImgFile(profileImgFile);
             entityManager.persist(guest1);
 
             Member guest2 = new Member("guest2", 100, guestTeam);
             guest2.setLoginId("guest2");
-            guest2.setPassword(passwordService.encryptPassword("guest.123"));
+            guest2.setPassword(passwordService.encryptPassword("guest.123", guest2));
             guest2.setRole(MemberRole.NORMAL);
             guest2.setProfileImgFile(profileImgFile);
             entityManager.persist(guest2);

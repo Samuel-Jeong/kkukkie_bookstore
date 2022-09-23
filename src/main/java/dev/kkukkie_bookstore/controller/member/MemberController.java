@@ -136,7 +136,7 @@ public class MemberController {
 
             member = memberService.saveMember(
                     memberRegisterForm.getLoginId(),
-                    passwordService.encryptPassword(memberRegisterForm.getPassword()),
+                    passwordService.encryptPassword(memberRegisterForm.getPassword(), member),
                     memberRegisterForm.getUsername(),
                     memberRegisterForm.getAge(),
                     memberRegisterForm.getTeam(),
@@ -206,7 +206,7 @@ public class MemberController {
 
         Member member = memberService.saveMember(
                 memberAddForm.getLoginId(),
-                passwordService.encryptPassword(memberAddForm.getPassword()),
+                memberAddForm.getPassword(),
                 memberAddForm.getUsername(),
                 memberAddForm.getAge(),
                 memberAddForm.getTeam(),

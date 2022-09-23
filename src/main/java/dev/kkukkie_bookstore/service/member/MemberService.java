@@ -181,11 +181,11 @@ public class MemberService {
         try {
             member = new Member(
                     loginId,
-                    password,
                     username,
                     Integer.parseInt(age),
                     team
             );
+            member.setPassword(passwordService.encryptPassword(password, member));
 
             // 프로파일 이미지 선택은 Option
             if (profileImgFile != null) {
@@ -208,7 +208,7 @@ public class MemberService {
             try {
                 member.setUsername(memberUpdateForm.getUsername());
                 member.setAge(Integer.parseInt(memberUpdateForm.getAge()));
-                member.setPassword(passwordService.encryptPassword(memberUpdateForm.getPassword()));
+                member.setPassword(passwordService.encryptPassword(memberUpdateForm.getPassword(), member));
                 member.setRole(memberUpdateForm.getRole());
                 member.setTeam(memberUpdateForm.getTeam());
 

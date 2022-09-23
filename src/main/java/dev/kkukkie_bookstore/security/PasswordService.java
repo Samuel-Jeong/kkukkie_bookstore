@@ -1,13 +1,17 @@
 package dev.kkukkie_bookstore.security;
 
+import dev.kkukkie_bookstore.model.member.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.model.IComment;
+import org.thymeleaf.processor.comment.ICommentProcessor;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.LinkOption;
 import java.security.*;
 import java.util.Base64;
 import java.util.Random;
@@ -17,28 +21,21 @@ import java.util.Random;
  */
 
 @Slf4j
-@Component
+@Service
 public class PasswordService {
 
     private final String ALGORITHM = "AES";
     private final String CIPHER_TRANSFORMATION = "AES/CBC/PKCS5Padding";
 
-    private final IvParameterSpec IV;
+    private final byte[] IV = new byte[] {35, -76, -13, 26, 57, -52, -50, 96, -100, 18, 34, 79, 64, -108, -77, 35};
     private final String KEY = "20200829";
 
-    public PasswordService() {
-        Random rand = new SecureRandom();
-        byte[] bytes = new byte[16];
-        rand.nextBytes(bytes);
-        IV = new IvParameterSpec(bytes);
+    public String encryptPassword(String content, Member member) {
+        return getEncrypt(content, member);
     }
 
-    public String encryptPassword(String content) {
-        return getEncrypt(content);
-    }
-
-    public String decryptPassword(String content) {
-        return getDecrypt(content);
+    public String decryptPassword(String content, Member member) {
+        return getDecrypt(content, member);
     }
 
     private Key getAesKey() {
@@ -58,12 +55,22 @@ public class PasswordService {
         return key;
     }
 
-    private String getEncrypt(String content) {
+    /*public IvParameterSpec getIv() {
+        Random rand = new SecureRandom();
+        byte[] bytes = new byte[16];
+        rand.nextBytes(bytes);
+        return new IvParameterSpec(bytes);
+    }*/
+
+    private String getEncrypt(String content, Member member) {
         String result = "";
         try {
             Key key = getAesKey();
             Cipher cipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
-            cipher.init(Cipher.ENCRYPT_MODE, key, IV);
+
+            //member.setIvParameterSpec(iv);
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(IV);
+            cipher.init(Cipher.ENCRYPT_MODE, key, ivParameterSpec);
 
             byte[] encryptedContent = cipher.doFinal(content.getBytes(StandardCharsets.UTF_8));
             result = new String(Base64.getEncoder().encode(encryptedContent));
@@ -73,12 +80,14 @@ public class PasswordService {
         return result;
     }
 
-    private String getDecrypt(String content) {
+    private String getDecrypt(String content, Member member) {
         String result = "";
         try {
             Key key = getAesKey();
             Cipher cipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
-            cipher.init(Cipher.DECRYPT_MODE, key, IV);
+
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(IV);
+            cipher.init(Cipher.DECRYPT_MODE, key, ivParameterSpec);
 
             byte[] decodedContent = Base64.getDecoder().decode(content.getBytes());
             result = new String(cipher.doFinal(decodedContent), StandardCharsets.UTF_8);

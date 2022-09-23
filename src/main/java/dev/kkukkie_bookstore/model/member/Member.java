@@ -7,10 +7,12 @@ import dev.kkukkie_bookstore.model.member.role.MemberRole;
 import dev.kkukkie_bookstore.model.team.Team;
 import lombok.*;
 
+import javax.crypto.spec.IvParameterSpec;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -46,6 +48,9 @@ public class Member extends BaseEntity {
     @Transient
     private String authenticationCode;
 
+    @Transient
+    private IvParameterSpec ivParameterSpec;
+
     ////////////////////////////////////////////////////////
 
     public Member(String username) {
@@ -63,6 +68,14 @@ public class Member extends BaseEntity {
     public Member(String loginId, String password, String username, int age, Team team) {
         this.loginId = loginId;
         this.password = password;
+        this.username = username;
+        this.age = age;
+        this.team = team;
+    }
+
+    public Member(String loginId, String username, int age, Team team) {
+        this.loginId = loginId;
+        this.password = UUID.randomUUID().toString();
         this.username = username;
         this.age = age;
         this.team = team;
