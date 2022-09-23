@@ -24,7 +24,7 @@
 </div>
 <!-- Navbar End -->
 
-<div class="container-fluid" style="max-width: 700px">
+<div class="container-fluid" style="max-width: 1000px">
 
     <div class="py-5 text-center">
         <h2>책 목록</h2>
@@ -40,6 +40,8 @@
                 <th>가격</th>
                 <th>수량</th>
                 <th>ISBN</th>
+                <th></th>
+                <th></th>
             </tr>
             </thead>
 
@@ -63,7 +65,7 @@
                 </td>
                 <td>
                     <div>
-                        <button type="button" th:disabled="${(bookDto.count > 0) || (bookDto.save == false)}" class="btn-primary"
+                        <button type="button" th:disabled="${(bookDto.save == false)}" class="btn-primary"
                                 th:onclick="|location.href='@{/books/{memberId}/removefromlist/{bookId}(memberId=${memberId}, bookId=${bookDto.id})}'|">빼기</button>
                     </div>
                 </td>
