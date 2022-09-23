@@ -287,6 +287,7 @@ public class MemberController {
 
         memberRepository.save(member);
 
+        redirectAttributes.addAttribute("memberId", memberId);
         return "redirect:/members/{memberId}";
     }
 

@@ -35,7 +35,8 @@ public class TeamController {
     }
 
     @PostMapping("/add")
-    public String add(@Validated @ModelAttribute("team") TeamSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String add(@Validated @ModelAttribute("team") TeamSaveForm form,
+                      BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         String name = form.getName();
         if (name.isEmpty()) {
             bindingResult.reject("NameError", new Object[]{name}, "팀 이름이 비어있습니다.");
@@ -73,7 +74,9 @@ public class TeamController {
     }
 
     @PostMapping("{teamId}/delete")
-    public String delete(@PathVariable Long teamId, @Validated @ModelAttribute("team") TeamDeleteForm form, BindingResult bindingResult) {
+    public String delete(@PathVariable Long teamId,
+                         @Validated @ModelAttribute("team") TeamDeleteForm form,
+                         BindingResult bindingResult) {
         String name = form.getName();
         if (name.isEmpty()) {
             bindingResult.reject("NameError", new Object[]{name}, "팀 이름이 비어있습니다.");
@@ -130,7 +133,9 @@ public class TeamController {
     }
 
     @PostMapping("/{teamId}/edit")
-    public String edit(@PathVariable Long teamId, @Validated @ModelAttribute("team") TeamUpdateForm form, BindingResult bindingResult) {
+    public String edit(@PathVariable Long teamId,
+                       @Validated @ModelAttribute("team") TeamUpdateForm form,
+                       BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         String name = form.getName();
         if (name.isEmpty()) {
             bindingResult.reject("NameError", new Object[]{name}, "팀 이름이 비어있습니다.");
@@ -142,7 +147,7 @@ public class TeamController {
         }
 
         if (bindingResult.hasErrors()) {
-            log.debug("errors={}", bindingResult);
+            //log.warn("errors={}", bindingResult);
             return "teams/editTeamForm";
         }
 
@@ -152,6 +157,7 @@ public class TeamController {
             teamRepository.save(team);
         }
 
+        redirectAttributes.addAttribute("teamId", teamId);
         return "redirect:/teams/{teamId}";
     }
     
