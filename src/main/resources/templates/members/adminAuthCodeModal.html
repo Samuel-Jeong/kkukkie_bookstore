@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>쿠키의 서점</title>
+
+    <meta charset="utf-8">
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet">
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        .bg-transparent {
+            border: none;
+            background-color: rgba(0,0,0,0);
+        }
+    </style>
+</head>
+
+<body>
+<!-- Navbar Start -->
+<div class="container p-0 nav-bar">
+    <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
+        <button class="bg-transparent btn-primary display-4 text-black-50" type="button" th:onclick="|location.href='@{/}'|">쿠키네 서점</button>
+    </nav>
+</div>
+<!-- Navbar End -->
+
+<div class="container" style="max-width: 600px">
+
+    <hr class="my-4">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title">발급된 인증 코드</h5>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="modal-body">
+            <div>
+                <label type="text" th:text="*{authCode}"></label>
+            </div>
+            <hr class="my-2">
+        </div>
+
+        <hr class="my-4">
+        <div class="modal-footer">
+            <button type="button" class="btn-primary" th:onclick="|location.href='@{/}'|">확인</button>
+        </div>
+    </div>
+
+    <hr class="my-4">
+</div>
+
+</body>
+</html>

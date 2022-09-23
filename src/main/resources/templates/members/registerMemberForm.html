@@ -17,6 +17,22 @@
             background-color: rgba(0,0,0,0);
         }
     </style>
+
+    <script type="text/javascript">
+        function togglePassword(el) {
+            const checked = el.checked;
+            if (checked) {
+                document.getElementById("password").type = 'text';
+                document.getElementById("toggleText").textContent= "숨기기";
+            } else{
+                document.getElementById("password").type = 'password';
+                document.getElementById("toggleText").textContent= "보기";
+            }
+        }
+        $(document).ready(function() {
+
+        });
+    </script>
 </head>
 <body>
 <!-- Navbar Start -->
@@ -58,8 +74,10 @@
         <hr class="my-2">
         <div>
             <label for="password">비밀번호</label>
-            <input type="password" id="password" th:field="*{password}" class="form-control"
-                   th:errorclass="field-error">
+            <input type="password" id="password" th:field="*{password}"
+                   th:errorclass="field-error" class="form-control" placeholder="암호를 입력하세요">
+            <input type="checkbox" id="checkbox" onchange="togglePassword(this)"/>
+            <label for="checkbox" id="toggleText">보기</label>
             <div class="field-error" th:errors="*{password}"></div>
         </div>
 

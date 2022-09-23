@@ -18,7 +18,7 @@ public class CustomKakaoMessageService {
         this.messageService = messageService;
     }
 
-    public boolean sendMyMessage() throws JSONException {
+    public String sendMyMessage() throws JSONException {
         DefaultKakaoMessageDto myMsg = new DefaultKakaoMessageDto();
         myMsg.setBtnTitle("");
         myMsg.setMobileUrl("");
@@ -26,11 +26,11 @@ public class CustomKakaoMessageService {
         myMsg.setWebUrl("");
 
         // AdminAuthService 에 UUID 등록
-        String uuid = UUID.randomUUID().toString().substring(0, 10);
-        authService.addAuthCode(uuid);
-        myMsg.setText(uuid);
+        String authCode = UUID.randomUUID().toString().substring(0, 10);
+        authService.addAuthCode(authCode);
+        myMsg.setText(authCode);
 
         String accessToken = KakaoAuthService.authToken;
-        return messageService.sendMessage(accessToken, myMsg);
+        return messageService.sendMessage(accessToken, myMsg)? authCode : "";
     }
 }

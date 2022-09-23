@@ -1,9 +1,12 @@
 package dev.kkukkie_bookstore.service.kakao;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+@Slf4j
 @Controller
 public class KakaoBaseController {
 
@@ -17,12 +20,13 @@ public class KakaoBaseController {
     }
 
     @GetMapping("/auth")
-    public String serviceStart(String code)
-            throws JSONException {
+    public String serviceStart(String code, Model model) throws JSONException {
         if (kakaoAuthService.getKakaoAuthToken(code)) {
-            customKakaoMessageService.sendMyMessage();
+            String authCode = customKakaoMessageService.sendMyMessage();
+            model.addAttribute("authCode", authCode);
         }
-        return "redirect:/";
+
+        return "members/adminAuthCodeModal";
     }
 
 }

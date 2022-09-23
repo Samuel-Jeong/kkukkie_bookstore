@@ -3,6 +3,7 @@
 <head>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <title>쿠키의 서점</title>
 
     <meta charset="utf-8">
@@ -18,6 +19,23 @@
             background-color: rgba(0,0,0,0);
         }
     </style>
+
+    <script type="text/javascript">
+        function togglePassword(el) {
+            const checked = el.checked;
+            if (checked) {
+                document.getElementById("password").type = 'text';
+                document.getElementById("toggleText").textContent= "숨기기";
+            } else{
+                document.getElementById("password").type = 'password';
+                document.getElementById("toggleText").textContent= "보기";
+            }
+        }
+        $(document).ready(function() {
+
+        });
+    </script>
+
 </head>
 <body>
 
@@ -49,8 +67,10 @@
         </div>
         <div>
             <label for="password">비밀번호</label>
-            <input type="password" id="password" th:field="*{password}" class="form-control"
-                   th:errorclass="field-error">
+            <input type="password" id="password" th:field="*{password}" class="form-control" th:errorclass="field-error">
+            <input type="checkbox" id="checkbox" onchange="togglePassword(this)"/>
+            <label for="checkbox" id="toggleText">보기</label>
+
             <div class="field-error" th:errors="*{password}"></div>
         </div>
 
