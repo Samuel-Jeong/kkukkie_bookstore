@@ -1,7 +1,9 @@
 ~~~
 [ KKukkie's bookstore ]
 ~~~
-![IMG_1041](https://user-images.githubusercontent.com/37236920/187603755-ac393017-c9f8-4d96-9a12-174f09e62c02.JPG)
+![IMG_4308](https://user-images.githubusercontent.com/37236920/195467039-468966c5-ef92-4b08-92a5-2b1948e6d219.jpeg)
+  
+![IMG_4397](https://user-images.githubusercontent.com/37236920/195467137-a776e6e6-1043-4c5f-bfce-7288ae7fe5b7.jpeg)
   
 ## [1] Purpose
 ~~~
