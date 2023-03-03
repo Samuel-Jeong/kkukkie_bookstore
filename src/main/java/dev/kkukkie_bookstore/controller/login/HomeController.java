@@ -1,7 +1,7 @@
 package dev.kkukkie_bookstore.controller.login;
 
 import dev.kkukkie_bookstore.model.member.Member;
-import dev.kkukkie_bookstore.repository.member.MemberRepository;
+import dev.kkukkie_bookstore.service.member.MemberService;
 import dev.kkukkie_bookstore.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import static dev.kkukkie_bookstore.model.member.role.MemberRole.*;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @GetMapping("/")
     public String homeLogin(@Login Member member, Model model) {
@@ -26,7 +26,7 @@ public class HomeController {
         if (member == null) { return "home";}
 
         //세션이 유지되면 로그인으로 이동
-        Member foundMember = memberRepository.findById(member.getId()).orElse(null);
+        Member foundMember = memberService.findById(member.getId());
         model.addAttribute(
                 "member",
                 Objects.requireNonNullElse(foundMember, member)

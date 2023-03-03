@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
-@Table(name = "file")
+@Table(name = "photo")
 public class Photo extends BaseTimeEntity {
 
     @Id
@@ -42,10 +42,10 @@ public class Photo extends BaseTimeEntity {
     public void setBoard(Board board){
         this.board = board;
 
-        // 게시글에 현재 파일이 존재하지 않는다면
-        if(!board.getPhoto().contains(this))
-            // 파일 추가
+        // 게시글에 현재 파일이 존재하지 않는다면 파일 추가
+        if(!board.getPhoto().contains(this)) {
             board.getPhoto().add(this);
+        }
     }
 
 }

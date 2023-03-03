@@ -6,8 +6,8 @@ import dev.kkukkie_bookstore.model.board.dto.BoardDeleteDto;
 import dev.kkukkie_bookstore.model.board.dto.BoardUpdateDto;
 import dev.kkukkie_bookstore.model.member.Member;
 import dev.kkukkie_bookstore.model.member.role.MemberRole;
-import dev.kkukkie_bookstore.repository.board.BoardRepository;
-import dev.kkukkie_bookstore.repository.member.MemberRepository;
+import dev.kkukkie_bookstore.service.board.BoardService;
+import dev.kkukkie_bookstore.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -25,23 +25,23 @@ import java.util.List;
 @RequestMapping("/boards")
 public class BoardController {
 
-    private final BoardRepository boardRepository;
+    private final BoardService boardService;
 
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @GetMapping("{memberId}/{boardId}")
     public String board(@PathVariable long memberId,
                         @PathVariable long boardId, Model model) {
-        Member member = memberRepository.findById(memberId).orElse(null);
+        Member member = memberService.findById(memberId);
         if (member == null) {
             return "redirect:/";
         }
 
-        Board board = boardRepository.findById(boardId).orElse(null);
+        Board board = boardService.findById(boardId);
         if (board != null) {
             int hitCount = board.getHitCount();
             board.setHitCount(hitCount + 1);
-            boardRepository.save(board);
+            boardService.save(board);
         }
         model.addAttribute("memberId", memberId);
         model.addAttribute("board", board);
@@ -60,7 +60,7 @@ public class BoardController {
 
     @GetMapping("{memberId}")
     public String boards(@PathVariable long memberId, Model model) {
-        Member member = memberRepository.findById(memberId).orElse(null);
+        Member member = memberService.findById(memberId);
         if (member == null) {
             return "redirect:/";
         }
@@ -69,7 +69,7 @@ public class BoardController {
         model.addAttribute("memberRole", member.getRole());
 
         //로그인 여부 체크
-        List<Board> boards = boardRepository.findAll();
+        List<Board> boards = boardService.findAll();
         model.addAttribute("boards", boards);
 
         return "boards/boards";
@@ -95,13 +95,13 @@ public class BoardController {
             return "boards/addBoard";
         }
 
-        Member member = memberRepository.findById(memberId).orElse(null);
+        Member member = memberService.findById(memberId);
         if (member == null) {
             return "redirect:/";
         }
 
         Board board = new Board(title, member.getUsername(), content);
-        Board saveBoard = boardRepository.save(board);
+        Board saveBoard = boardService.save(board);
 
         redirectAttributes.addAttribute("memberId", memberId);
         redirectAttributes.addAttribute("boardId", saveBoard.getId());
@@ -113,7 +113,7 @@ public class BoardController {
     @GetMapping("{memberId}/{boardId}/delete")
     public String deleteForm(@PathVariable long memberId,
                              @PathVariable long boardId, Model model) {
-        Board board = boardRepository.findById(boardId).orElse(null);
+        Board board = boardService.findById(boardId);
         model.addAttribute("memberId", memberId);
         model.addAttribute("board", board);
         return "boards/deleteBoard";
@@ -125,7 +125,7 @@ public class BoardController {
                       BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         redirectAttributes.addAttribute("memberId", memberId);
 
-        Board board = boardRepository.findById(boardId).orElse(null);
+        Board board = boardService.findById(boardId);
         if (board == null) {
             bindingResult.reject("NotFoundBoard", new Object[]{boardId}, "게시판이 존재하지 않습니다.");
         }
@@ -136,7 +136,7 @@ public class BoardController {
         }
 
         if (board != null) {
-            boardRepository.deleteById(board.getId());
+            boardService.deleteById(board.getId());
         }
 
         return "redirect:/boards/{memberId}";
@@ -145,7 +145,7 @@ public class BoardController {
     @GetMapping("{memberId}/{boardId}/update")
     public String updateForm(@PathVariable long memberId,
                              @PathVariable Long boardId, Model model) {
-        Board board = boardRepository.findById(boardId).orElse(null);
+        Board board = boardService.findById(boardId);
         model.addAttribute("memberId", memberId);
         model.addAttribute("board", board);
         return "boards/updateBoard";
@@ -158,7 +158,7 @@ public class BoardController {
                        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         redirectAttributes.addAttribute("memberId", memberId);
 
-        Board board = boardRepository.findById(boardId).orElse(null);
+        Board board = boardService.findById(boardId);
         if (board == null) {
             bindingResult.reject("NotFoundBoard", new Object[]{boardId}, "게시판이 존재하지 않습니다.");
         }
@@ -171,7 +171,7 @@ public class BoardController {
         if (board != null) {
             board.setContent(boardUpdateDto.getContent());
 
-            boardRepository.save(board);
+            boardService.save(board);
         }
 
         return "redirect:/boards/{memberId}/{boardId}";

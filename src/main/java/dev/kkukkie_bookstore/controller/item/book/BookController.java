@@ -7,8 +7,7 @@ import dev.kkukkie_bookstore.model.item.book.Book;
 import dev.kkukkie_bookstore.model.item.book.dto.BookDto;
 import dev.kkukkie_bookstore.model.member.Member;
 import dev.kkukkie_bookstore.model.member.role.MemberRole;
-import dev.kkukkie_bookstore.repository.item.BookRepository;
-import dev.kkukkie_bookstore.repository.member.MemberRepository;
+import dev.kkukkie_bookstore.service.book.BookService;
 import dev.kkukkie_bookstore.service.member.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -28,24 +27,20 @@ import java.util.UUID;
 @RequestMapping("/books")
 public class BookController {
 
-    private final BookRepository bookRepository;
-
+    private final BookService bookService;
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
 
-
-    public BookController(BookRepository bookRepository,
-                          MemberService memberService, MemberRepository memberRepository) {
-        this.bookRepository = bookRepository;
+    public BookController(BookService bookService,
+                          MemberService memberService) {
+        this.bookService = bookService;
         this.memberService = memberService;
-        this.memberRepository = memberRepository;
     }
 
     @GetMapping("{memberId}/book/{bookId}")
     public String book(@PathVariable long memberId,
                        @PathVariable String bookId,
                        Model model) {
-        Book book = bookRepository.findById(bookId).orElse(null);
+        Book book = bookService.findById(bookId);
 
         model.addAttribute("memberId", memberId);
         model.addAttribute("book", book);
@@ -55,14 +50,14 @@ public class BookController {
 
     @GetMapping("/{memberId}")
     public String books(@PathVariable long memberId, Model model) {
-        Member member = memberRepository.findById(memberId).orElse(null);
+        Member member = memberService.findById(memberId);
         if (member == null) {
             return "redirect:/";
         }
 
         model.addAttribute("memberId", memberId);
 
-        List<Book> books = bookRepository.findAll();
+        List<Book> books = bookService.findAll();
         List<BookDto> bookDtoList = new ArrayList<>();
         for (Book book : books) {
             bookDtoList.add(
@@ -98,8 +93,7 @@ public class BookController {
     public String add(@PathVariable long memberId,
                       @Valid @ModelAttribute("book") BookAddForm bookAddForm,
                       BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-
-        checkDuplicateBookAtAddByIsbn(bookAddForm, bindingResult);
+        bookService.checkDuplicateBookAtAddByIsbn(bookAddForm, bindingResult);
 
         Book book = null;
         try {
@@ -118,7 +112,7 @@ public class BookController {
             return "books/addForm";
         }
 
-        Book savedBook = bookRepository.save(book);
+        Book savedBook = bookService.save(book);
         redirectAttributes.addAttribute("memberId", memberId);
         redirectAttributes.addAttribute("bookId", savedBook.getId());
         redirectAttributes.addAttribute("status", true);
@@ -126,23 +120,10 @@ public class BookController {
         return "redirect:/books/{memberId}/book/{bookId}";
     }
 
-    private void checkDuplicateBookAtAddByIsbn(BookAddForm bookAddForm,
-                                               BindingResult bindingResult) {
-        bookRepository.findByIsbn(bookAddForm.getIsbn())
-                .ifPresent(
-                        foundBook ->
-                                bindingResult.reject(
-                                        "BookAlreadyExist",
-                                        new Object[]{foundBook.getIsbn()},
-                                        "등록할 ISBN 이 이미 존재합니다."
-                                )
-                );
-    }
-
     @GetMapping("/{memberId}/book/{bookId}/edit")
     public String editForm(@PathVariable long memberId,
                            @PathVariable String bookId, Model model) {
-        Book book = bookRepository.findById(bookId).orElse(null);
+        Book book = bookService.findById(bookId);
         model.addAttribute("memberId", memberId);
         model.addAttribute("book", book);
 
@@ -154,8 +135,7 @@ public class BookController {
                        @PathVariable String bookId,
                        @Validated @ModelAttribute("book") BookUpdateForm bookUpdateForm,
                        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-
-        Book book = bookRepository.findById(bookId).orElse(null);
+        Book book = bookService.findById(bookId);
         if (book == null) {
             bindingResult.reject("NotFoundBook", new Object[]{bookId}, "책이 존재하지 않습니다.");
         }
@@ -173,7 +153,7 @@ public class BookController {
             return "books/editForm";
         }
 
-        bookRepository.save(book);
+        bookService.save(book);
 
         redirectAttributes.addAttribute("memberId", memberId);
         redirectAttributes.addAttribute("bookId", bookId);
@@ -184,7 +164,7 @@ public class BookController {
     public String deleteForm(@PathVariable long memberId,
                              @PathVariable String bookId,
                              Model model) {
-        Book book = bookRepository.findById(bookId).orElse(null);
+        Book book = bookService.findById(bookId);
         model.addAttribute("memberId", memberId);
         model.addAttribute("book", book);
 
@@ -197,7 +177,7 @@ public class BookController {
                          @Validated @ModelAttribute("book") BookDeleteForm bookDeleteForm,
                          BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        Book book = bookRepository.findById(bookId).orElse(null);
+        Book book = bookService.findById(bookId);
         if (book == null) {
             bindingResult.reject("NotFoundBook", new Object[]{bookId}, "책이 존재하지 않습니다.");
         }
@@ -211,7 +191,7 @@ public class BookController {
         }
 
         if (book != null) {
-            bookRepository.delete(book);
+            bookService.delete(book);
         }
 
         return "redirect:/books/{memberId}";
@@ -221,7 +201,7 @@ public class BookController {
     public String addBookModalForm(@PathVariable long memberId,
                                    @PathVariable String bookId,
                                    Model model) {
-        Book book = bookRepository.findById(bookId).orElse(null);
+        Book book = bookService.findById(bookId);
         model.addAttribute("memberId", memberId);
         model.addAttribute("book", book);
         return "books/addBookModal";
@@ -239,7 +219,7 @@ public class BookController {
             return "redirect:/books/{memberId}";
         }
 
-        Member member = memberRepository.findById(memberId).orElse(null);
+        Member member = memberService.findById(memberId);
         if (member == null) {
             bindingResult.reject("NotFoundMember", new Object[]{memberId}, "사용자를 찾을 수 없습니다.");
             return "redirect:/";
@@ -263,7 +243,7 @@ public class BookController {
     public String removeBookModalForm(@PathVariable long memberId,
                                    @PathVariable String bookId,
                                    Model model) {
-        Book book = bookRepository.findById(bookId).orElse(null);
+        Book book = bookService.findById(bookId);
         model.addAttribute("memberId", memberId);
         model.addAttribute("book", book);
         return "books/removeBookModal";
@@ -279,7 +259,7 @@ public class BookController {
             return "redirect:/books/{memberId}";
         }
 
-        Member member = memberRepository.findById(memberId).orElse(null);
+        Member member = memberService.findById(memberId);
         if (member == null) {
             bindingResult.reject("NotFoundMember", new Object[]{memberId}, "사용자를 찾을 수 없습니다.");
             return "redirect:/";

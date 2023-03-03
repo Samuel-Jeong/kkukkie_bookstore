@@ -1,5 +1,7 @@
 package dev.kkukkie_bookstore.service.member;
 
+import dev.kkukkie_bookstore.controller.member.form.MemberAddForm;
+import dev.kkukkie_bookstore.controller.member.form.MemberRegisterForm;
 import dev.kkukkie_bookstore.controller.member.form.MemberUpdateForm;
 import dev.kkukkie_bookstore.model.file.image.ImageExtensionException;
 import dev.kkukkie_bookstore.model.file.image.ImageFile;
@@ -58,6 +60,22 @@ public class MemberService {
 
         allowedExtensions.add("jpeg");
         allowedExtensions.add("jpg");
+    }
+
+    public Member findById(long memberId) {
+        return memberRepository.findById(memberId).orElse(null);
+    }
+
+    public List<Member> findAll() {
+        return memberRepository.findAll();
+    }
+
+    public Member save(Member member) {
+        return memberRepository.save(member);
+    }
+
+    public void delete(Member member) {
+        memberRepository.delete(member);
     }
 
     @Transactional
@@ -249,6 +267,30 @@ public class MemberService {
             return prevProfileImgFile.getId();
         }
         return null;
+    }
+
+    public void checkDuplicateMemberAtRegisterByLoginId(MemberRegisterForm memberRegisterForm,
+                                                         BindingResult bindingResult) {
+        memberRepository.findByLoginId(
+                memberRegisterForm.getLoginId()).ifPresent(
+                foundMember ->
+                        bindingResult.reject(
+                                "MemberAlreadyExistByLoginId", new Object[]{foundMember.getId()}, "로그인 ID 가 이미 존재합니다."
+                        )
+        );
+    }
+
+    public void checkDuplicateMemberAtAddByLoginId(MemberAddForm memberAddForm,
+                                                    BindingResult bindingResult) {
+        memberRepository.findByLoginId(memberAddForm.getLoginId())
+                .ifPresent(
+                        foundMember ->
+                                bindingResult.reject(
+                                        "MemberAlreadyExist",
+                                        new Object[]{foundMember.getId()},
+                                        "로그인 ID 가 이미 존재합니다."
+                                )
+                );
     }
 
 }
